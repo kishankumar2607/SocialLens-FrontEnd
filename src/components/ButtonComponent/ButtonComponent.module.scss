@@ -23,8 +23,8 @@
         color: var(--button-background-color);
       }
 
-      svg {
-        stroke: var(--button-background-color);
+      span {
+        border-color: var(--button-background-color) !important;
       }
     }
   }
@@ -45,8 +45,8 @@
     padding-right: 0.4rem !important;
   }
 
-  :nth-child(2) {
-    stroke: var(--white-text-color);
+  span {
+    border-color: var(--white-text-color) !important;
   }
 }
 
