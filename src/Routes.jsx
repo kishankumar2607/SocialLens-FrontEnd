@@ -12,20 +12,18 @@ import RegisterPage from "./pages/register";
 
 const Routes = () => {
   return (
-    <BrowserRouter>
-      <ErrorBoundary>
-        <ScrollToTop />
-        <RouterRoutes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/homepage" element={<Homepage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/create-post" element={<CreatePost />} />
-          <Route path="*" element={<NotFound />} />
-        </RouterRoutes>
-      </ErrorBoundary>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <ScrollToTop />
+      <RouterRoutes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/homepage" element={<Homepage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/create-post" element={<CreatePost />} />
+        <Route path="*" element={<NotFound />} />
+      </RouterRoutes>
+    </ErrorBoundary>
   );
 };
 

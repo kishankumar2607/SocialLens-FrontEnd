@@ -6,7 +6,6 @@ import Button from "./Button";
 
 const Header = ({ variant = "default", isAuthenticated = false }) => {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -99,7 +98,6 @@ const Header = ({ variant = "default", isAuthenticated = false }) => {
           </div>
         </div>
 
-        {/* Mobile menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden animate-fade-in">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-border-dark">
@@ -160,7 +158,6 @@ const Header = ({ variant = "default", isAuthenticated = false }) => {
         </div>
       </div>
 
-      {/* Mobile menu */}
       {isMobileMenuOpen && (
         <div className="animate-slide-in">
           <div className="px-2 pt-2 pb-3 space-y-1 border-t border-border-dark">

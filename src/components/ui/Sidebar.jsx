@@ -203,14 +203,12 @@ const Sidebar = ({
     <>
       {isOpen && (
         <div className="fixed inset-0 z-40 flex">
-          {/* Overlay */}
           <div 
             className="fixed inset-0 bg-background-dark bg-opacity-75 transition-opacity animate-fade-in" 
             onClick={closeMobileSidebar}
             aria-hidden="true"
           ></div>
           
-          {/* Sidebar */}
           <div className="relative flex-1 flex flex-col max-w-xs w-full bg-surface-dark animate-slide-in">
             <div className="absolute top-0 right-0 -mr-12 pt-2">
               <button

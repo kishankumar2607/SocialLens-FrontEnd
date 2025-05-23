@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "/": {
+      "title": "SocialLens - Analyze, Optimize & Grow | Social Media Insights",
+      "description": "SocialLens is a futuristic platform for analyzing and optimizing your social media performance with real-time data, visualizations, and strategic insights.",
+      "keywords": "social media, analytics, dashboard, influencer, post scheduler",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/"
+    },
+    "/login": {
+      "title": "Login to Your Account | SocialLens - Social Media Dashboard",
+      "description": "Login to your SocialLens account and access all your analytics and tools in one place.",
+      "keywords": "login, social media dashboard",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/login"
+    },
+    "/register": {
+      "title": "Create Your Account | SocialLens - Start Analyzing Today",
+      "description": "Create your SocialLens account to track, manage, and grow your social media presence.",
+      "keywords": "register, create account, social media analytics",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/register"
+    },
+    "/homepage": {
+      "title": "Homepage | SocialLens - Your Personalized Analytics Feed",
+      "description": "Access your personalized feed and quick analytics overview on your homepage.",
+      "keywords": "homepage, feed, quick stats, sociallens dashboard",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/homepage"
+    },
+    "/dashboard": {
+      "title": "Analytics Dashboard | SocialLens - Real-Time Social Insights",
+      "description": "Dive into your real-time metrics and visualize engagement trends with our analytics dashboard.",
+      "keywords": "dashboard, analytics, performance metrics, engagement trends",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/dashboard"
+    },
+    "/create-post": {
+      "title": "Create & Schedule Posts | SocialLens - Cross-Platform Publishing",
+      "description": "Compose and preview social media posts, then schedule them across multiple platforms with ease.",
+      "keywords": "create post, post preview, post scheduler, social media tools",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/create-post"
+    },
+    "/404": {
+      "title": "404 - Page Not Found | SocialLens - Return to Dashboard",
+      "description": "Oops! The page you’re looking for doesn’t exist. Go back to the dashboard or try a different link.",
+      "keywords": "404 error, not found, broken link, SocialLens",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/404"
+    }
+  }
+}
