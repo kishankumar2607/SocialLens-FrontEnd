@@ -1,38 +1,25 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import Icon from '../AppIcon';
-import Input from './Input';
-import Button from './Button';
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import Icon from "../AppIcon";
+import Input from "./Input";
+import Button from "./Button";
 
-const Header = ({ variant = 'default' }) => {
+const Header = ({ variant = "default", isAuthenticated = false }) => {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
   // Logo component
   const Logo = () => (
-    <Link to="/homepage" className="flex items-center space-x-2">
+    <Link to="/" className="flex items-center space-x-2">
       <div className="h-8 w-8 rounded-md bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center">
-        <span className="text-white font-bold text-lg">A</span>
+        <span className="text-white font-bold text-lg">S</span>
       </div>
-      <span className="text-white font-display font-bold text-xl">Analytics</span>
+      <span className="text-white font-display font-bold text-xl">
+        SocialLens
+      </span>
     </Link>
-  );
-
-  // Search component
-  const Search = () => (
-    <div className={`relative ${isSearchFocused ? 'flex-grow max-w-xl' : 'w-64'} transition-all duration-300`}>
-      <Input
-        variant="search"
-        placeholder="Search..."
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-        onFocus={() => setIsSearchFocused(true)}
-        onBlur={() => setIsSearchFocused(false)}
-        className="w-full"
-      />
-    </div>
   );
 
   // User profile component
@@ -46,7 +33,7 @@ const Header = ({ variant = 'default' }) => {
       >
         <span className="absolute top-0 right-0 h-2 w-2 bg-error rounded-full"></span>
       </Button>
-      
+
       <div className="flex items-center space-x-3 cursor-pointer">
         <div className="h-8 w-8 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center">
           <span className="text-white font-medium text-sm">JS</span>
@@ -55,7 +42,11 @@ const Header = ({ variant = 'default' }) => {
           <p className="text-sm font-medium text-white">John Smith</p>
           <p className="text-xs text-text-tertiary">Admin</p>
         </div>
-        <Icon name="ChevronDown" size={16} className="text-text-tertiary hidden md:block" />
+        <Icon
+          name="ChevronDown"
+          size={16}
+          className="text-text-tertiary hidden md:block"
+        />
       </div>
     </div>
   );
@@ -82,7 +73,7 @@ const Header = ({ variant = 'default' }) => {
   );
 
   // Default header layout
-  if (variant === 'default') {
+  if (variant === "default") {
     return (
       <header className="bg-surface-dark border-b border-border-dark sticky top-0 z-30">
         <SkipToContent />
@@ -91,31 +82,33 @@ const Header = ({ variant = 'default' }) => {
             <div className="flex items-center">
               <Logo />
             </div>
-            
-            <div className="hidden md:block mx-auto">
-              <Search />
-            </div>
-            
-            <div className="flex items-center">
-              <UserProfile />
+
+            <div className="flex items-center space-x-4">
+              {isAuthenticated ? (
+                <UserProfile />
+              ) : (
+                <Link
+                  to="/login"
+                  className="btn-secondary text-sm px-4 py-1.5 rounded-md border border-primary hover:bg-surface-medium"
+                >
+                  Login
+                </Link>
+              )}
               <MobileMenuToggle />
             </div>
           </div>
-          
-          {/* Mobile search - shown below header on mobile */}
-          <div className="md:hidden pb-3">
-            <Search />
-          </div>
         </div>
-        
+
         {/* Mobile menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden animate-fade-in">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-border-dark">
               <Link
-                to="/homepage"
+                to="/"
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  location.pathname === '/homepage' ?'bg-primary/20 text-white' :'text-text-secondary hover:bg-surface-medium hover:text-white'
+                  location.pathname === "/"
+                    ? "bg-primary/20 text-white"
+                    : "text-text-secondary hover:bg-surface-medium hover:text-white"
                 }`}
               >
                 Home
@@ -123,7 +116,9 @@ const Header = ({ variant = 'default' }) => {
               <Link
                 to="/dashboard"
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  location.pathname === '/dashboard' ?'bg-primary/20 text-white' :'text-text-secondary hover:bg-surface-medium hover:text-white'
+                  location.pathname === "/dashboard"
+                    ? "bg-primary/20 text-white"
+                    : "text-text-secondary hover:bg-surface-medium hover:text-white"
                 }`}
               >
                 Dashboard
@@ -131,7 +126,9 @@ const Header = ({ variant = 'default' }) => {
               <Link
                 to="/create-post"
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  location.pathname === '/create-post' ?'bg-primary/20 text-white' :'text-text-secondary hover:bg-surface-medium hover:text-white'
+                  location.pathname === "/create-post"
+                    ? "bg-primary/20 text-white"
+                    : "text-text-secondary hover:bg-surface-medium hover:text-white"
                 }`}
               >
                 Create Post
@@ -153,7 +150,7 @@ const Header = ({ variant = 'default' }) => {
             <MobileMenuToggle />
             <Logo />
           </div>
-          
+
           <Button
             variant="icon"
             icon="Search"
@@ -162,7 +159,7 @@ const Header = ({ variant = 'default' }) => {
           />
         </div>
       </div>
-      
+
       {/* Mobile menu */}
       {isMobileMenuOpen && (
         <div className="animate-slide-in">
@@ -170,7 +167,9 @@ const Header = ({ variant = 'default' }) => {
             <Link
               to="/homepage"
               className={`block px-3 py-2 rounded-md text-base font-medium ${
-                location.pathname === '/homepage' ?'bg-primary/20 text-white' :'text-text-secondary hover:bg-surface-medium hover:text-white'
+                location.pathname === "/homepage"
+                  ? "bg-primary/20 text-white"
+                  : "text-text-secondary hover:bg-surface-medium hover:text-white"
               }`}
             >
               Home
@@ -178,7 +177,9 @@ const Header = ({ variant = 'default' }) => {
             <Link
               to="/dashboard"
               className={`block px-3 py-2 rounded-md text-base font-medium ${
-                location.pathname === '/dashboard' ?'bg-primary/20 text-white' :'text-text-secondary hover:bg-surface-medium hover:text-white'
+                location.pathname === "/dashboard"
+                  ? "bg-primary/20 text-white"
+                  : "text-text-secondary hover:bg-surface-medium hover:text-white"
               }`}
             >
               Dashboard
@@ -186,57 +187,47 @@ const Header = ({ variant = 'default' }) => {
             <Link
               to="/create-post"
               className={`block px-3 py-2 rounded-md text-base font-medium ${
-                location.pathname === '/create-post' ?'bg-primary/20 text-white' :'text-text-secondary hover:bg-surface-medium hover:text-white'
+                location.pathname === "/create-post"
+                  ? "bg-primary/20 text-white"
+                  : "text-text-secondary hover:bg-surface-medium hover:text-white"
               }`}
             >
               Create Post
             </Link>
           </div>
-          
-          <div className="pt-4 pb-3 border-t border-border-dark">
-            <div className="flex items-center px-5">
-              <div className="h-10 w-10 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center">
-                <span className="text-white font-medium">JS</span>
+
+          {isAuthenticated ? (
+            <div className="pt-4 pb-3 border-t border-border-dark">
+              <div className="flex items-center px-5">
+                <div className="h-10 w-10 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center">
+                  <span className="text-white font-medium">JS</span>
+                </div>
+                <div className="ml-3">
+                  <div className="text-base font-medium text-white">
+                    John Smith
+                  </div>
+                  <div className="text-sm text-text-tertiary">Admin</div>
+                </div>
+                <Button
+                  variant="icon"
+                  icon="Bell"
+                  aria-label="Notifications"
+                  className="ml-auto relative"
+                >
+                  <span className="absolute top-0 right-0 h-2 w-2 bg-error rounded-full"></span>
+                </Button>
               </div>
-              <div className="ml-3">
-                <div className="text-base font-medium text-white">John Smith</div>
-                <div className="text-sm text-text-tertiary">Admin</div>
-              </div>
-              <Button
-                variant="icon"
-                icon="Bell"
-                aria-label="Notifications"
-                className="ml-auto relative"
+            </div>
+          ) : (
+            <div className="px-5 py-4 border-t border-border-dark">
+              <Link
+                to="/login"
+                className="btn-secondary w-full text-center py-2 rounded-md border border-primary hover:bg-surface-medium"
               >
-                <span className="absolute top-0 right-0 h-2 w-2 bg-error rounded-full"></span>
-              </Button>
+                Login
+              </Link>
             </div>
-          </div>
-        </div>
-      )}
-      
-      {/* Expanded search overlay */}
-      {isSearchFocused && (
-        <div className="fixed inset-0 bg-background-dark bg-opacity-90 z-50 animate-fade-in">
-          <div className="p-4">
-            <div className="flex items-center">
-              <Input
-                variant="search"
-                placeholder="Search..."
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                autoFocus
-                className="flex-grow"
-              />
-              <Button
-                variant="icon"
-                icon="X"
-                aria-label="Close search"
-                onClick={() => setIsSearchFocused(false)}
-                className="ml-2"
-              />
-            </div>
-          </div>
+          )}
         </div>
       )}
     </header>

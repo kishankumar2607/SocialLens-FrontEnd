@@ -7,6 +7,8 @@ module.exports = {
         'primary': 'var(--color-primary)', // #4F46E5 - indigo-600
         'primary-hover': 'var(--color-primary-hover)', // #4338CA - indigo-700
         'primary-light': 'var(--color-primary-light)', // #818CF8 - indigo-400
+        'neon-blue': '#60A5FA',
+        'neon-purple': '#C084FC',
         
         // Neutral colors
         'background-dark': 'var(--color-background-dark)', // #030712 - gray-950

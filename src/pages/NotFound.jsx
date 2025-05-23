@@ -17,7 +17,7 @@ const NotFound = () => {
           The page you are looking for doesn't exist or has been moved.
         </p>
         <Link
-          to="/homepage"
+          to="/"
           className="btn-primary inline-flex items-center"
         >
           <Icon name="Home" size={18} className="mr-2" />

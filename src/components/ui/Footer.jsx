@@ -15,9 +15,9 @@ const Footer = ({ variant = 'full' }) => {
             <div className="col-span-1">
               <Link to="/homepage" className="flex items-center space-x-2">
                 <div className="h-8 w-8 rounded-md bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">A</span>
+                  <span className="text-white font-bold text-lg">S</span>
                 </div>
-                <span className="text-white font-display font-bold text-xl">Analytics</span>
+                <span className="text-white font-display font-bold text-xl">SocialLens</span>
               </Link>
               <p className="mt-4 text-sm text-text-secondary">
                 Powerful analytics platform for data-driven insights and visualization.
@@ -152,7 +152,7 @@ const Footer = ({ variant = 'full' }) => {
           
           <div className="mt-12 pt-8 border-t border-border-dark flex flex-col md:flex-row justify-between items-center">
             <p className="text-text-tertiary text-sm">
-              &copy; {currentYear} Analytics Inc. All rights reserved.
+              &copy; {currentYear} SocialLens Inc. All rights reserved.
             </p>
             <div className="mt-4 md:mt-0 flex space-x-6">
               <Link to="/privacy" className="text-text-tertiary hover:text-primary text-sm transition-colors duration-200">
