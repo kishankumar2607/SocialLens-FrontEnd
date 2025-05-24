@@ -57,7 +57,7 @@ const index = () => {
         </section>
 
         {/* Application Form */}
-        <div className="px-28">
+        <div className="px-2 lg:px-28">
           <ResumeUploadForm />
         </div>
       </div>
