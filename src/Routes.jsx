@@ -19,7 +19,8 @@ import AboutPage from "./pages/about";
 import Careers from "./pages/careers";
 import SupportPage from "./pages/support";
 import GuidesPage from "./pages/guides";
-import ApiReferencePage from "pages/api-reference";
+import ApiReferencePage from "./pages/api-reference";
+import DocumentationPage from "./pages/documentation";
 
 const Routes = () => {
   return (
@@ -48,6 +49,14 @@ const Routes = () => {
           element={
             <MainLayout>
               <RegisterPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/documentation"
+          element={
+            <MainLayout>
+              <DocumentationPage />
             </MainLayout>
           }
         />
