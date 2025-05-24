@@ -3,6 +3,7 @@ import { FiTarget, FiUsers, FiTrendingUp, FiHeart } from "react-icons/fi";
 import KishanKumarImage from "../../assets/teams/kishan.png";
 import DivyanshuImage from "../../assets/teams/divyanshu.png";
 import HarshilImage from "../../assets/teams/harshil.png";
+import { Link } from "react-router-dom";
 
 const AboutPage = () => {
   return (
@@ -135,9 +136,9 @@ const AboutPage = () => {
             We’re always looking for talented people and exciting
             collaborations. Let’s build something amazing together!
           </p>
-          <a href="/contact" className="btn-primary inline-block">
-            Contact Us
-          </a>
+          <Link to="/contact" passHref legacyBehavior className="inline-block">
+            <a className="btn-primary inline-block">Contact Us</a>
+          </Link>
         </section>
       </div>
     </div>
