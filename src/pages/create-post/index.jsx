@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../../components/ui/Sidebar";
+import Sidebar from "../../components/Sidebar";
 import Icon from "../../components/AppIcon";
 import FormInput from "./components/FormInput";
 import PlatformSelector from "./components/PlatformSelector";

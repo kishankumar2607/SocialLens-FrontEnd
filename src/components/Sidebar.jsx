@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Icon from '../AppIcon';
+import Icon from './AppIcon';
 
 const Sidebar = ({ 
   variant = 'expanded',
@@ -88,9 +88,9 @@ const Sidebar = ({
         <div className="p-4 border-b border-border-dark flex items-center justify-between">
           <Link to="/homepage" className="flex items-center space-x-2">
             <div className="h-8 w-8 rounded-md bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center">
-              <span className="text-white font-bold text-lg">A</span>
+              <span className="text-white font-bold text-lg">S</span>
             </div>
-            <span className="text-white font-display font-bold text-xl">Analytics</span>
+            <span className="text-white font-display font-bold text-xl">SocialLens</span>
           </Link>
           <button
             onClick={toggleSidebar}

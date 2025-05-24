@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import Icon from '../AppIcon';
+import Icon from './AppIcon';
 
 const Input = forwardRef(({
   type = 'text',

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Icon from "../AppIcon";
+import Icon from "./AppIcon";
 import Button from "./Button";
 
 const Header = ({ variant = "default", isAuthenticated = false }) => {

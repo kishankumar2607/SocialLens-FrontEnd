@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import Sidebar from "../../components/ui/Sidebar";
+import Sidebar from "../../components/Sidebar";
 import Icon from "../../components/AppIcon";
 import HeroSection from "./components/HeroSection";
 

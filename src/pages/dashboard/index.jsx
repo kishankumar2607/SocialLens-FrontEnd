@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BarChart } from "recharts";
 import Icon from "../../components/AppIcon";
-import Sidebar from "../../components/ui/Sidebar";
+import Sidebar from "../../components/Sidebar";
 import AnalyticsCard from "./components/AnalyticsCard";
 import DataVisualization from "./components/DataVisualization";
 import SkeletonLoader from "./components/SkeletonLoader";

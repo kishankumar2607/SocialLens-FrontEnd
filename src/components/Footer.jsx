@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Icon from '../AppIcon';
+import Icon from './AppIcon';
 
 const Footer = ({ variant = 'full' }) => {
   const currentYear = new Date().getFullYear();

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Icon from '../AppIcon';
+import Icon from './AppIcon';
 
 const Dropdown = ({
   variant = 'select',

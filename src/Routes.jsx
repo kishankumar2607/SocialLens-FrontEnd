@@ -23,6 +23,7 @@ import ApiReferencePage from "./pages/api-reference";
 import DocumentationPage from "./pages/documentation";
 import BlogListPage from "./pages/blogs";
 import BlogDetailPage from "./pages/blogs/BlogDetailPage";
+import FeaturesPage from "./pages/features";
 
 const Routes = () => {
   return (
@@ -51,6 +52,14 @@ const Routes = () => {
           element={
             <MainLayout>
               <RegisterPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/features"
+          element={
+            <MainLayout>
+              <FeaturesPage />
             </MainLayout>
           }
         />
