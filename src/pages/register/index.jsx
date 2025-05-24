@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import registerIllustration from '../../assets/images/registerIllustration.png';
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -37,6 +38,7 @@ const RegisterPage = () => {
     if (Object.keys(validationErrors).length === 0) {
       console.log('Registered user:', form);
       // handle registration
+      navigate('/login');
     }
   };
 

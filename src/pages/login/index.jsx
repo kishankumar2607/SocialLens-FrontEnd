@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import loginIllustration from "../../assets/images/loginIllustration.jpg";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -38,7 +39,11 @@ const LoginPage = () => {
 
     if (Object.keys(validationErrors).length === 0) {
       console.log("Form submitted", form);
-      // Handle login logic
+      
+      // Here you would typically handle the login logic, e.g., API call
+      //Redirect to dashboard or home page
+      navigate("/dashboard");
+
     }
   };
 

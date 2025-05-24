@@ -137,12 +137,12 @@ const Footer = ({ variant = 'full' }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/privacy" className="text-text-secondary hover:text-primary transition-colors duration-200">
+                  <Link to="/privacy-policy" className="text-text-secondary hover:text-primary transition-colors duration-200">
                     Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link to="/terms" className="text-text-secondary hover:text-primary transition-colors duration-200">
+                  <Link to="/terms-of-service" className="text-text-secondary hover:text-primary transition-colors duration-200">
                     Terms of Service
                   </Link>
                 </li>
@@ -155,10 +155,10 @@ const Footer = ({ variant = 'full' }) => {
               &copy; {currentYear} SocialLens Inc. All rights reserved.
             </p>
             <div className="mt-4 md:mt-0 flex space-x-6">
-              <Link to="/privacy" className="text-text-tertiary hover:text-primary text-sm transition-colors duration-200">
+              <Link to="/privacy-policy" className="text-text-tertiary hover:text-primary text-sm transition-colors duration-200">
                 Privacy
               </Link>
-              <Link to="/terms" className="text-text-tertiary hover:text-primary text-sm transition-colors duration-200">
+              <Link to="/terms-of-service" className="text-text-tertiary hover:text-primary text-sm transition-colors duration-200">
                 Terms
               </Link>
               <Link to="/cookies" className="text-text-tertiary hover:text-primary text-sm transition-colors duration-200">

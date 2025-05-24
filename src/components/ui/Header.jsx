@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Icon from "../AppIcon";
-import Input from "./Input";
 import Button from "./Button";
 
 const Header = ({ variant = "default", isAuthenticated = false }) => {
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -148,13 +146,6 @@ const Header = ({ variant = "default", isAuthenticated = false }) => {
             <MobileMenuToggle />
             <Logo />
           </div>
-
-          <Button
-            variant="icon"
-            icon="Search"
-            aria-label="Search"
-            onClick={() => setIsSearchFocused(true)}
-          />
         </div>
       </div>
 
