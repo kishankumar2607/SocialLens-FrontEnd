@@ -8,7 +8,7 @@ import LandingPage from "./pages/landingpage";
 import Homepage from "./pages/homepage";
 import Dashboard from "./pages/dashboard";
 import CreatePost from "./pages/create-post";
-import NotFound from "./pages/NotFound";
+import NotFound from "./pages/not-found";
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
 import PrivacyPolicy from "./pages/privacy-policy";
