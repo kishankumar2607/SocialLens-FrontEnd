@@ -136,8 +136,11 @@ const AboutPage = () => {
             We’re always looking for talented people and exciting
             collaborations. Let’s build something amazing together!
           </p>
-          <Link to="/contact" passHref legacyBehavior className="inline-block">
-            <a className="btn-primary inline-block">Contact Us</a>
+          <Link
+            to="/contact"
+            className="btn-primary inline-block"
+          >
+            Contact Us
           </Link>
         </section>
       </div>

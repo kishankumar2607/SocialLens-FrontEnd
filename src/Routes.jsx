@@ -16,6 +16,7 @@ import TermsOfService from "./pages/terms-of-service";
 import Cookie from "./pages/cookie";
 import ContactPage from "./pages/contact-us";
 import AboutPage from "./pages/about";
+import Careers from "./pages/careers";
 
 const Routes = () => {
   return (
@@ -52,6 +53,14 @@ const Routes = () => {
           element={
             <MainLayout>
               <AboutPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/careers"
+          element={
+            <MainLayout>
+              <Careers />
             </MainLayout>
           }
         />

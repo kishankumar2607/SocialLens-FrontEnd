@@ -1,39 +1,40 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 /* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap");
 
 /* Custom CSS Variables */
 :root {
   /* Color System */
-  --color-primary: #4F46E5; /* indigo-600 */
-  --color-primary-hover: #4338CA; /* indigo-700 */
-  --color-primary-light: #818CF8; /* indigo-400 */
-  
+  --color-primary: #4f46e5; /* indigo-600 */
+  --color-primary-hover: #4338ca; /* indigo-700 */
+  --color-primary-light: #818cf8; /* indigo-400 */
+
   /* Neutral Colors */
   --color-background-dark: #030712; /* gray-950 */
   --color-surface-dark: #111827; /* gray-900 */
-  --color-surface-medium: #1F2937; /* gray-800 */
+  --color-surface-medium: #1f2937; /* gray-800 */
   --color-border-dark: #374151; /* gray-700 */
-  --color-text-primary: #FFFFFF; /* white */
-  --color-text-secondary: #D1D5DB; /* gray-300 */
-  --color-text-tertiary: #6B7280; /* gray-500 */
-  
+  --color-text-primary: #ffffff; /* white */
+  --color-text-secondary: #d1d5db; /* gray-300 */
+  --color-text-tertiary: #6b7280; /* gray-500 */
+
   /* Semantic Colors */
-  --color-success: #10B981; /* emerald-500 */
-  --color-warning: #F59E0B; /* amber-500 */
-  --color-error: #F43F5E; /* rose-500 */
-  --color-info: #06B6D4; /* cyan-500 */
-  --color-neon-blue: #60A5FA; /* blue-400 */
-  --color-neon-purple: #C084FC; /* purple-400 */
+  --color-success: #10b981; /* emerald-500 */
+  --color-warning: #f59e0b; /* amber-500 */
+  --color-error: #f43f5e; /* rose-500 */
+  --color-info: #06b6d4; /* cyan-500 */
+  --color-neon-blue: #60a5fa; /* blue-400 */
+  --color-neon-purple: #c084fc; /* purple-400 */
 }
 
 /* Animation Keyframes */
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -42,7 +43,8 @@
 }
 
 @keyframes glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 5px 0 rgba(79, 70, 229, 0.3);
   }
   50% {
@@ -72,64 +74,69 @@
 @layer components {
   /* Button Styles */
   .btn-primary {
-    @apply bg-gradient-to-r from-primary  text-white font-medium px-4 py-2 rounded-md transition-all duration-200 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary-light focus:ring-offset-2 focus:ring-offset-background-dark active:scale-[0.98];
+    @apply text-white font-medium px-4 py-2 rounded-md transition-all duration-200 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary-light focus:ring-offset-2 focus:ring-offset-background-dark active:scale-[0.98];
+    background-image: linear-gradient(
+      to right,
+      var(--color-primary),
+      var(--color-neon-purple)
+    );
   }
-  
+
   .btn-secondary {
     @apply bg-transparent border border-primary text-white font-medium px-4 py-2 rounded-md transition-all duration-200  hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary-light focus:ring-offset-2 focus:ring-offset-background-dark active:scale-[0.98];
   }
-  
+
   .btn-tertiary {
     @apply bg-transparent text-white font-medium px-4 py-2 rounded-md transition-all duration-200 hover:bg-surface-medium hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary-light focus:ring-offset-2 focus:ring-offset-background-dark active:scale-[0.98];
   }
-  
+
   .btn-icon {
     @apply p-2 rounded-full bg-surface-medium text-white transition-all duration-200  hover:scale-[1.05] focus:outline-none focus:ring-2 focus:ring-primary-light;
   }
-  
+
   /* Card Styles */
   .card {
     @apply bg-surface-dark rounded-lg border border-border-dark p-4 transition-all duration-200;
   }
-  
+
   .card-metric {
     @apply bg-surface-dark rounded-lg border border-border-dark p-4 transition-all duration-200;
   }
-  
+
   .card-interactive {
     @apply bg-surface-dark rounded-lg border border-border-dark p-4 transition-all duration-200 hover:scale-[1.02] hover:border-primary-light cursor-pointer;
   }
-  
+
   .card-glassmorphic {
-    @apply  backdrop-blur-md rounded-lg border border-border-dark border-opacity-50 p-4 transition-all duration-200;
+    @apply backdrop-blur-md rounded-lg border border-border-dark border-opacity-50 p-4 transition-all duration-200;
   }
-  
+
   .card-gradient {
     @apply bg-surface-dark rounded-lg p-4 transition-all duration-200 border-2 border-transparent bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-padding;
   }
-  
+
   /* Input Styles */
   .input-default {
     @apply bg-surface-medium border border-border-dark rounded-md px-3 py-2 text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all duration-200;
   }
-  
+
   .input-search {
     @apply bg-surface-medium border border-border-dark rounded-md pl-10 pr-3 py-2 text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all duration-200;
   }
-  
+
   .input-with-icon {
     @apply bg-surface-medium border border-border-dark rounded-md pl-10 pr-3 py-2 text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all duration-200;
   }
-  
+
   .input-error {
     @apply bg-surface-medium border border-error rounded-md px-3 py-2 text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-error focus:border-transparent transition-all duration-200;
   }
-  
+
   /* Dropdown Styles */
   .dropdown-menu {
     @apply absolute z-10 mt-2 w-56 rounded-md bg-surface-dark border border-border-dark shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none;
   }
-  
+
   .dropdown-item {
     @apply block px-4 py-2 text-sm text-text-primary hover:bg-surface-medium cursor-pointer;
   }
@@ -140,22 +147,23 @@
   .glow {
     animation: glow 2s ease-in-out infinite;
   }
-  
+
   .animate-pulse-custom {
     animation: pulse 1.5s ease-in-out infinite;
   }
-  
+
   .animate-fade-in {
     animation: fadeIn 0.3s ease-in-out;
   }
-  
+
   .animate-slide-in {
     animation: slideIn 0.3s ease-in-out;
   }
 }
 
 @keyframes fadeGlow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
     transform: scale(1);
   }
