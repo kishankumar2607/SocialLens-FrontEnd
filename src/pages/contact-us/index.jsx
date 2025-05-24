@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
+import TextInput from "../../components/TextInput";
+import TextareaInput from "../../components/TextareaInput";
 import { showError, showSuccess } from "../../utils/helperFunction";
 
 const ContactPage = () => {
@@ -78,8 +80,8 @@ const ContactPage = () => {
         <div className="space-y-8">
           <h2 className="text-4xl font-bold mb-4">Let’s Connect</h2>
           <p className="text-text-secondary text-lg">
-            We’re here to help you grow your social media presence.
-            Reach out and let’s start a conversation!
+            We’re here to help you grow your social media presence. Reach out
+            and let’s start a conversation!
           </p>
 
           <div className="space-y-6">
@@ -96,9 +98,7 @@ const ContactPage = () => {
               <FiPhone className="text-primary-light text-3xl" />
               <div>
                 <p className="font-semibold">Phone</p>
-                <p className="text-text-secondary text-sm">
-                  +1 (234) 567-8901
-                </p>
+                <p className="text-text-secondary text-sm">+1 (234) 567-8901</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -117,45 +117,35 @@ const ContactPage = () => {
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label className="block text-sm mb-1">Full Name</label>
-              <input
+              <TextInput
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                type="text"
-                className="input-default w-full"
-                placeholder="Your Name"
+                placeholder="John Doe"
+                error={errors.name}
               />
-              {errors.name && (
-                <p className="text-error text-sm mt-1">{errors.name}</p>
-              )}
             </div>
             <div>
               <label className="block text-sm mb-1">Email Address</label>
-              <input
+              <TextInput
                 name="email"
+                type="email"
                 value={formData.email}
                 onChange={handleChange}
-                type="email"
-                className="input-default w-full"
                 placeholder="you@example.com"
+                error={errors.email}
               />
-              {errors.email && (
-                <p className="text-error text-sm mt-1">{errors.email}</p>
-              )}
             </div>
             <div>
               <label className="block text-sm mb-1">Message</label>
-              <textarea
+              <TextareaInput
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
                 rows={5}
-                className="input-default w-full resize-none"
                 placeholder="Your message..."
+                error={errors.message}
               />
-              {errors.message && (
-                <p className="text-error text-sm mt-1">{errors.message}</p>
-              )}
             </div>
             <button type="submit" className="btn-primary w-full">
               Send Message
