@@ -6,7 +6,6 @@ import {
   FiLock,
   FiSmartphone,
   FiClock,
-  FiStar,
   FiCheckCircle,
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
