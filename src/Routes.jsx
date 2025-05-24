@@ -26,6 +26,7 @@ import BlogDetailPage from "./pages/blogs/BlogDetailPage";
 import FeaturesPage from "./pages/features";
 import PricingPage from "pages/pricing";
 import IntegrationsPage from "./pages/integrations";
+import ChangelogPage from "./pages/changelog";
 
 const Routes = () => {
   return (
@@ -78,6 +79,14 @@ const Routes = () => {
           element={
             <MainLayout>
               <IntegrationsPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/changelog"
+          element={
+            <MainLayout>
+              <ChangelogPage />
             </MainLayout>
           }
         />
