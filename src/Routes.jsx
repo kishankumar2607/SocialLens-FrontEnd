@@ -15,7 +15,6 @@ import PrivacyPolicy from "./pages/privacy-policy";
 import TermsOfService from "./pages/terms-of-service";
 import Cookie from "./pages/cookie";
 import ContactPage from "./pages/contact-us";
-import AboutPage from "./pages/about";
 
 const Routes = () => {
   return (
@@ -44,14 +43,6 @@ const Routes = () => {
           element={
             <MainLayout>
               <RegisterPage />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/about"
-          element={
-            <MainLayout>
-              <AboutPage />
             </MainLayout>
           }
         />
