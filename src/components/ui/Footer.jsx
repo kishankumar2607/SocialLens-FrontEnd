@@ -95,7 +95,7 @@ const Footer = ({ variant = 'full' }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/api" className="text-text-secondary hover:text-primary transition-colors duration-200">
+                  <Link to="/api-reference" className="text-text-secondary hover:text-primary transition-colors duration-200">
                     API Reference
                   </Link>
                 </li>
