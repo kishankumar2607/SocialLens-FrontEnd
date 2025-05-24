@@ -42,12 +42,110 @@
       "ogImage": "http://localhost:3000/favicon.ico",
       "ogUrl": "http://localhost:3000/create-post"
     },
-    "/404": {
-      "title": "404 - Page Not Found | SocialLens - Return to Dashboard",
-      "description": "Oops! The page you’re looking for doesn’t exist. Go back to the dashboard or try a different link.",
-      "keywords": "404 error, not found, broken link, SocialLens",
+    "/privacy-policy": {
+      "title": "Privacy Policy | SocialLens - Data Protection & Trust",
+      "description": "Read how SocialLens protects your data and privacy when you use our platform.",
+      "keywords": "privacy policy, data security, user privacy",
       "ogImage": "http://localhost:3000/favicon.ico",
-      "ogUrl": "http://localhost:3000/404"
+      "ogUrl": "http://localhost:3000/privacy-policy"
+    },
+    "/terms-of-service": {
+      "title": "Terms of Service | SocialLens - User Agreement",
+      "description": "Understand the terms and conditions you agree to when using SocialLens.",
+      "keywords": "terms of service, user agreement, legal",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/terms-of-service"
+    },
+    "/cookies": {
+      "title": "Cookies | SocialLens - How We Use Cookies",
+      "description": "Learn about our use of cookies and how they help improve your experience on SocialLens.",
+      "keywords": "cookies policy, tracking, privacy",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/cookies-policy"
+    },
+    "/contact": {
+      "title": "Contact Us | SocialLens - Get In Touch",
+      "description": "Reach out to the SocialLens team with your questions, feedback, or partnership inquiries.",
+      "keywords": "contact, support, help, sociallens team",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/contact"
+    },
+    "/support": {
+      "title": "Support Center | SocialLens - We’re Here to Help",
+      "description": "Visit our support center for FAQs, issue submissions, and expert help.",
+      "keywords": "support, help center, FAQs, customer support",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/support"
+    },
+    "/about": {
+      "title": "About Us | SocialLens - Our Mission & Team",
+      "description": "Meet the SocialLens team and learn about our mission to transform social media analytics.",
+      "keywords": "about, team, mission, company",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/about"
+    },
+    "/careers": {
+      "title": "Careers | SocialLens - Join Our Team",
+      "description": "Explore open roles and discover career opportunities at SocialLens.",
+      "keywords": "careers, jobs, hiring, work with us",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/careers"
+    },
+    "/guides": {
+      "title": "Guides & Tutorials | SocialLens - Learn & Master",
+      "description": "Access our guides and tutorials to get the most out of SocialLens.",
+      "keywords": "guides, tutorials, help articles, learning",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/guides"
+    },
+    "/api-reference": {
+      "title": "API Reference | SocialLens - Developer Docs",
+      "description": "Browse the SocialLens API documentation and learn how to integrate your systems.",
+      "keywords": "API, developer docs, integrations, technical reference",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/api-reference"
+    },
+    "/documentation": {
+      "title": "Platform Documentation | SocialLens - Setup & Best Practices",
+      "description": "Detailed documentation to help you set up, use, and master SocialLens.",
+      "keywords": "documentation, setup, best practices, user guide",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/documentation"
+    },
+    "/changelog": {
+      "title": "Changelog | SocialLens - Latest Updates & Releases",
+      "description": "See the latest feature releases, improvements, and fixes in SocialLens.",
+      "keywords": "changelog, updates, release notes, improvements",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/changelog"
+    },
+    "/features": {
+      "title": "Features | SocialLens - Tools to Boost Your Social Game",
+      "description": "Explore the powerful features of SocialLens that help you schedule, analyze, and grow.",
+      "keywords": "features, tools, social media platform, analytics, scheduler",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/features"
+    },
+    "/pricing": {
+      "title": "Pricing Plans | SocialLens - Find Your Perfect Fit",
+      "description": "Compare our flexible pricing plans and choose the one that fits your needs.",
+      "keywords": "pricing, subscription, plans, cost, premium",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/pricing"
+    },
+    "/integrations": {
+      "title": "Integrations | SocialLens - Connect Your Favorite Tools",
+      "description": "Discover the integrations available on SocialLens to enhance your workflow.",
+      "keywords": "integrations, third-party tools, connections, API",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/integrations"
+    },
+    "/blogs": {
+      "title": "Blog | SocialLens - Insights, Trends & Tips",
+      "description": "Read our latest blog posts covering social media trends, tips, and product updates.",
+      "keywords": "blog, articles, social media trends, updates, news",
+      "ogImage": "http://localhost:3000/favicon.ico",
+      "ogUrl": "http://localhost:3000/blogs"
     }
   }
 }
