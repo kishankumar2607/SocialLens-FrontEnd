@@ -13,14 +13,14 @@ const Footer = ({ variant = 'full' }) => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Company Info */}
             <div className="col-span-1">
-              <Link to="/homepage" className="flex items-center space-x-2">
+              <Link to="/" className="flex items-center space-x-2">
                 <div className="h-8 w-8 rounded-md bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center">
                   <span className="text-white font-bold text-lg">S</span>
                 </div>
                 <span className="text-white font-display font-bold text-xl">SocialLens</span>
               </Link>
               <p className="mt-4 text-sm text-text-secondary">
-                Powerful analytics platform for data-driven insights and visualization.
+                Powerful analytics platform for analyzing and optimizing your social media, data-driven insights, visualization and real-time data.
               </p>
               <div className="mt-6 flex space-x-4">
                 <a 
@@ -105,7 +105,7 @@ const Footer = ({ variant = 'full' }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/blog" className="text-text-secondary hover:text-primary transition-colors duration-200">
+                  <Link to="/blogs" className="text-text-secondary hover:text-primary transition-colors duration-200">
                     Blog
                   </Link>
                 </li>

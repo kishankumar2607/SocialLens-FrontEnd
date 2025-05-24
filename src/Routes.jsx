@@ -21,6 +21,8 @@ import SupportPage from "./pages/support";
 import GuidesPage from "./pages/guides";
 import ApiReferencePage from "./pages/api-reference";
 import DocumentationPage from "./pages/documentation";
+import BlogListPage from "./pages/blogs";
+import BlogDetailPage from "./pages/blogs/BlogDetailPage";
 
 const Routes = () => {
   return (
@@ -49,6 +51,22 @@ const Routes = () => {
           element={
             <MainLayout>
               <RegisterPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/blogs"
+          element={
+            <MainLayout>
+              <BlogListPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/blogs/:title"
+          element={
+            <MainLayout>
+              <BlogDetailPage />
             </MainLayout>
           }
         />
