@@ -31,6 +31,7 @@ import ForgotPasswordPage from "./pages/forgot-password";
 import EnterOtpPage from "./pages/otp";
 import ResetPasswordPage from "./pages/reset-password";
 import SettingsPage from "./pages/settings";
+import AnalyticsPage from "./pages/analytics";
 
 const Routes = () => {
   return (
@@ -253,6 +254,14 @@ const Routes = () => {
           element={
             <SecondLayout>
               <SettingsPage />
+            </SecondLayout>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <SecondLayout>
+              <AnalyticsPage />
             </SecondLayout>
           }
         />

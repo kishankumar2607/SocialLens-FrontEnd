@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { BarChart } from "recharts";
 import Icon from "../../components/AppIcon";
-import Sidebar from "../../components/Sidebar";
 import AnalyticsCard from "./components/AnalyticsCard";
 import DataVisualization from "./components/DataVisualization";
 import SkeletonLoader from "./components/SkeletonLoader";
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [sidebarVariant, setSidebarVariant] = useState("expanded");
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   // Simulate loading state
   useEffect(() => {
@@ -20,46 +17,10 @@ const Dashboard = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Handle sidebar toggle
-  const handleSidebarToggle = (variant) => {
-    if (typeof variant === "string") {
-      setSidebarVariant(variant);
-    } else {
-      setIsMobileSidebarOpen(variant);
-    }
-  };
-
   return (
     <div className="flex h-screen bg-background-dark text-text-primary">
-      {/* Sidebar - Desktop */}
-      <div className="hidden md:block">
-        <Sidebar 
-          variant={sidebarVariant} 
-          onToggle={handleSidebarToggle} 
-        />
-      </div>
-
-      {/* Mobile Sidebar Toggle */}
-      <div className="md:hidden fixed top-4 left-4 z-30">
-        <button
-          onClick={() => setIsMobileSidebarOpen(true)}
-          className="p-2 rounded-md bg-surface-dark text-text-primary hover:bg-surface-medium transition-colors duration-200"
-          aria-label="Open sidebar"
-        >
-          <Icon name="Menu" size={24} />
-        </button>
-      </div>
-
-      {/* Mobile Sidebar */}
-      <Sidebar
-        variant="mobile"
-        isOpen={isMobileSidebarOpen}
-        onToggle={setIsMobileSidebarOpen}
-        className="md:hidden"
-      />
-
       {/* Main Content */}
-      <main className={`flex-1 overflow-y-auto p-6 ${sidebarVariant === 'expanded' ? 'md:ml-0' : 'md:ml-0'}`}>
+      <main className="flex-1 overflow-y-auto p-6">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex justify-between items-center mb-8">
