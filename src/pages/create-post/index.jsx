@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../../components/Sidebar";
 import Icon from "../../components/AppIcon";
 import FormInput from "./components/FormInput";
 import PlatformSelector from "./components/PlatformSelector";
@@ -7,8 +6,6 @@ import PostPreview from "./components/PostPreview";
 import ActionButton from "./components/ActionButton";
 
 const CreatePost = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [sidebarVariant, setSidebarVariant] = useState("expanded");
   const [message, setMessage] = useState("");
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const [showToast, setShowToast] = useState(false);
@@ -16,33 +13,6 @@ const CreatePost = () => {
     message: false,
     platforms: false,
   });
-
-  // Check if we're on mobile
-  useEffect(() => {
-    const checkIfMobile = () => {
-      if (window.innerWidth < 768) {
-        setSidebarOpen(false);
-      } else {
-        setSidebarOpen(true);
-        setSidebarVariant("expanded");
-      }
-    };
-
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-
-    return () => {
-      window.removeEventListener("resize", checkIfMobile);
-    };
-  }, []);
-
-  const handleSidebarToggle = (variant) => {
-    if (typeof variant === "string") {
-      setSidebarVariant(variant);
-    } else {
-      setSidebarOpen(variant);
-    }
-  };
 
   const handleMessageChange = (value) => {
     if (value.length <= 280) {
@@ -75,7 +45,6 @@ const CreatePost = () => {
 
   const handleCreatePost = () => {
     if (validateForm()) {
-      // Show success toast
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);
@@ -85,27 +54,11 @@ const CreatePost = () => {
 
   return (
     <div className="flex h-screen bg-background-dark text-text-primary overflow-hidden">
-      {/* Sidebar */}
-      <Sidebar
-        variant={sidebarVariant}
-        onToggle={handleSidebarToggle}
-        isOpen={sidebarOpen}
-      />
-
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <header className="bg-surface-dark border-b border-border-dark p-4 flex items-center justify-between">
           <div className="flex items-center">
-            {!sidebarOpen && (
-              <button
-                onClick={() => setSidebarOpen(true)}
-                className="mr-4 text-text-secondary hover:text-text-primary"
-                aria-label="Open sidebar"
-              >
-                <Icon name="Menu" size={24} />
-              </button>
-            )}
             <h1 className="text-xl font-bold">Create Post</h1>
           </div>
           <div className="flex items-center space-x-4">
@@ -172,10 +125,7 @@ const CreatePost = () => {
               {/* Post Preview */}
               <div className="card bg-surface-dark bg-opacity-70 backdrop-blur-md border border-border-dark border-opacity-20 p-6 rounded-lg">
                 <h2 className="text-lg font-semibold mb-6">Preview</h2>
-                <PostPreview
-                  message={message}
-                  platforms={selectedPlatforms}
-                />
+                <PostPreview message={message} platforms={selectedPlatforms} />
               </div>
             </div>
           </div>

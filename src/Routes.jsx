@@ -30,6 +30,7 @@ import ChangelogPage from "./pages/changelog";
 import ForgotPasswordPage from "./pages/forgot-password";
 import EnterOtpPage from "./pages/otp";
 import ResetPasswordPage from "./pages/reset-password";
+import SettingsPage from "./pages/settings";
 
 const Routes = () => {
   return (
@@ -244,6 +245,14 @@ const Routes = () => {
           element={
             <SecondLayout>
               <CreatePost />
+            </SecondLayout>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <SecondLayout>
+              <SettingsPage />
             </SecondLayout>
           }
         />
