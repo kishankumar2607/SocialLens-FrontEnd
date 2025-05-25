@@ -86,7 +86,7 @@ const Sidebar = ({
     return (
       <aside className={`bg-surface-dark border-r border-border-dark h-screen flex flex-col ${className}`}>
         <div className="p-4 border-b border-border-dark flex items-center justify-between">
-          <Link to="/homepage" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2">
             <div className="h-8 w-8 rounded-md bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center">
               <span className="text-white font-bold text-lg">S</span>
             </div>
@@ -149,9 +149,9 @@ const Sidebar = ({
     return (
       <aside className={`bg-surface-dark border-r border-border-dark h-screen flex flex-col w-16 ${className}`}>
         <div className="p-3 border-b border-border-dark flex justify-center">
-          <Link to="/homepage" className="flex items-center justify-center">
+          <Link to="/" className="flex items-center justify-center">
             <div className="h-8 w-8 rounded-md bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center">
-              <span className="text-white font-bold text-lg">A</span>
+              <span className="text-white font-bold text-lg">S</span>
             </div>
           </Link>
         </div>

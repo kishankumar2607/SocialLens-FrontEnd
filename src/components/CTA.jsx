@@ -9,7 +9,7 @@ const CTA = () => (
     <p className="text-text-secondary mb-8">
       Join SocialLens today and start optimizing your online presence.
     </p>
-    <Link to="/register" className="btn-primary">
+    <Link to="/login" className="btn-primary">
       Get Started
     </Link>
   </section>

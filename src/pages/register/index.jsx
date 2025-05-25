@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import registerIllustration from '../../assets/images/registerIllustration.png';
+import { showSuccess } from '../../utils/helperFunction';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const RegisterPage = () => {
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length === 0) {
       console.log('Registered user:', form);
+      showSuccess('Registration successful!');
       // handle registration
       navigate('/login');
     }

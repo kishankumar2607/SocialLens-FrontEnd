@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import loginIllustration from "../../assets/images/loginIllustration.jpg";
+import { showSuccess } from '../../utils/helperFunction';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -39,10 +40,11 @@ const LoginPage = () => {
 
     if (Object.keys(validationErrors).length === 0) {
       console.log("Form submitted", form);
+      showSuccess("Login successful!");
       
       // Here you would typically handle the login logic, e.g., API call
       //Redirect to dashboard or home page
-      navigate("/dashboard");
+      navigate("/homepage");
 
     }
   };

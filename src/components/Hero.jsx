@@ -1,5 +1,6 @@
 import React from 'react';
 import heroBg from '../assets/images/hero-background1.jpg';
+import { Link } from 'react-router-dom';
 
 const Hero = () => (
   <section
@@ -11,8 +12,9 @@ const Hero = () => (
     {/* <div className="absolute inset-0 bg-gradient-to-br from-background-dark/40 to-black/30 backdrop-blur-md z-0" /> */}
 
     <div className="absolute inset-0 z-0">
-      <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-gradient-to-br from-primary to-neon-purple opacity-30 blur-[150px] rounded-full animate-pulse-slow" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-tr from-neon-blue to-primary opacity-20 blur-[150px] rounded-full animate-pulse-slow" />
+      <div className="absolute top-1/3 left-1/4 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-br from-primary to-neon-purple opacity-30 blur-[100px] md:blur-[150px] rounded-full animate-pulse-slow z-0" />
+<div className="absolute bottom-1/4 right-1/4 w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 bg-gradient-to-tr from-neon-blue to-primary opacity-20 blur-[100px] md:blur-[150px] rounded-full animate-pulse-slow z-0" />
+
     </div>
 
     <div className="relative z-10">
@@ -26,8 +28,8 @@ const Hero = () => (
         Analyze, optimize, and grow your social media presence with futuristic insights.
       </p>
       <div className="mt-8 flex gap-4 justify-center">
-        <button className="btn-primary">Get Started</button>
-        <button className="btn-secondary">Learn More</button>
+        <Link to="/homepage" className="btn-primary">Get Started</Link>
+        <Link to="/about" className="btn-secondary">Learn More</Link>
       </div>
     </div>
   </section>

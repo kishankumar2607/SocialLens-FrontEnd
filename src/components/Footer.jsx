@@ -68,7 +68,7 @@ const Footer = ({ variant = 'full' }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/dashboard" className="text-text-secondary hover:text-primary transition-colors duration-200">
+                  <Link to="/homepage" className="text-text-secondary hover:text-primary transition-colors duration-200">
                     Dashboard
                   </Link>
                 </li>

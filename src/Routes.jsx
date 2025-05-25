@@ -27,6 +27,9 @@ import FeaturesPage from "./pages/features";
 import PricingPage from "pages/pricing";
 import IntegrationsPage from "./pages/integrations";
 import ChangelogPage from "./pages/changelog";
+import ForgotPasswordPage from "./pages/forgot-password";
+import EnterOtpPage from "./pages/otp";
+import ResetPasswordPage from "./pages/reset-password";
 
 const Routes = () => {
   return (
@@ -55,6 +58,30 @@ const Routes = () => {
           element={
             <MainLayout>
               <RegisterPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <MainLayout>
+              <ForgotPasswordPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/enter-otp"
+          element={
+            <MainLayout>
+              <EnterOtpPage />
+            </MainLayout>
+          }
+        />
+        <Route
+        path="/reset-password"
+          element={
+            <MainLayout>
+              <ResetPasswordPage />
             </MainLayout>
           }
         />
