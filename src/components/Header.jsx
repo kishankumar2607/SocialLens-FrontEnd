@@ -3,9 +3,19 @@ import { Link, useLocation } from "react-router-dom";
 import Icon from "./AppIcon";
 import Button from "./Button";
 
-const Header = ({ variant = "default", isAuthenticated = false }) => {
+const Header = ({
+  variant = "default",
+  user = null,
+  token = null,
+}) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+
+  // console.log("Header props:", {
+  //   variant,
+  //   user,
+  //   token,
+  //   });
 
   // Logo component
   const Logo = () => (
@@ -22,28 +32,36 @@ const Header = ({ variant = "default", isAuthenticated = false }) => {
   // User profile component
   const UserProfile = () => (
     <div className="flex items-center space-x-4">
-      <Button
+      {/* <Button
         variant="icon"
         icon="Bell"
         aria-label="Notifications"
         className="relative"
       >
         <span className="absolute top-0 right-0 h-2 w-2 bg-error rounded-full"></span>
-      </Button>
+      </Button> */}
 
       <div className="flex items-center space-x-3 cursor-pointer">
         <div className="h-8 w-8 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center">
-          <span className="text-white font-medium text-sm">JS</span>
+          <span className="text-white font-medium text-sm">
+            {user
+              ?.split(" ")
+              .map((n) => n[0])
+              .join("")
+              .toUpperCase() || "U"}
+          </span>
         </div>
         <div className="hidden md:block">
-          <p className="text-sm font-medium text-white">John Smith</p>
-          <p className="text-xs text-text-tertiary">Admin</p>
+          <p className="text-sm font-medium text-white">
+            {user || "User"}
+          </p>
+          {/* <p className="text-xs text-text-tertiary">{user?.role || "Member"}</p> */}
         </div>
-        <Icon
+        {/* <Icon
           name="ChevronDown"
           size={16}
           className="text-text-tertiary hidden md:block"
-        />
+        /> */}
       </div>
     </div>
   );
@@ -81,7 +99,7 @@ const Header = ({ variant = "default", isAuthenticated = false }) => {
             </div>
 
             <div className="flex items-center space-x-4">
-              {isAuthenticated ? (
+              { user && token ? (
                 <UserProfile />
               ) : (
                 <Link
@@ -184,17 +202,25 @@ const Header = ({ variant = "default", isAuthenticated = false }) => {
             </Link>
           </div>
 
-          {isAuthenticated ? (
+          { user && token ? (
             <div className="pt-4 pb-3 border-t border-border-dark">
               <div className="flex items-center px-5">
                 <div className="h-10 w-10 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center">
-                  <span className="text-white font-medium">JS</span>
+                  <span className="text-white font-medium">
+                    {user?.name
+                      ?.split(" ")
+                      .map((n) => n[0])
+                      .join("")
+                      .toUpperCase() || "U"}
+                  </span>
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-white">
-                    John Smith
+                    {user?.name || "User"}
                   </div>
-                  <div className="text-sm text-text-tertiary">Admin</div>
+                  <div className="text-sm text-text-tertiary">
+                    {user?.role || "Member"}
+                  </div>
                 </div>
                 <Button
                   variant="icon"

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Eye, EyeOff } from "lucide-react";
+import { AwardIcon, Eye, EyeOff } from "lucide-react";
+import { AuthAPILogin } from "../../api/api";
+import { apiPost, setCookie } from "../../utils/utils";
 import loginIllustration from "../../assets/images/loginIllustration.jpg";
-import { showSuccess } from '../../utils/helperFunction';
+import { showError, showSuccess } from "../../utils/helperFunction";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -33,19 +35,33 @@ const LoginPage = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      console.log("Form submitted", form);
-      showSuccess("Login successful!");
-      
-      // Here you would typically handle the login logic, e.g., API call
-      //Redirect to dashboard or home page
-      navigate("/homepage");
-
+      try {
+        const payload = {
+          email: form.email,
+          password: form.password,
+        };
+        const response = await apiPost(AuthAPILogin, payload);
+        console.log("Response:", response);
+        if (response?.token && response?.user) {
+          showSuccess("Login successful");
+          setCookie("token", response.token, 7);
+          setCookie("user", response.user.name, 7);
+          navigate("/");
+        } else {
+          showError(
+            response?.message || "Login failed. Please check your credentials."
+          );
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        showError(error?.message || "Login failed. Please try again.");
+      }
     }
   };
 
