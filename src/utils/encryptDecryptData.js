@@ -1,6 +1,10 @@
 import { AES, enc } from "crypto-js";
 
-const SECRET_KEY = process.env.SECRET_KEY;
+const SECRET_KEY = process.env.REACT_APP_SECRET_KEY;
+
+if (!SECRET_KEY) {
+  console.error("SECRET_KEY is missing. Check your .env and restart the dev server.");
+}
 
 // Function to encrypt data
 export const encryptData = (value) => {

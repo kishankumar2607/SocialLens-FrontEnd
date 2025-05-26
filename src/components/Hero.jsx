@@ -1,12 +1,18 @@
 import React from "react";
 import Cookies from "js-cookie";
+import {getCookie} from "../utils/utils";
 import heroBg from "../assets/images/hero-background1.jpg";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
   // Read token and user from cookies
-  const token = Cookies.get("token") ? JSON.parse(Cookies.get("token")) : null;
-  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
+  const token = getCookie("token") || null;
+  const user = getCookie("userName") || null;
+  
+  // console.log("cookies:", {
+  //   token,
+  //   user,
+  // });
 
   return (
     <section

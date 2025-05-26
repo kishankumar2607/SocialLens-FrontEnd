@@ -3,11 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import Icon from "./AppIcon";
 import Button from "./Button";
 
-const Header = ({
-  variant = "default",
-  user = null,
-  token = null,
-}) => {
+const Header = ({ variant = "default", user = null, token = null }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -44,16 +40,12 @@ const Header = ({
       <div className="flex items-center space-x-3 cursor-pointer">
         <div className="h-8 w-8 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center">
           <span className="text-white font-medium text-sm">
-            {user
-              ?.split(" ")
-              .map((n) => n[0])
-              .join("")
-              .toUpperCase() || "U"}
+            {(user?.[0] || "U").toUpperCase()}
           </span>
         </div>
         <div className="hidden md:block">
           <p className="text-sm font-medium text-white">
-            {user || "User"}
+            {user.length > 15 ? user?.split(" ")[0] || "User" : user || "User"}
           </p>
           {/* <p className="text-xs text-text-tertiary">{user?.role || "Member"}</p> */}
         </div>
@@ -99,7 +91,7 @@ const Header = ({
             </div>
 
             <div className="flex items-center space-x-4">
-              { user && token ? (
+              {user && token ? (
                 <UserProfile />
               ) : (
                 <Link
@@ -202,7 +194,7 @@ const Header = ({
             </Link>
           </div>
 
-          { user && token ? (
+          {user && token ? (
             <div className="pt-4 pb-3 border-t border-border-dark">
               <div className="flex items-center px-5">
                 <div className="h-10 w-10 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center">

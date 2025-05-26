@@ -61,30 +61,30 @@ const AboutPage = () => {
             {/* Example team member cards */}
             <div className="bg-surface-dark rounded-xl border border-border-dark p-6 text-center hover:scale-105 transition">
               <img
-                src={HarshilImage}
-                alt="Harshil Dholakiya"
-                className="w-24 h-24 mx-auto rounded-full mb-4"
-              />
-              <h3 className="text-lg font-semibold">Harshil Dholakiya</h3>
-              <p className="text-primary-light text-sm mb-2">CEO</p>
-              <p className="text-text-secondary text-sm">
-                Harshil drives the company vision, strategy, and leadership,
-                ensuring our growth and innovation in the social media space.
-              </p>
-            </div>
-
-            <div className="bg-surface-dark rounded-xl border border-border-dark p-6 text-center hover:scale-105 transition">
-              <img
                 src={KishanKumarImage}
                 alt="Kishan Kumar"
                 className="w-24 h-24 mx-auto rounded-full mb-4"
               />
               <h3 className="text-lg font-semibold">Kishan Kumar</h3>
               <p className="text-primary-light text-sm mb-2">
-                Co-founder & CTO
+                CEO & Co-founder
               </p>
               <p className="text-text-secondary text-sm">
-                Kishan leads the technology vision, architecture, and
+                Kishan drives the company vision, strategy, and leadership,
+                ensuring our growth and innovation in the social media space.
+              </p>
+            </div>
+
+            <div className="bg-surface-dark rounded-xl border border-border-dark p-6 text-center hover:scale-105 transition">
+              <img
+                src={HarshilImage}
+                alt="Harshil Dholakiya"
+                className="w-24 h-24 mx-auto rounded-full mb-4"
+              />
+              <h3 className="text-lg font-semibold">Harshil Dholakiya</h3>
+              <p className="text-primary-light text-sm mb-2">Co-founder & CTO</p>
+              <p className="text-text-secondary text-sm">
+                Harshil leads the technology vision, architecture, and
                 development, building scalable solutions that power SocialLens.
               </p>
             </div>
@@ -136,10 +136,7 @@ const AboutPage = () => {
             We’re always looking for talented people and exciting
             collaborations. Let’s build something amazing together!
           </p>
-          <Link
-            to="/contact"
-            className="btn-primary inline-block"
-          >
+          <Link to="/contact" className="btn-primary inline-block">
             Contact Us
           </Link>
         </section>
