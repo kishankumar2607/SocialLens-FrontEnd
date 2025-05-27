@@ -52,7 +52,7 @@ export async function apiReq(endPoint, data = {}, method, headers = {}, requestO
       throw responseData;
     }
 
-    return responseData;
+    return response;
   } catch (error) {
     if (error.response?.data) {
       throw error.response.data;
