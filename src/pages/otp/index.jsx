@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { apiPost } from "../../utils/utils";
+import { AuthAPIVerifyOtp } from "../../api/api";
 import { showError, showSuccess } from "../../utils/helperFunction";
 
 const EnterOtpPage = () => {
@@ -45,15 +47,29 @@ const EnterOtpPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const finalOtp = otp.join("");
     if (finalOtp.length !== 6) {
       showError("Please enter a valid 6-digit OTP.");
       return;
     }
-    showSuccess("OTP verified! Proceed to reset password.");
-    navigate("/reset-password", { state: { email } });
+
+    try {
+      const response = await apiPost(AuthAPIVerifyOtp, {
+        email,
+        code: finalOtp,
+      });
+
+      if (response?.status === 200) {
+        showSuccess("OTP verified! Proceed to reset password.");
+        navigate("/reset-password", { state: { email } });
+      } else {
+        showError(response?.message || "Invalid OTP. Please try again.");
+      }
+    } catch (error) {
+      showError(error?.message || "Something went wrong. Please try again.");
+    }
   };
 
   const handleBack = () => navigate("/login");
