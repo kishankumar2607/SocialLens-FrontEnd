@@ -1,5 +1,5 @@
 import React from "react";
-import Routes from "./Routes";
+import Routes from "./routes/Routes";
 import { ToastContainer } from "react-toastify";
 import MetaDataComponent from "./utils/metaDataComponent";
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import Icon from "../components/AppIcon";
+import ProtectedRoute from "../routes/ProtectedRoute";
 
 const SecondLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -63,7 +64,9 @@ const SecondLayout = ({ children }) => {
         )}
 
         {/* Page children */}
-        <main className="flex-1 overflow-y-auto">{children}</main>
+        <ProtectedRoute>
+          <main className="flex-1 overflow-y-auto">{children}</main>
+        </ProtectedRoute>
       </div>
     </div>
   );

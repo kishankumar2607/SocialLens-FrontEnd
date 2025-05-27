@@ -1,37 +1,37 @@
 import React from "react";
 import { Routes as RouterRoutes, Route } from "react-router-dom";
-import ScrollToTop from "./components/ScrollToTop";
-import ErrorBoundary from "./components/ErrorBoundary";
-import MainLayout from "./layouts/MainLayout";
-import SecondLayout from "./layouts/SecondLayout";
-import LandingPage from "./pages/landingpage";
-import Homepage from "./pages/homepage";
-import Dashboard from "./pages/dashboard";
-import CreatePost from "./pages/create-post";
-import NotFound from "./pages/not-found";
-import LoginPage from "./pages/login";
-import RegisterPage from "./pages/register";
-import PrivacyPolicy from "./pages/privacy-policy";
-import TermsOfService from "./pages/terms-of-service";
-import Cookie from "./pages/cookie";
-import ContactPage from "./pages/contact-us";
-import AboutPage from "./pages/about";
-import Careers from "./pages/careers";
-import SupportPage from "./pages/support";
-import GuidesPage from "./pages/guides";
-import ApiReferencePage from "./pages/api-reference";
-import DocumentationPage from "./pages/documentation";
-import BlogListPage from "./pages/blogs";
-import BlogDetailPage from "./pages/blogs/BlogDetailPage";
-import FeaturesPage from "./pages/features";
-import PricingPage from "pages/pricing";
-import IntegrationsPage from "./pages/integrations";
-import ChangelogPage from "./pages/changelog";
-import ForgotPasswordPage from "./pages/forgot-password";
-import EnterOtpPage from "./pages/otp";
-import ResetPasswordPage from "./pages/reset-password";
-import SettingsPage from "./pages/settings";
-import AnalyticsPage from "./pages/analytics";
+import ScrollToTop from "../components/ScrollToTop";
+import ErrorBoundary from "../components/ErrorBoundary";
+import MainLayout from "../layouts/MainLayout";
+import SecondLayout from "../layouts/SecondLayout";
+import LandingPage from "../pages/landingpage";
+import Homepage from "../pages/homepage";
+import Dashboard from "../pages/dashboard";
+import CreatePost from "../pages/create-post";
+import NotFound from "../pages/not-found";
+import LoginPage from "../pages/login";
+import RegisterPage from "../pages/register";
+import PrivacyPolicy from "../pages/privacy-policy";
+import TermsOfService from "../pages/terms-of-service";
+import Cookie from "../pages/cookie";
+import ContactPage from "../pages/contact-us";
+import AboutPage from "../pages/about";
+import Careers from "../pages/careers";
+import SupportPage from "../pages/support";
+import GuidesPage from "../pages/guides";
+import ApiReferencePage from "../pages/api-reference";
+import DocumentationPage from "../pages/documentation";
+import BlogListPage from "../pages/blogs";
+import BlogDetailPage from "../pages/blogs/BlogDetailPage";
+import FeaturesPage from "../pages/features";
+import PricingPage from "../pages/pricing";
+import IntegrationsPage from "../pages/integrations";
+import ChangelogPage from "../pages/changelog";
+import ForgotPasswordPage from "../pages/forgot-password";
+import EnterOtpPage from "../pages/otp";
+import ResetPasswordPage from "../pages/reset-password";
+import SettingsPage from "../pages/settings";
+import AnalyticsPage from "../pages/analytics";
 
 const Routes = () => {
   return (
@@ -80,7 +80,7 @@ const Routes = () => {
           }
         />
         <Route
-        path="/reset-password"
+          path="/reset-password"
           element={
             <MainLayout>
               <ResetPasswordPage />
