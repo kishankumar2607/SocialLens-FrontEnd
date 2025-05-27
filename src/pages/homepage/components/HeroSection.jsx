@@ -40,7 +40,7 @@ const HeroSection = () => {
   return (
     <div 
       ref={heroRef}
-      className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden"
+      className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-16 overflow-hidden"
     >
       {/* Animated background glow effect */}
       <div 
@@ -130,7 +130,7 @@ const HeroSection = () => {
         </div>
         
         {/* Stats section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
           <div className="card-metric bg-surface-dark bg-opacity-70 backdrop-blur-sm">
             <div className="flex flex-col items-center p-6 text-center">
               <Icon name="Users" size={32} className="text-primary mb-4" />
@@ -158,7 +158,7 @@ const HeroSection = () => {
       </div>
       
       {/* Footer */}
-      <footer className="absolute bottom-0 w-full py-4 text-center text-text-tertiary text-sm">
+      <footer className="absolute bottom-0 w-full py-8 text-center text-text-tertiary text-sm">
         <p>© {new Date().getFullYear()} SocialLens. All rights reserved.</p>
       </footer>
     </div>

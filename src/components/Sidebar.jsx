@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { decryptData } from "../utils/encryptDecryptData";
-import { getCookie } from "../utils/utils";
+import { getCookie, deleteAllCookies } from "../utils/utils";
 import Icon from "./AppIcon";
+import Swal from "sweetalert2";
 
 const Sidebar = ({
   variant = "expanded",
@@ -11,6 +12,7 @@ const Sidebar = ({
   className = "",
 }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [currentVariant, setCurrentVariant] = useState(variant);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -89,6 +91,22 @@ const Sidebar = ({
     return location.pathname === path;
   };
 
+  const handleLogOut = () => {
+    Swal.fire({
+      title: "Are you sure you want to log out?",
+      showCancelButton: true,
+      confirmButtonText: "Yes, log out",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Clear cookies or perform logout logic here
+        deleteAllCookies();
+        navigate("/");
+        Swal.fire("Logged out successfully", "", "success");
+      }
+    });
+  };
+
   // Expanded sidebar
   if (currentVariant === "expanded") {
     return (
@@ -154,7 +172,10 @@ const Sidebar = ({
               </p>
               <p className="text-xs text-text-tertiary">Admin</p>
             </div>
-            <button className="ml-auto text-text-tertiary hover:text-text-primary p-1 rounded-md hover:bg-surface-medium transition-colors duration-200">
+            <button
+              onClick={() => handleLogOut()}
+              className="ml-auto text-text-tertiary hover:text-text-primary p-1 rounded-md hover:bg-surface-medium transition-colors duration-200"
+            >
               <Icon name="LogOut" size={18} />
             </button>
           </div>

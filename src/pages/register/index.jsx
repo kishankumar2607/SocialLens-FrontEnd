@@ -9,10 +9,10 @@ import { showError, showSuccess } from "../../utils/helperFunction";
 const RegisterPage = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    name: "Kishan",
-    email: "kishan@test.com",
-    password: "Kishan@123",
-    confirmPassword: "Kishan@123",
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
