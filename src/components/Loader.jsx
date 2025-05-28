@@ -5,10 +5,11 @@ const Loader = () => {
   //styles for the loader
   const loaderStyles = {
     width: "100%",
-    height: "90vh",
+    height: "100vh",
     position: "fixed",
     left: 0,
     top: 0,
+    // backgroundColor: "#111827",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
