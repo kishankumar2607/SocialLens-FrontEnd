@@ -1,6 +1,6 @@
 import React from "react";
 
-const PricingCard = ({ title, price, features, popular }) => {
+const PricingCard = ({ title, price, features, popular, onClick }) => {
   return (
     <div
       className={`bg-surface-dark rounded-xl border border-border-dark p-8 shadow-lg transform transition hover:scale-105 ${
@@ -22,7 +22,7 @@ const PricingCard = ({ title, price, features, popular }) => {
           </li>
         ))}
       </ul>
-      <button className="btn-primary w-full">Choose {title}</button>
+      <button className="btn-primary w-full" onClick={onClick}>Choose {title}</button>
     </div>
   );
 };
