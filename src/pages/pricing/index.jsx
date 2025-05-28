@@ -1,6 +1,7 @@
 import React from "react";
 import PricingCard from "../../components/PricingCard";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const pricingPlans = [
   {
@@ -57,6 +58,29 @@ const faqs = [
 ];
 
 const PricingPage = () => {
+  const handlePlanSelection = (plan) => {
+    // Handle plan selection logic here
+    console.log(`Selected plan: ${plan.title}`);
+
+    Swal.fire({
+      title: "Plan Selected",
+      text: `You have selected the ${plan.title} plan.`,
+      icon: "info",
+      confirmButtonText: "Continue",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Working on it!",
+          text: "We are working on this feature. Stay tuned!",
+          icon: "info",
+          timer: 3000,
+          showCancelButton: false,
+          showConfirmButton: false,
+        });
+      }
+    });
+  };
+
   return (
     <div className="relative min-h-screen bg-background-dark text-white overflow-hidden">
       {/* Background Glow */}
@@ -82,6 +106,9 @@ const PricingPage = () => {
               price={plan.price}
               features={plan.features}
               popular={plan.popular}
+              onClick={() => {
+                handlePlanSelection(plan);
+              }}
             />
           ))}
         </div>
