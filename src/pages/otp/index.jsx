@@ -63,7 +63,7 @@ const EnterOtpPage = () => {
 
       if (response?.status === 200) {
         showSuccess("OTP verified! Proceed to reset password.");
-        navigate("/reset-password", { state: { email } });
+        navigate("/reset-password", { state: { email, resetCode: finalOtp } });
       } else {
         showError(response?.message || "Invalid OTP. Please try again.");
       }

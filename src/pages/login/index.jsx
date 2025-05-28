@@ -5,7 +5,7 @@ import { AuthAPILogin } from "../../api/api";
 import { apiPost, setCookie } from "../../utils/utils";
 import loginIllustration from "../../assets/images/loginIllustration.jpg";
 import { showError, showSuccess } from "../../utils/helperFunction";
-import {encryptData} from "../../utils/encryptDecryptData";
+import { encryptData } from "../../utils/encryptDecryptData";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -49,19 +49,23 @@ const LoginPage = () => {
         };
         const response = await apiPost(AuthAPILogin, payload);
         // console.log("Response:", response);
-        if (response?.token && response?.user) {
+
+        const { token, user } = response?.data || {};
+
+        // console.log("Token:", token);
+        // console.log("User:", user);
+
+        if (token && user) {
           showSuccess("Login successful");
-          const userToken = encryptData(response.token);
-          const userName = encryptData(response.user.name);
-          const userEmail = encryptData(response.user.email);
+          const userToken = encryptData(token);
+          const userName = encryptData(user.name);
+          const userEmail = encryptData(user.email);
           setCookie("token", userToken, 7);
           setCookie("userName", userName, 7);
           setCookie("userEmail", userEmail, 7);
           navigate("/");
         } else {
-          showError(
-            response?.message || "Login failed. Please check your credentials."
-          );
+          showError("Login failed. Please check your credentials.");
         }
       } catch (error) {
         console.error("Login error:", error);

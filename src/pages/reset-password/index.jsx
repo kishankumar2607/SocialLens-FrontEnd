@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { apiPost } from "../../utils/utils";
+import { AuthAPIResetPassword } from "../../api/api";
 import { showError, showSuccess } from "../../utils/helperFunction";
 import { Eye, EyeOff } from "lucide-react";
 
@@ -10,14 +12,18 @@ const ResetPasswordPage = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const email = location.state?.email;
+  const {email, resetCode} = location.state || {};
+
+  // console.log("Reset Password Page - Email:", email);
+  // console.log("Reset Password Page - OTP:", resetCode);
 
   useEffect(() => {
     if (!email) navigate("/login");
   }, [email, navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (password !== confirm) {
       showError("Passwords do not match.");
       return;
@@ -26,8 +32,20 @@ const ResetPasswordPage = () => {
       showError("Password must be at least 6 characters.");
       return;
     }
-    showSuccess("Password reset successful! Please log in.");
-    navigate("/login");
+
+    try {
+      const response = await apiPost(AuthAPIResetPassword, {
+        email,
+        newPassword: password,
+        resetCode
+      });
+
+      console.log("Reset Password Response:", response);
+      showSuccess(response.data.message);
+      navigate("/login"); 
+    } catch (error) {
+      console.error("Reset Password Error:", error);
+    }
   };
 
   return (
