@@ -2,74 +2,105 @@ import React, { useState } from "react";
 import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
 import TextInput from "../../components/TextInput";
 import TextareaInput from "../../components/TextareaInput";
-import { showError, showSuccess } from "../../utils/helperFunction";
+import { apiPost } from "../../utils/utils";
+import { ContactAPI } from "../../api/api";
+import { showError } from "../../utils/helperFunction";
+import Swal from "sweetalert2";
+import Loader from "../../components/Loader";
+
+const initialState = {
+  isLoading: false,
+  fullName: "",
+  email: "",
+  message: "",
+};
 
 const ContactPage = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
+  const [state, setState] = useState(initialState);
   const [errors, setErrors] = useState({});
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-    setErrors((prev) => ({
-      ...prev,
-      [e.target.name]: "",
-    }));
-  };
+  const { isLoading, fullName, email, message } = state;
 
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
+  // console.log("state value", state);
 
-  const validate = () => {
-    const { name, email, message } = formData;
+  const updateState = (data) =>
+    setState((prevState) => ({ ...prevState, ...data }));
+
+  const validateForm = () => {
     const newErrors = {};
 
-    if (!name) newErrors.name = "Name is required.";
+    // Validate Name
+    if (!fullName) {
+      newErrors.fullName = "Name is required";
+    } else if (!fullName.match(/^[a-zA-Z\s]+$/)) {
+      newErrors.fullName = "Enter valid name";
+    }
+
+    // Validate Email
     if (!email) {
-      newErrors.email = "Email is required.";
-    } else if (!validateEmail(email)) {
-      newErrors.email = "Invalid email format.";
+      newErrors.email = "Email address is required";
+    } else if (
+      !email.match(/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)*(\.[a-z]{2,4})$/i)
+    ) {
+      newErrors.email = "Enter valid email address";
     }
+
+    // Validate Message
     if (!message) {
-      newErrors.message = "Message is required.";
-    } else if (message.length < 10) {
-      newErrors.message = "Message must be at least 10 characters.";
+      newErrors.message = "Message is required";
     }
+    // else if (!/^[a-zA-Z0-9\s]*$/.test(message)) {
+    //   newErrors.message = "Enter valid message";
+    // }
+    // else if (
+    //   message.includes("'") ||
+    //   message.includes('"') ||
+    //   message.includes(";")
+    // ) {
+    //   newErrors.message = "Message contains illegal characters";
+    // }
 
-    return newErrors;
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const params = {
+    fullName,
+    email,
+    message,
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = validate();
+    if (validateForm()) {
+      updateState({ isLoading: true });
+      try {
+        const response = apiPost(ContactAPI, params);
+        // console.log("contact response", response);
 
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      showError("Please fill in all required fields correctly.");
-      return;
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title:
+            "Thank you so much for your interest. We will get back to you shortly.",
+          showConfirmButton: true,
+          timer: 3500,
+        });
+        updateState({ isLoading: false });
+        setState(initialState);
+      } catch (error) {
+        showError(
+          error.errors.fullname || error.errors.email || error.errors.message
+        );
+        updateState({ isLoading: false });
+      }
     }
-
-    showSuccess("Your message has been sent!");
-
-    setFormData({
-      name: "",
-      email: "",
-      message: "",
-    });
-
-    setErrors({});
   };
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className="relative min-h-screen bg-background-dark text-white overflow-hidden px-6 py-16">
       {/* Background Glow */}
       <div className="absolute top-10 left-1/4 w-96 h-96 bg-gradient-to-br from-primary to-neon-purple opacity-10 blur-3xl rounded-full pointer-events-none" />
@@ -114,15 +145,16 @@ const ContactPage = () => {
         {/* Contact Form Section */}
         <div className="bg-surface-dark rounded-xl border border-border-dark p-8 shadow-lg">
           <h3 className="text-2xl font-semibold mb-6">Send a Message</h3>
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6">
             <div>
               <label className="block text-sm mb-1">Full Name</label>
               <TextInput
                 name="name"
-                value={formData.name}
-                onChange={handleChange}
+                type="text"
+                value={fullName}
+                onChange={(fullName) => updateState({ fullName })}
                 placeholder="John Doe"
-                error={errors.name}
+                error={errors.fullName}
               />
             </div>
             <div>
@@ -130,8 +162,8 @@ const ContactPage = () => {
               <TextInput
                 name="email"
                 type="email"
-                value={formData.email}
-                onChange={handleChange}
+                value={email}
+                onChange={(email) => updateState({email})}
                 placeholder="you@example.com"
                 error={errors.email}
               />
@@ -140,14 +172,18 @@ const ContactPage = () => {
               <label className="block text-sm mb-1">Message</label>
               <TextareaInput
                 name="message"
-                value={formData.message}
-                onChange={handleChange}
+                value={message}
+                onChange={(message) => updateState({message})}
                 rows={5}
                 placeholder="Your message..."
                 error={errors.message}
               />
             </div>
-            <button type="submit" className="btn-primary w-full">
+            <button
+              type="submit"
+              className="btn-primary w-full"
+              onClick={(e) => handleSubmit(e)}
+            >
               Send Message
             </button>
           </form>

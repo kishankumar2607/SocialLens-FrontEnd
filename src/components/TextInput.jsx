@@ -6,14 +6,14 @@ const TextInput = ({
   onChange,
   placeholder,
   error,
-  type = "text",
+  type,
 }) => {
   return (
     <div>
       <input
         name={name}
         value={value}
-        onChange={onChange}
+        onChange={(e) => onChange(e.target.value)}
         type={type}
         className="input-default w-full"
         placeholder={placeholder}

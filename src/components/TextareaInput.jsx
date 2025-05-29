@@ -1,19 +1,12 @@
 import React from "react";
 
-const TextareaInput = ({
-  name,
-  value,
-  onChange,
-  placeholder,
-  error,
-  rows,
-}) => {
+const TextareaInput = ({ name, value, onChange, placeholder, error, rows }) => {
   return (
     <div>
       <textarea
         name={name}
         value={value}
-        onChange={onChange}
+        onChange={(e) => onChange(e.target.value)}
         rows={rows}
         className="input-default w-full resize-none"
         placeholder={placeholder}
