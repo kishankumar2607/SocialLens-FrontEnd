@@ -11,3 +11,6 @@ export const AuthAPIResetPassword = AUTH_URL + "/reset-password";
 
 //Contact Api
 export const ContactAPI = Base_URL + "/contact-form";
+
+//Support Api
+export const SupportAPI = Base_URL + "/support-form";

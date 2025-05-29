@@ -8,7 +8,11 @@ import {
 } from "react-icons/fi";
 import TextInput from "../../components/TextInput";
 import TextareaInput from "../../components/TextareaInput";
+import { apiPost } from "../../utils/utils";
+import { SupportAPI } from "../../api/api";
 import { showError, showSuccess } from "../../utils/helperFunction";
+import Swal from "sweetalert2";
+import Loader from "../../components/Loader";
 
 const faqs = [
   {
@@ -28,66 +32,109 @@ const faqs = [
   },
 ];
 
+const initialState = {
+  isLoading: false,
+  fullName: "",
+  email: "",
+  issue: "",
+};
+
 const SupportPage = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    issue: "",
-  });
+  const [state, setState] = useState(initialState);
   const [errors, setErrors] = useState({});
   const [openFaq, setOpenFaq] = useState(null);
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-    setErrors((prev) => ({
-      ...prev,
-      [e.target.name]: "",
-    }));
-  };
+  const { isLoading, fullName, email, issue } = state;
 
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  // console.log("state value", state);
 
-  const validate = () => {
-    const { name, email, issue } = formData;
+  const updateState = (data) =>
+    setState((prevState) => ({ ...prevState, ...data }));
+
+  const validateForm = () => {
     const newErrors = {};
-    if (!name) newErrors.name = "Name is required.";
+
+    // Validate Name
+    if (!fullName) {
+      newErrors.fullName = "Name is required";
+    } else if (!fullName.match(/^[a-zA-Z\s]+$/)) {
+      newErrors.fullName = "Enter valid name";
+    }
+
+    // Validate Email
     if (!email) {
-      newErrors.email = "Email is required.";
-    } else if (!validateEmail(email)) {
-      newErrors.email = "Invalid email format.";
+      newErrors.email = "Email address is required";
+    } else if (
+      !email.match(/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)*(\.[a-z]{2,4})$/i)
+    ) {
+      newErrors.email = "Enter valid email address";
     }
+
+    // Validate Message
     if (!issue) {
-      newErrors.issue = "Please describe your issue.";
+      newErrors.message = "Message is required";
     }
-    return newErrors;
+    // else if (!/^[a-zA-Z0-9\s]*$/.test(message)) {
+    //   newErrors.message = "Enter valid message";
+    // }
+    // else if (
+    //   issue.includes("'") ||
+    //   issue.includes('"') ||
+    //   issue.includes(";")
+    // ) {
+    //   newErrors.message = "Message contains illegal characters";
+    // }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      showError("Please complete all required fields.");
-      return;
-    }
+  const params = {
+    fullName,
+    email,
+    issue,
+  };
 
-    showSuccess("Your support request has been submitted!");
-    setFormData({
-      name: "",
-      email: "",
-      issue: "",
-    });
-    setErrors({});
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      updateState({ isLoading: true });
+      try {
+        const response = await apiPost(SupportAPI, params);
+        const { data, status } = response;
+        // console.log("response data", response);
+        // console.log("support data", data);
+        // console.log("support status", status);
+        if (status === 201) {
+          showSuccess(data.message);
+        }
+        // Swal.fire({
+        //   position: "center",
+        //   icon: "success",
+        //   title:
+        //     "Your support request has been submitted!",
+        //   showConfirmButton: true,
+        //   timer: 3500,
+        // });
+        updateState({ isLoading: false });
+        setState(initialState);
+      } catch (error) {
+        showError(
+          error.errors.fullName || error.errors.email || error.errors.issue
+        );
+        updateState({ isLoading: false });
+      }
+    }
   };
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
   };
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <div className="relative min-h-screen bg-background-dark text-white overflow-hidden px-6 py-16">
       {/* Background Glow */}
       <div className="absolute top-10 left-1/4 w-96 h-96 bg-gradient-to-br from-primary to-neon-purple opacity-10 blur-3xl rounded-full pointer-events-none" />
@@ -168,31 +215,36 @@ const SupportPage = () => {
           <h2 className="text-2xl font-bold mb-6 text-center">
             Submit a Support Request
           </h2>
-          <form className="space-y-6 max-w-lg mx-auto" onSubmit={handleSubmit}>
+          <form className="space-y-6 max-w-lg mx-auto">
             <TextInput
               name="name"
-              value={formData.name}
-              onChange={handleChange}
+              type="text"
+              value={fullName}
+              onChange={(fullName) => updateState({ fullName })}
               placeholder="Full Name"
-              error={errors.name}
+              error={errors.fullName}
             />
             <TextInput
               name="email"
               type="email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(email) => updateState({ email })}
               placeholder="Email Address"
               error={errors.email}
             />
             <TextareaInput
               name="issue"
-              value={formData.issue}
-              onChange={handleChange}
+              value={issue}
+              onChange={(issue) => updateState({ issue })}
               rows={4}
               placeholder="Describe your issue or question..."
               error={errors.issue}
             />
-            <button type="submit" className="btn-primary w-full">
+            <button
+              type="submit"
+              className="btn-primary w-full"
+              onClick={(e) => handleSubmit(e)}
+            >
               Submit Request
             </button>
           </form>

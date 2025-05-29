@@ -4,7 +4,7 @@ import TextInput from "../../components/TextInput";
 import TextareaInput from "../../components/TextareaInput";
 import { apiPost } from "../../utils/utils";
 import { ContactAPI } from "../../api/api";
-import { showError } from "../../utils/helperFunction";
+import { showError, showSuccess } from "../../utils/helperFunction";
 import Swal from "sweetalert2";
 import Loader from "../../components/Loader";
 
@@ -76,17 +76,23 @@ const ContactPage = () => {
     if (validateForm()) {
       updateState({ isLoading: true });
       try {
-        const response = apiPost(ContactAPI, params);
+        const response = await apiPost(ContactAPI, params);
         // console.log("contact response", response);
 
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title:
-            "Thank you so much for your interest. We will get back to you shortly.",
-          showConfirmButton: true,
-          timer: 3500,
-        });
+        const { data, status } = response;
+
+        // Swal.fire({
+        //   position: "center",
+        //   icon: "success",
+        //   title:
+        //     "Thank you so much for your interest. We will get back to you shortly.",
+        //   showConfirmButton: true,
+        //   timer: 3500,
+        // });
+
+        if (status === 201) {
+          showSuccess(data.message);
+        }
         updateState({ isLoading: false });
         setState(initialState);
       } catch (error) {
@@ -163,7 +169,7 @@ const ContactPage = () => {
                 name="email"
                 type="email"
                 value={email}
-                onChange={(email) => updateState({email})}
+                onChange={(email) => updateState({ email })}
                 placeholder="you@example.com"
                 error={errors.email}
               />
@@ -173,7 +179,7 @@ const ContactPage = () => {
               <TextareaInput
                 name="message"
                 value={message}
-                onChange={(message) => updateState({message})}
+                onChange={(message) => updateState({ message })}
                 rows={5}
                 placeholder="Your message..."
                 error={errors.message}
