@@ -1,11 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { getCookie } from "../utils/utils";
+import { getCookie, getSessionStorage } from "../utils/utils";
 import Icon from "./AppIcon";
 
 const Footer = ({ variant = "full" }) => {
   const currentYear = new Date().getFullYear();
-  const token = getCookie("token") ? JSON.parse(getCookie("token")) : null;
+  const token = getCookie("token")
+    ? JSON.parse(getCookie("token"))
+    : getSessionStorage("token")
+    ? getSessionStorage("token")
+    : null;
 
   // console.log("token in footer:", token);
 

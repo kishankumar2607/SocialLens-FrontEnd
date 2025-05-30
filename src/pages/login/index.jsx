@@ -71,7 +71,7 @@ const LoginPage = () => {
             setCookie("userName", userName, 7);
             setCookie("userEmail", userEmail, 7);
           } else {
-            setSessionStorage("tohen", userToken);
+            setSessionStorage("token", userToken);
             setSessionStorage("userName", userName);
             setSessionStorage("userEmail", userEmail);
           }

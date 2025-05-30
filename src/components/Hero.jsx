@@ -1,14 +1,13 @@
 import React from "react";
-import Cookies from "js-cookie";
-import {getCookie} from "../utils/utils";
+import { getCookie, getSessionStorage } from "../utils/utils";
 import heroBg from "../assets/images/hero-background1.jpg";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
-  // Read token and user from cookies
-  const token = getCookie("token") || null;
-  const user = getCookie("userName") || null;
-  
+  // Read token and user from cookies and session
+  const token = getCookie("token") || getSessionStorage("token") || null;
+  const user = getCookie("userName") || getSessionStorage("userName") || null;
+
   // console.log("cookies:", {
   //   token,
   //   user,

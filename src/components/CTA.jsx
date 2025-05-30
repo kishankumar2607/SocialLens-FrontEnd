@@ -1,11 +1,12 @@
 import React from "react";
-import { getCookie } from "../utils/utils";
+import { getCookie, getSessionStorage } from "../utils/utils";
 import { Link } from "react-router-dom";
 
 const CTA = () => {
-  // Read token and user from cookies
-  const token = getCookie("token") || null;
-  const user = getCookie("userName") || null;
+  // Read token and user from cookies and session
+  const token = getCookie("token") || getSessionStorage("token") || null;
+  const user = getCookie("userName") || getSessionStorage("userName") || null;
+
   return (
     <section className="py-20 px-4 bg-surface-medium text-center">
       <h2 className="text-3xl font-semibold mb-4">

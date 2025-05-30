@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { decryptData } from "../utils/encryptDecryptData";
-import { getCookie, deleteAllCookies } from "../utils/utils";
+import {
+  getCookie,
+  deleteAllCookies,
+  getSessionStorage,
+  clearAllSessionStorage,
+} from "../utils/utils";
 import Icon from "./AppIcon";
 import Swal from "sweetalert2";
 import { showSuccess } from "../utils/helperFunction";
@@ -18,7 +23,11 @@ const Sidebar = ({
   const [isMobile, setIsMobile] = useState(false);
 
   // Read token and user from cookies
-  const user = getCookie("userName") ? JSON.parse(getCookie("userName")) : null;
+  const user = getCookie("userName")
+    ? JSON.parse(getCookie("userName"))
+    : getSessionStorage("userName")
+    ? getSessionStorage("userName")
+    : null;
 
   const decryptUser = decryptData(user) || null;
   // console.log("Decrypted user:", decryptUser);
@@ -103,8 +112,9 @@ const Sidebar = ({
       confirmButtonText: "Yes, logout!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Delete all cookies
+        // Delete all cookies and session
         deleteAllCookies();
+        clearAllSessionStorage();
         // Redirect to login page
         navigate("/login");
         showSuccess("Logged out successfully");

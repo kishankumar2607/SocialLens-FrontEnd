@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { deleteAllCookies } from "../utils/utils";
+import { deleteAllCookies, clearAllSessionStorage } from "../utils/utils";
 import { showSuccess } from "../utils/helperFunction";
 import Button from "./Button";
 import Swal from "sweetalert2";
@@ -18,7 +18,7 @@ const Header = ({ variant = "default", user = null, token = null }) => {
 
   //Logout Method
   const handleLogout = () => {
-    console.log("Logout method called");
+    // console.log("Logout method called");
     Swal.fire({
       title: "Are you sure you want to logout?",
       text: "You will be logged out of your account.",
@@ -31,6 +31,7 @@ const Header = ({ variant = "default", user = null, token = null }) => {
       if (result.isConfirmed) {
         // Delete all cookies
         deleteAllCookies();
+        clearAllSessionStorage();
         // Redirect to login page
         navigate("/login");
         showSuccess("Logged out successfully");
