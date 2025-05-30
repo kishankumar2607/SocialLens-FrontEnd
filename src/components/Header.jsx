@@ -1,17 +1,42 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import Icon from "./AppIcon";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { deleteAllCookies } from "../utils/utils";
+import { showSuccess } from "../utils/helperFunction";
 import Button from "./Button";
+import Swal from "sweetalert2";
 
 const Header = ({ variant = "default", user = null, token = null }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // console.log("Header props:", {
   //   variant,
   //   user,
   //   token,
   //   });
+
+  //Logout Method
+  const handleLogout = () => {
+    console.log("Logout method called");
+    Swal.fire({
+      title: "Are you sure you want to logout?",
+      text: "You will be logged out of your account.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, logout!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Delete all cookies
+        deleteAllCookies();
+        // Redirect to login page
+        navigate("/login");
+        showSuccess("Logged out successfully");
+      }
+    });
+  };
 
   // Logo component
   const Logo = () => (
@@ -44,7 +69,7 @@ const Header = ({ variant = "default", user = null, token = null }) => {
           </span>
         </div>
         <div className="hidden md:block">
-          <p className="text-sm font-medium text-white">
+          <p className="text-sm font-bold text-white">
             {user.length > 15 ? user?.split(" ")[0] || "User" : user || "User"}
           </p>
           {/* <p className="text-xs text-text-tertiary">{user?.role || "Member"}</p> */}
@@ -92,7 +117,15 @@ const Header = ({ variant = "default", user = null, token = null }) => {
 
             <div className="flex items-center space-x-4">
               {user && token ? (
-                <UserProfile />
+                <>
+                  <UserProfile />
+                  <button
+                    className="btn-primary"
+                    onClick={() => handleLogout()}
+                  >
+                    Logout
+                  </button>
+                </>
               ) : (
                 <Link
                   to="/login"
@@ -119,26 +152,52 @@ const Header = ({ variant = "default", user = null, token = null }) => {
               >
                 Home
               </Link>
-              <Link
-                to="/dashboard"
-                className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  location.pathname === "/dashboard"
-                    ? "bg-primary/20 text-white"
-                    : "text-text-secondary hover:bg-surface-medium hover:text-white"
-                }`}
-              >
-                Dashboard
-              </Link>
-              <Link
-                to="/create-post"
-                className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  location.pathname === "/create-post"
-                    ? "bg-primary/20 text-white"
-                    : "text-text-secondary hover:bg-surface-medium hover:text-white"
-                }`}
-              >
-                Create Post
-              </Link>
+              {user && token ? (
+                <Link
+                  to="/homepage"
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    location.pathname === "/homepage"
+                      ? "bg-primary/20 text-white"
+                      : "text-text-secondary hover:bg-surface-medium hover:text-white"
+                  }`}
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    location.pathname === "/login"
+                      ? "bg-primary/20 text-white"
+                      : "text-text-secondary hover:bg-surface-medium hover:text-white"
+                  }`}
+                >
+                  Dashboard
+                </Link>
+              )}
+              {user && token ? (
+                <Link
+                  to="/create-post"
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    location.pathname === "/create-post"
+                      ? "bg-primary/20 text-white"
+                      : "text-text-secondary hover:bg-surface-medium hover:text-white"
+                  }`}
+                >
+                  Create Post
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    location.pathname === "/login"
+                      ? "bg-primary/20 text-white"
+                      : "text-text-secondary hover:bg-surface-medium hover:text-white"
+                  }`}
+                >
+                  Create Post
+                </Link>
+              )}
             </div>
           </div>
         )}

@@ -4,6 +4,7 @@ import { decryptData } from "../utils/encryptDecryptData";
 import { getCookie, deleteAllCookies } from "../utils/utils";
 import Icon from "./AppIcon";
 import Swal from "sweetalert2";
+import { showSuccess } from "../utils/helperFunction";
 
 const Sidebar = ({
   variant = "expanded",
@@ -93,16 +94,20 @@ const Sidebar = ({
 
   const handleLogOut = () => {
     Swal.fire({
-      title: "Are you sure you want to log out?",
+      title: "Are you sure you want to logout?",
+      text: "You will be logged out of your account.",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, log out",
-      cancelButtonText: "Cancel",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, logout!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Clear cookies or perform logout logic here
+        // Delete all cookies
         deleteAllCookies();
-        navigate("/");
-        Swal.fire("Logged out successfully", "", "success");
+        // Redirect to login page
+        navigate("/login");
+        showSuccess("Logged out successfully");
       }
     });
   };
