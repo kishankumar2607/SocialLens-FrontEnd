@@ -41,9 +41,7 @@ const ForgotPasswordPage = () => {
 };
 
 
-  return loading ? (
-    <Loader />
-  ) : (
+  return (
     <div className="relative min-h-screen bg-background-dark text-white px-4 py-16 flex justify-center items-center">
       <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-gradient-to-br from-primary to-neon-purple opacity-20 blur-3xl rounded-full" />
       <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-gradient-to-tr from-neon-blue to-primary opacity-20 blur-2xl rounded-full" />
@@ -66,6 +64,7 @@ const ForgotPasswordPage = () => {
           You will receive a 6-digit OTP in your inbox.
         </p>
       </div>
+      {loading && <Loader />}
     </div>
   );
 };

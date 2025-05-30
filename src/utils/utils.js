@@ -15,7 +15,7 @@ function parseJSONSafely(str, fallback = null) {
 // Get headers with token
 export async function getHeaders() {
   if (isClient) {
-    const userDataStr = Cookies.get("userData");
+    const userDataStr = Cookies.get("userData") || sessionStorage.getItem("userData");
     const userData = parseJSONSafely(userDataStr);
 
     if (userData?.token) {
