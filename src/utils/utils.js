@@ -17,7 +17,7 @@ export async function getHeaders() {
   if (isClient) {
     const userDataStr = Cookies.get("userData");
     const userData = parseJSONSafely(userDataStr);
-    
+
     if (userData?.token) {
       return {
         Authorization: `Bearer ${userData.token}`,
@@ -28,7 +28,13 @@ export async function getHeaders() {
 }
 
 // Generic API request handler
-export async function apiReq(endPoint, data = {}, method, headers = {}, requestOptions = {}) {
+export async function apiReq(
+  endPoint,
+  data = {},
+  method,
+  headers = {},
+  requestOptions = {}
+) {
   try {
     const tokenHeader = await getHeaders();
     headers = { ...tokenHeader, ...headers };
@@ -43,7 +49,10 @@ export async function apiReq(endPoint, data = {}, method, headers = {}, requestO
       };
       response = await axios[method](endPoint, config);
     } else {
-      response = await axios[method](endPoint, data, { ...requestOptions, headers });
+      response = await axios[method](endPoint, data, {
+        ...requestOptions,
+        headers,
+      });
     }
 
     const responseData = response.data;
@@ -99,13 +108,18 @@ export function setUserAuthState(isAuthenticated) {
 }
 
 export function getUserAuthState() {
-  return isClient ? JSON.parse(localStorage.getItem("isAuthenticated")) === true : false;
+  return isClient
+    ? JSON.parse(localStorage.getItem("isAuthenticated")) === true
+    : false;
 }
 
 // Local storage helpers
 export function setLocalStorage(key, value) {
   if (isClient) {
-    localStorage.setItem(key, typeof value === "string" ? value : JSON.stringify(value));
+    localStorage.setItem(
+      key,
+      typeof value === "string" ? value : JSON.stringify(value)
+    );
   }
 }
 
@@ -126,6 +140,35 @@ export function deleteLocalStorage(key) {
 export function clearAllLocalStorage() {
   if (isClient) {
     localStorage.clear();
+  }
+}
+
+//Session storage helper
+export function setSessionStorage(key, value) {
+  if (isClient) {
+    sessionStorage.setItem(
+      key,
+      typeof value === "string" ? value : JSON.stringify(value)
+    );
+  }
+}
+
+export function getSessionStorage(key) {
+  if (isClient) {
+    const value = sessionStorage.getItem(key);
+    return parseJSONSafely(value, value);
+  }
+}
+
+export function deleteSessionStorage(key) {
+  if (isClient) {
+    sessionStorage.removeItem(key);
+  }
+}
+
+export function clearAllSessionStorage() {
+  if (isClient) {
+    sessionStorage.clear();
   }
 }
 

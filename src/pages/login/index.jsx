@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AwardIcon, Eye, EyeOff } from "lucide-react";
 import { AuthAPILogin } from "../../api/api";
-import { apiPost, setCookie } from "../../utils/utils";
+import { apiPost, setCookie, setSessionStorage } from "../../utils/utils";
 import loginIllustration from "../../assets/images/loginIllustration.jpg";
 import { showError, showSuccess } from "../../utils/helperFunction";
 import { encryptData } from "../../utils/encryptDecryptData";
@@ -14,6 +14,7 @@ const LoginPage = () => {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   // Regex validators
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -64,9 +65,17 @@ const LoginPage = () => {
           const userToken = encryptData(token);
           const userName = encryptData(user.name);
           const userEmail = encryptData(user.email);
-          setCookie("token", userToken, 7);
-          setCookie("userName", userName, 7);
-          setCookie("userEmail", userEmail, 7);
+
+          if (rememberMe) {
+            setCookie("token", userToken, 7);
+            setCookie("userName", userName, 7);
+            setCookie("userEmail", userEmail, 7);
+          } else {
+            setSessionStorage("tohen", userToken);
+            setSessionStorage("userName", userName);
+            setSessionStorage("userEmail", userEmail);
+          }
+
           navigate("/");
           setLoading(false);
         } else {
@@ -154,7 +163,11 @@ const LoginPage = () => {
 
                 <div className="flex justify-between items-center text-sm">
                   <label className="flex items-center gap-2">
-                    <input type="checkbox" />
+                    <input
+                      type="checkbox"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                    />
                     Remember me
                   </label>
                   <Link
