@@ -1,17 +1,19 @@
 import React from "react";
 import { getCookie, getSessionStorage } from "../utils/utils";
+import { decryptData } from "../utils/encryptDecryptData";
 import heroBg from "../assets/images/hero-background1.jpg";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
   // Read token and user from cookies and session
   const token = getCookie("token") || getSessionStorage("token") || null;
-  const user = getCookie("userName") || getSessionStorage("userName") || null;
+  const user =
+    JSON.parse(getCookie("userName")) || getSessionStorage("userName") || null;
 
-  // console.log("cookies:", {
-  //   token,
-  //   user,
-  // });
+  const decryptUser = decryptData(user);
+
+  // console.log("User Data:", user);
+  // console.log("decrypt User : ", decryptUser);
 
   return (
     <section
@@ -28,6 +30,14 @@ const Hero = () => {
       </div>
 
       <div className="relative z-10">
+        {user && (
+          <h2 className="text-4xl font-bold text-white tracking-tight mb-4">
+            Hello{" "}
+            <span className="bg-gradient-to-r from-primary to-neon-purple bg-clip-text text-transparent">
+              {decryptUser}
+            </span>
+          </h2>
+        )}
         <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight">
           Welcome to{" "}
           <span className="bg-gradient-to-r from-primary to-neon-purple bg-clip-text text-transparent">
