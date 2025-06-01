@@ -1,19 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getCookie, getSessionStorage } from "../utils/utils";
 import { decryptData } from "../utils/encryptDecryptData";
 import heroBg from "../assets/images/hero-background1.jpg";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 const Hero = () => {
+  const [greetingMessage, setGreetingMessage] = useState("");
   // Read token and user from cookies and session
   const token = getCookie("token") || getSessionStorage("token") || null;
-  const user =
-    JSON.parse(getCookie("userName")) || getSessionStorage("userName") || null;
+  const userFromCookie = getCookie("userName");
+  const userFromSession = getSessionStorage("userName");
 
-  const decryptUser = decryptData(user);
+  let user = null;
+
+  if (userFromCookie) {
+    try {
+      user = JSON.parse(userFromCookie);
+    } catch (e) {
+      console.error("Error parsing userFromCookie:", e);
+      user = userFromSession;
+    }
+  } else {
+    user = userFromSession;
+  }
+
+  const decryptUser = user ? decryptData(user) : null;
+
+  const hour = moment().hour();
 
   // console.log("User Data:", user);
   // console.log("decrypt User : ", decryptUser);
+  // console.log("Hour: ", hour);
+
+  //Function to display greeting message as per the local time
+  const displayGreeting = () => {
+    if (hour >= 6 && hour < 12) {
+      return setGreetingMessage("Good Morning");
+    } else if (hour >= 12 && hour < 18) {
+      return setGreetingMessage("Good Afternoon");
+    } else {
+      return setGreetingMessage("Good Evening");
+    }
+  };
+
+  useEffect(() => {
+    displayGreeting();
+  }, []);
 
   return (
     <section
@@ -22,8 +55,6 @@ const Hero = () => {
         backgroundImage: `url(${heroBg})`,
       }}
     >
-      {/* <div className="absolute inset-0 bg-gradient-to-br from-background-dark/40 to-black/30 backdrop-blur-md z-0" /> */}
-
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/3 left-1/4 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-br from-primary to-neon-purple opacity-30 blur-[100px] md:blur-[150px] rounded-full animate-pulse-slow z-0" />
         <div className="absolute bottom-1/4 right-1/4 w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 bg-gradient-to-tr from-neon-blue to-primary opacity-20 blur-[100px] md:blur-[150px] rounded-full animate-pulse-slow z-0" />
@@ -32,7 +63,7 @@ const Hero = () => {
       <div className="relative z-10">
         {user && (
           <h2 className="text-4xl font-bold text-white tracking-tight mb-4">
-            Hello{" "}
+            {greetingMessage}{" "}
             <span className="bg-gradient-to-r from-primary to-neon-purple bg-clip-text text-transparent">
               {decryptUser}
             </span>
