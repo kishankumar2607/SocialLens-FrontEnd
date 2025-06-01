@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AwardIcon, Eye, EyeOff } from "lucide-react";
 import { AuthAPILogin } from "../../api/api";
 import { apiPost, setCookie, setSessionStorage } from "../../utils/utils";
-import loginIllustration from "../../assets/images/loginIllustration.jpg";
+import loginIllustration from "../../assets/images/loginImage.jpg";
 import { showError, showSuccess } from "../../utils/helperFunction";
 import { encryptData } from "../../utils/encryptDecryptData";
 import Loader from "../../components/Loader";
@@ -101,12 +101,12 @@ const LoginPage = () => {
           <img
             src={loginIllustration}
             alt="Login Visual"
-            style={{ height: "485px", width: "100%", objectFit: "cover" }}
+            style={{ height: "100%", width: "100%", objectFit: "cover" }}
           />
         </div>
 
         <div className="w-full lg:w-1/2 p-8 md:p-12">
-          <div className="text-center mb-8">
+          <div className="text-center mb-8 lg:pt-8">
             <h2 className="text-3xl font-bold mb-2">Welcome Back</h2>
             <p className="text-text-secondary text-base">
               Login to your{" "}
