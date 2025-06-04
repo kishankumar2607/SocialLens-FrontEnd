@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import Testimonials from "../../components/Testimonials";
 import { Link } from "react-router-dom";
-import {
-  FiChevronDown,
-  FiChevronUp,
-  FiZap,
-  FiBarChart2,
-} from "react-icons/fi";
+import { getCookie, getSessionStorage } from "../../utils/utils.js";
+import Testimonials from "../../components/Testimonials";
+import { FiChevronDown, FiChevronUp, FiZap, FiBarChart2 } from "react-icons/fi";
 import { FaHandshake, FaRobot } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { MdPublish } from "react-icons/md";
@@ -56,19 +52,19 @@ const achieveMore = [
 
 const features = [
   {
-    icon: <IoMdTime  className="text-primary text-4xl" />,
+    icon: <IoMdTime className="text-primary text-4xl" />,
     title: "Real-Time Analytics",
     description:
       "Get instant insights into engagement, impressions, and reach across all channels.",
   },
   {
-    icon: <FaRobot  className="text-primary text-4xl" />,
+    icon: <FaRobot className="text-primary text-4xl" />,
     title: "AI-Powered Listening",
     description:
       "Identify trending topics and sentiment before your competitors do.",
   },
   {
-    icon: <MdPublish  className="text-primary text-4xl" />,
+    icon: <MdPublish className="text-primary text-4xl" />,
     title: "Smart Publishing",
     description:
       "Schedule, review, and approve posts in one intuitive calendar view.",
@@ -77,6 +73,17 @@ const features = [
 
 const TryForFree = () => {
   const [openFaq, setOpenFaq] = useState(null);
+
+  const token = getCookie("token")
+    ? JSON.parse(getCookie("token"))
+    : getSessionStorage("token")
+    ? getSessionStorage("token")
+    : null;
+  const user = getCookie("userName")
+    ? JSON.parse(getCookie("userName"))
+    : getSessionStorage("userName")
+    ? getSessionStorage("userName")
+    : null;
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -94,14 +101,15 @@ const TryForFree = () => {
             insights—completely free for 30 days.
           </p>
           <form className="mt-6 flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <input
-              type="email"
-              placeholder="Enter your work email"
-              className="w-full sm:w-80 px-4 py-3 bg-slate-800 border border-slate-700 rounded-md placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-2"
-            />
-            <Link to="/login" className="btn-primary px-4 py-3">
-              Start Free Trial
-            </Link>
+            {user && token ? (
+              <Link to="/homepage" className="btn-primary px-4 py-3">
+                Start Free Trial
+              </Link>
+            ) : (
+              <Link to="/login" className="btn-primary px-4 py-3">
+                Start Free Trial
+              </Link>
+            )}
           </form>
           <p className="mt-2 text-sm text-gray-500">No credit card required.</p>
         </div>
@@ -181,7 +189,9 @@ const TryForFree = () => {
 
       <section className="relative z-10 px-6 py-24 bg-slate-950">
         <div className="max-w-7xl mx-auto space-y-14">
-          <h2 className="text-4xl text-center font-bold text-white">Core Features</h2>
+          <h2 className="text-4xl text-center font-bold text-white">
+            Core Features
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((item, index) => {
               return (
