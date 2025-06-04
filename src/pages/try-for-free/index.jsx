@@ -1,19 +1,11 @@
 import React from "react";
-
-// import FeatureImg1 from "../assets/feature1.png";
-// import FeatureImg2 from "../assets/feature2.png";
-// import FeatureImg3 from "../assets/feature3.png";
-// import TestimonialAvatar from "../assets/avatar-testimonial.png";
 import Testimonials from "../../components/Testimonials";
+import { Link } from "react-router-dom";
 
 export default function TryForFree() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-900 text-gray-100">
       <section className="relative flex flex-col justify-center items-center text-center flex-1 px-6 py-20">
-        {/* <div className="absolute inset-0 z-0">
-          <div className="absolute bottom-1/5 right-1/4 w-96 h-96 bg-gradient-to-br from-primary to-neon-purple opacity-30 blur-[150px] rounded-full animate-pulse-slow" />
-          <div className="absolute top-1/4 left-1/4 bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-tr from-neon-blue to-primary opacity-20 blur-[150px] rounded-full animate-pulse-slow" />
-        </div> */}
         <div className="max-w-3xl space-y-6">
           <h1 className="text-5xl font-extrabold leading-tight text-white">
             Drive Impact from Your Social Data.
@@ -26,20 +18,19 @@ export default function TryForFree() {
             <input
               type="email"
               placeholder="Enter your work email"
-              className="w-full sm:w-80 px-4 py-3 bg-slate-800 border border-slate-700 rounded-md placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="w-full sm:w-80 px-4 py-3 bg-slate-800 border border-slate-700 rounded-md placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-2"
             />
-            <button
-              type="submit"
-              className="w-full sm:w-auto px-6 py-3 bg-green-400 text-slate-900 font-semibold rounded-md hover:bg-green-500 transition"
+            <Link
+              to="/login"
+              className="btn-primary px-4 py-3"
             >
               Start Free Trial
-            </button>
+            </Link>
           </form>
           <p className="mt-2 text-sm text-gray-500">No credit card required.</p>
         </div>
       </section>
 
-      {/* “How 30k+ Brands Reach Goals” Table */}
       <section className="py-16 px-6 bg-slate-900">
         <div className="max-w-4xl mx-auto bg-slate-800 rounded-lg overflow-hidden shadow-lg">
           <div className="grid grid-cols-3 bg-slate-950 text-gray-300">
@@ -112,7 +103,6 @@ export default function TryForFree() {
         </div>
       </section>
 
-      {/* Core Features */}
       <section className="py-16 px-6 bg-slate-900">
         <div className="max-w-5xl mx-auto text-center space-y-12">
           <h2 className="text-4xl font-bold text-white">Core Features</h2>
@@ -151,7 +141,6 @@ export default function TryForFree() {
         </div>
       </section>
 
-      {/* Expanded Features */}
       <section className="py-16 px-6 bg-slate-950">
         <div className="max-w-5xl mx-auto text-center space-y-12">
           <h2 className="text-4xl font-bold text-white">
@@ -209,7 +198,6 @@ export default function TryForFree() {
 
       <Testimonials />
 
-      {/* FAQ */}
       <section className="py-16 px-6 bg-slate-950">
         <div className="max-w-3xl mx-auto space-y-8">
           <h2 className="text-4xl font-bold text-white text-center">
