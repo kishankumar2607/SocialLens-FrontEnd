@@ -32,6 +32,7 @@ import EnterOtpPage from "../pages/otp";
 import ResetPasswordPage from "../pages/reset-password";
 import SettingsPage from "../pages/settings";
 import AnalyticsPage from "../pages/analytics";
+import TryForFree from "../pages/try-for-free";
 
 const Routes = () => {
   return (
@@ -84,6 +85,14 @@ const Routes = () => {
           element={
             <MainLayout>
               <ResetPasswordPage />
+            </MainLayout>
+          }
+        />
+        <Route
+          path="/try-for-free"
+          element={
+            <MainLayout>
+              <TryForFree />
             </MainLayout>
           }
         />

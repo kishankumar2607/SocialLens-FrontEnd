@@ -135,6 +135,18 @@ const Header = ({ variant = "default", user = null, token = null }) => {
                   Login
                 </Link>
               )}
+              {user && token ? (
+                <Link
+                  to="/try-for-free"
+                  className="btn-secondary text-sm px-4 py-1.5 rounded-md border border-primary hover:bg-surface-medium"
+                >
+                  Try for free
+                </Link>
+              ) : (
+                <Link to="/try-for-free" className="btn-primary">
+                  Try for free
+                </Link>
+              )}
               <MobileMenuToggle />
             </div>
           </div>
