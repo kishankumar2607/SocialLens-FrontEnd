@@ -1,8 +1,87 @@
-import React from "react";
+import React, { useState } from "react";
 import Testimonials from "../../components/Testimonials";
 import { Link } from "react-router-dom";
+import {
+  FiChevronDown,
+  FiChevronUp,
+  FiZap,
+  FiBarChart2,
+} from "react-icons/fi";
+import { FaHandshake, FaRobot } from "react-icons/fa";
+import { IoMdTime } from "react-icons/io";
+import { MdPublish } from "react-icons/md";
 
-export default function TryForFree() {
+const faqs = [
+  {
+    question: "How quickly can I start my SocialLens trial?",
+    answer:
+      "Immediately. As soon as you sign up, you’ll get access to all core features—no delays.",
+  },
+  {
+    question: "Is my data secure?",
+    answer:
+      "Absolutely. We use AES-256 encryption at rest and TLS-1.3 in transit. Your data belongs to you.",
+  },
+  {
+    question: "What happens when my trial ends?",
+    answer:
+      "You’ll be prompted to choose a paid plan. If you decide not to continue, your trial account will automatically convert to read-only.",
+  },
+  {
+    question: "Do I need a credit card?",
+    answer: "No. We never ask for a credit card during your 30-day free trial.",
+  },
+];
+
+const achieveMore = [
+  {
+    icon: <FiZap className="text-primary text-4xl" />,
+    title: "Advanced Listening",
+    description:
+      "Harness the power of global conversations to spot trends early and respond faster.",
+  },
+  {
+    icon: <FiBarChart2 className="text-primary text-4xl" />,
+    title: "Advocacy Tools",
+    description:
+      "Mobilize your internal teams to share brand stories at scale with one click.",
+  },
+  {
+    icon: <FaHandshake className="text-primary text-4xl" />,
+    title: "Partnerships & Integrations",
+    description:
+      "Connect SocialLens with Salesforce, Slack, and your favorite tools—so data flows seamlessly.",
+  },
+];
+
+const features = [
+  {
+    icon: <IoMdTime  className="text-primary text-4xl" />,
+    title: "Real-Time Analytics",
+    description:
+      "Get instant insights into engagement, impressions, and reach across all channels.",
+  },
+  {
+    icon: <FaRobot  className="text-primary text-4xl" />,
+    title: "AI-Powered Listening",
+    description:
+      "Identify trending topics and sentiment before your competitors do.",
+  },
+  {
+    icon: <MdPublish  className="text-primary text-4xl" />,
+    title: "Smart Publishing",
+    description:
+      "Schedule, review, and approve posts in one intuitive calendar view.",
+  },
+];
+
+const TryForFree = () => {
+  const [openFaq, setOpenFaq] = useState(null);
+
+  const toggleFaq = (index) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-900 text-gray-100">
       <section className="relative flex flex-col justify-center items-center text-center flex-1 px-6 py-20">
@@ -20,10 +99,7 @@ export default function TryForFree() {
               placeholder="Enter your work email"
               className="w-full sm:w-80 px-4 py-3 bg-slate-800 border border-slate-700 rounded-md placeholder-gray-500 text-gray-100 focus:outline-none focus:ring-2"
             />
-            <Link
-              to="/login"
-              className="btn-primary px-4 py-3"
-            >
+            <Link to="/login" className="btn-primary px-4 py-3">
               Start Free Trial
             </Link>
           </form>
@@ -35,8 +111,8 @@ export default function TryForFree() {
         <div className="max-w-4xl mx-auto bg-slate-800 rounded-lg overflow-hidden shadow-lg">
           <div className="grid grid-cols-3 bg-slate-950 text-gray-300">
             <div className="p-6 font-semibold">Where We Excel</div>
-            <div className="p-6 font-semibold">What You’ll Gain</div>
-            <div className="p-6 font-semibold">ROI</div>
+            <div className="py-6 px-2 font-semibold">What You’ll Gain</div>
+            <div className="py-6 font-semibold">ROI</div>
           </div>
           <div className="divide-y divide-slate-700">
             <div className="grid grid-cols-3 items-start p-6">
@@ -103,147 +179,86 @@ export default function TryForFree() {
         </div>
       </section>
 
-      <section className="py-16 px-6 bg-slate-900">
-        <div className="max-w-5xl mx-auto text-center space-y-12">
-          <h2 className="text-4xl font-bold text-white">Core Features</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            <div className="flex flex-col items-center bg-slate-800 rounded-lg p-6 hover:shadow-xl transition-shadow">
-              {/* <img src={FeatureImg1} alt="Feature 1" className="h-16 w-16 mb-4" /> */}
-              <h3 className="text-xl font-semibold text-white mb-2">
-                Real-Time Analytics
-              </h3>
-              <p className="text-gray-400 text-center">
-                Get instant insights into engagement, impressions, and reach
-                across all channels.
-              </p>
-            </div>
-            <div className="flex flex-col items-center bg-slate-800 rounded-lg p-6 hover:shadow-xl transition-shadow">
-              {/* <img src={FeatureImg2} alt="Feature 2" className="h-16 w-16 mb-4" /> */}
-              <h3 className="text-xl font-semibold text-white mb-2">
-                AI-Powered Listening
-              </h3>
-              <p className="text-gray-400 text-center">
-                Identify trending topics and sentiment before your competitors
-                do.
-              </p>
-            </div>
-            <div className="flex flex-col items-center bg-slate-800 rounded-lg p-6 hover:shadow-xl transition-shadow">
-              {/* <img src={FeatureImg3} alt="Feature 3" className="h-16 w-16 mb-4" /> */}
-              <h3 className="text-xl font-semibold text-white mb-2">
-                Smart Publishing
-              </h3>
-              <p className="text-gray-400 text-center">
-                Schedule, review, and approve posts in one intuitive calendar
-                view.
-              </p>
-            </div>
+      <section className="relative z-10 px-6 py-24 bg-slate-950">
+        <div className="max-w-7xl mx-auto space-y-14">
+          <h2 className="text-4xl text-center font-bold text-white">Core Features</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className="flex flex-col items-center text-center bg-slate-800 rounded-xl border border-border-dark p-6 hover:scale-105 hover:border-neon-purple transition-transform shadow-lg"
+                >
+                  {item.icon}
+                  <h3 className="text-xl font-semibold text-white mt-4 mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-400 text-center">
+                    {item.description}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      <section className="py-16 px-6 bg-slate-950">
-        <div className="max-w-5xl mx-auto text-center space-y-12">
-          <h2 className="text-4xl font-bold text-white">
-            Achieve More with Add-Ons
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-slate-800 rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <h3 className="font-semibold text-xl text-green-400 mb-2">
-                Advanced Listening
-              </h3>
-              <p className="text-gray-300">
-                Harness the power of global conversations to spot trends early
-                and respond faster.
-              </p>
-              <a
-                href="/features/listening"
-                className="mt-4 inline-block text-green-400 hover:underline"
-              >
-                Learn more →
-              </a>
+      <div className="max-w-7xl mx-auto relative z-10 px-6 py-24 space-y-14">
+        <h2 className="text-4xl text-center font-bold text-white">
+          Achieve More with Add-Ons
+        </h2>
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {achieveMore.map((item, index) => (
+            <div
+              key={index}
+              className="bg-surface-dark rounded-xl border border-border-dark p-6 hover:scale-105 hover:border-primary-light transition-transform shadow-lg flex flex-col items-center text-center"
+            >
+              {item.icon}
+              <h3 className="text-xl font-semibold mt-4 mb-2">{item.title}</h3>
+              <p className="text-text-secondary text-sm">{item.description}</p>
             </div>
-            <div className="bg-slate-800 rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <h3 className="font-semibold text-xl text-green-400 mb-2">
-                Advocacy Tools
-              </h3>
-              <p className="text-gray-300">
-                Mobilize your internal teams to share brand stories at scale
-                with one click.
-              </p>
-              <a
-                href="/features/advocacy"
-                className="mt-4 inline-block text-green-400 hover:underline"
-              >
-                Learn more →
-              </a>
-            </div>
-            <div className="bg-slate-800 rounded-lg p-6 hover:shadow-lg transition-shadow">
-              <h3 className="font-semibold text-xl text-green-400 mb-2">
-                Partnerships & Integrations
-              </h3>
-              <p className="text-gray-300">
-                Connect SocialLens with Salesforce, Slack, and your favorite
-                tools—so data flows seamlessly.
-              </p>
-              <a
-                href="/features/integrations"
-                className="mt-4 inline-block text-green-400 hover:underline"
-              >
-                Learn more →
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+          ))}
+        </section>
+      </div>
 
       <Testimonials />
 
-      <section className="py-16 px-6 bg-slate-950">
+      <section className="py-24 px-6 bg-slate-950">
         <div className="max-w-3xl mx-auto space-y-8">
-          <h2 className="text-4xl font-bold text-white text-center">
+          <h2 className="text-4xl font-bold text-white text-center pb-4">
             Frequently Asked Questions
           </h2>
-          <div className="space-y-4">
-            <details className="bg-slate-800 rounded-lg p-4">
-              <summary className="cursor-pointer text-lg font-medium text-gray-100 hover:text-green-400">
-                How quickly can I start my SocialLens trial?
-              </summary>
-              <p className="mt-2 text-gray-300">
-                Immediately. As soon as you sign up, you’ll get access to all
-                core features—no delays.
-              </p>
-            </details>
-            <details className="bg-slate-800 rounded-lg p-4">
-              <summary className="cursor-pointer text-lg font-medium text-gray-100 hover:text-green-400">
-                Is my data secure?
-              </summary>
-              <p className="mt-2 text-gray-300">
-                Absolutely. We use AES-256 encryption at rest and TLS-1.3 in
-                transit. Your data belongs to you.
-              </p>
-            </details>
-            <details className="bg-slate-800 rounded-lg p-4">
-              <summary className="cursor-pointer text-lg font-medium text-gray-100 hover:text-green-400">
-                What happens when my trial ends?
-              </summary>
-              <p className="mt-2 text-gray-300">
-                You’ll be prompted to choose a paid plan. If you decide not to
-                continue, your trial account will automatically convert to
-                read-only.
-              </p>
-            </details>
-            <details className="bg-slate-800 rounded-lg p-4">
-              <summary className="cursor-pointer text-lg font-medium text-gray-100 hover:text-green-400">
-                Do I need a credit card?
-              </summary>
-              <p className="mt-2 text-gray-300">
-                No. We never ask for a credit card during your 30-day free
-                trial.
-              </p>
-            </details>
+          <div className="space-y-4 max-w-3xl mx-auto">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="border border-border-dark px-3 py-3 rounded-md"
+              >
+                <button
+                  onClick={() => toggleFaq(index)}
+                  className="flex justify-between items-center w-full text-left text-lg font-semibold focus:outline-none"
+                >
+                  {faq.question}
+                  {openFaq === index ? (
+                    <FiChevronUp className="text-primary" />
+                  ) : (
+                    <FiChevronDown className="text-primary" />
+                  )}
+                </button>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    openFaq === index ? "max-h-40 mt-2" : "max-h-0"
+                  }`}
+                >
+                  <p className="text-text-secondary">{faq.answer}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
     </div>
   );
-}
+};
+
+export default TryForFree;

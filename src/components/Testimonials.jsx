@@ -31,7 +31,7 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section className="py-20 px-4 bg-background-dark relative overflow-x-hidden">
+    <section className="py-24 px-4 bg-background-dark relative overflow-x-hidden">
       <div className="absolute inset-0 z-0">
         <div className="absolute bottom-1/5 right-1/4 w-96 h-96 bg-gradient-to-br from-primary to-neon-purple opacity-30 blur-[150px] rounded-full animate-pulse-slow" />
         <div className="absolute top-1/4 left-1/4 bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-tr from-neon-blue to-primary opacity-20 blur-[150px] rounded-full animate-pulse-slow" />
