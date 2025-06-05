@@ -1,11 +1,70 @@
 import React from "react";
-import { getCookie } from "../../utils/utils";
+import { useNavigate } from "react-router-dom";
+import {
+  getCookie,
+  getSessionStorage,
+  apiDelete,
+  deleteAllCookies,
+  clearAllSessionStorage,
+} from "../../utils/utils";
+import { AuthAPIDeleteAccount } from "../../api/api";
 import { decryptData } from "../../utils/encryptDecryptData";
+import Swal from "sweetalert2";
+import { showError, showSuccess } from "../../utils/helperFunction";
 
 const SettingsPage = () => {
-  const user = JSON.parse(getCookie("userName"));
-  const decryptedDate = decryptData(user);
-  // console.log(decryptedDate);
+  const navigate = useNavigate();
+
+  const user = getCookie("userName")
+    ? JSON.parse(getCookie("userName"))
+    : getSessionStorage("userName")
+    ? getSessionStorage("userName")
+    : null;
+
+  const userEmail = getCookie("userEmail")
+    ? JSON.parse(getCookie("userEmail"))
+    : getSessionStorage("userEmail")
+    ? getSessionStorage("userEmail")
+    : null;
+
+  const decryptedData = decryptData(user);
+  const decryptedEmail = decryptData(userEmail);
+  // console.log(decryptedEmail);
+
+  const deleteApiResponse = async () => {
+    try {
+      const response = await apiDelete(AuthAPIDeleteAccount);
+
+      console.log("delete response", response);
+
+      if (response.status === 200) {
+        showSuccess(response?.data?.message);
+        deleteAllCookies();
+        clearAllSessionStorage();
+        navigate("/register");
+      } else {
+        showError("Failed to delete the account");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = () => {
+    Swal.fire({
+      title: "Are you sure you want to delete account?",
+      text: "This action can't be undone and your data will be lost.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteApiResponse();
+      }
+    });
+  };
 
   return (
     <div className="relative min-h-screen bg-background-dark text-white px-6 py-12">
@@ -17,7 +76,7 @@ const SettingsPage = () => {
         {/* Page Header */}
         <div className="flex items-center gap-4 mb-8">
           <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-neon-purple flex items-center justify-center text-3xl font-bold">
-            {(decryptedDate?.[0] || "U").toUpperCase()}
+            {(decryptedData?.[0] || "U").toUpperCase()}
           </div>
           <div>
             <h1 className="text-3xl font-bold">Settings</h1>
@@ -32,11 +91,13 @@ const SettingsPage = () => {
           <h2 className="text-xl font-semibold mb-4">User Details</h2>
           <input
             type="text"
+            value={decryptedData}
             placeholder="Full Name"
             className="input-default w-full"
           />
           <input
             type="email"
+            value={decryptedEmail}
             placeholder="Email Address"
             className="input-default w-full"
           />
@@ -114,7 +175,10 @@ const SettingsPage = () => {
           <p className="text-text-secondary">
             Deleting your account is permanent and cannot be undone.
           </p>
-          <button className="btn-secondary bg-error hover:bg-error-dark mt-2">
+          <button
+            onClick={() => handleDelete()}
+            className="btn-secondary bg-error hover:bg-error-dark mt-2"
+          >
             Delete My Account
           </button>
         </section>
