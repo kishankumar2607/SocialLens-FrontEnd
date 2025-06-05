@@ -5,6 +5,7 @@ import { apiPost } from "../../utils/utils";
 import { Eye, EyeOff } from "lucide-react";
 import registerIllustration from "../../assets/images/registerIllustration.png";
 import { showError, showSuccess } from "../../utils/helperFunction";
+import Loader from "../../components/Loader";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const RegisterPage = () => {
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const passwordRegex =
@@ -46,6 +48,8 @@ const RegisterPage = () => {
 
     if (Object.keys(validationErrors).length === 0) {
       try {
+        setLoading(true);
+
         const payload = {
           name: form.name,
           email: form.email,
@@ -53,18 +57,21 @@ const RegisterPage = () => {
         };
 
         const response = await apiPost(AuthAPIRegister, payload);
+        const data = response.data;
 
-        if (response?.token && response?.user) {
-          showSuccess("Registration successful!");
+        if (response.status === 201) {
+          // console.log(response);
+          showSuccess(data.message);
           navigate("/login");
+          setLoading(false);
         } else {
-          showError(
-            response?.message || "Registration failed. Please try again."
-          );
+          showError(data?.message || "Registration failed. Please try again.");
+          setLoading(false);
         }
       } catch (error) {
         console.error("Registration failed:", error);
         showError(error?.message || "Registration failed. Please try again.");
+        setLoading(false);
       }
     }
   };
@@ -189,6 +196,7 @@ const RegisterPage = () => {
           </div>
         </div>
       </div>
+      {loading && <Loader />}
     </div>
   );
 };
