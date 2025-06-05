@@ -16,17 +16,34 @@ function parseJSONSafely(str, fallback = null) {
 // Get headers with token
 export async function getHeaders() {
   if (isClient) {
-    const encrypted = JSON.parse(Cookies.get("token")) || sessionStorage.getItem("token");
-    // console.log("encrypted token cookie →", encrypted);
+    const cookieToken = Cookies.get("token");
+    const sessionToken = sessionStorage.getItem("token");
 
-    if (encrypted) {
+    let encryptedTokenStr = cookieToken || sessionToken;
+
+    // console.log("encrypted token from cookie →", cookieToken);
+    // console.log("encrypted token from session →", sessionToken);
+
+    if (!encryptedTokenStr || encryptedTokenStr === "undefined") return {};
+
+    try {
+      // Parse only if token is from cookie
+      const encrypted = cookieToken
+        ? JSON.parse(cookieToken)
+        : encryptedTokenStr;
       const decryptedToken = decryptData(encrypted);
-      // console.log("decrypted token cookie →", decryptedToken);
+
+      // console.log("decrypted token →", decryptedToken);
+
       return {
         Authorization: `Bearer ${decryptedToken}`,
       };
+    } catch (err) {
+      console.warn("Token parsing failed:", err);
+      return {};
     }
   }
+
   return {};
 }
 
