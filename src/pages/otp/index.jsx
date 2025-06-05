@@ -3,12 +3,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { apiPost } from "../../utils/utils";
 import { AuthAPIVerifyOtp } from "../../api/api";
 import { showError, showSuccess } from "../../utils/helperFunction";
+import Loader from "../../components/Loader";
 
 const EnterOtpPage = () => {
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const inputRefs = useRef([]);
   const navigate = useNavigate();
   const location = useLocation();
+  const [loading, setLoading] = useState(false);
   const email = location.state?.email;
 
   useEffect(() => {
@@ -56,6 +58,7 @@ const EnterOtpPage = () => {
     }
 
     try {
+      setLoading(true);
       const response = await apiPost(AuthAPIVerifyOtp, {
         email,
         code: finalOtp,
@@ -64,11 +67,14 @@ const EnterOtpPage = () => {
       if (response?.status === 200) {
         showSuccess("OTP verified! Proceed to reset password.");
         navigate("/reset-password", { state: { email, resetCode: finalOtp } });
+        setLoading(false);
       } else {
         showError(response?.message || "Invalid OTP. Please try again.");
+        setLoading(false);
       }
     } catch (error) {
       showError(error?.message || "Something went wrong. Please try again.");
+      setLoading(false);
     }
   };
 
@@ -109,6 +115,7 @@ const EnterOtpPage = () => {
           ← Back to Login
         </button>
       </div>
+      {loading && <Loader />}
     </div>
   );
 };

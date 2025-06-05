@@ -4,15 +4,17 @@ import { apiPost } from "../../utils/utils";
 import { AuthAPIResetPassword } from "../../api/api";
 import { showError, showSuccess } from "../../utils/helperFunction";
 import { Eye, EyeOff } from "lucide-react";
+import Loader from "../../components/Loader";
 
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const {email, resetCode} = location.state || {};
+  const { email, resetCode } = location.state || {};
 
   // console.log("Reset Password Page - Email:", email);
   // console.log("Reset Password Page - OTP:", resetCode);
@@ -34,17 +36,20 @@ const ResetPasswordPage = () => {
     }
 
     try {
+      setLoading(true);
       const response = await apiPost(AuthAPIResetPassword, {
         email,
         newPassword: password,
-        resetCode
+        resetCode,
       });
 
       console.log("Reset Password Response:", response);
       showSuccess(response.data.message);
-      navigate("/login"); 
+      navigate("/login");
+      setLoading(false);
     } catch (error) {
       console.error("Reset Password Error:", error);
+      setLoading(false);
     }
   };
 
@@ -93,6 +98,7 @@ const ResetPasswordPage = () => {
           </button>
         </form>
       </div>
+      {loading && <Loader />}
     </div>
   );
 };
