@@ -68,6 +68,13 @@ const RegisterPage = () => {
           showError(data?.message || "Registration failed. Please try again.");
           setLoading(false);
         }
+
+        setForm({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
       } catch (error) {
         console.error("Registration failed:", error);
         showError(error?.message || "Registration failed. Please try again.");
