@@ -55,28 +55,30 @@ const LoginPage = () => {
         const response = await apiPost(AuthAPILogin, payload);
         // console.log("Response:", response);
 
-        const { token, user } = response?.data || {};
+        const { message, token, user } = response?.data || {};
 
         // console.log("Token:", token);
         // console.log("User:", user);
 
-        if (token && user) {
-          showSuccess("Login successful");
-          const userToken = encryptData(token);
-          const userName = encryptData(user.name);
-          const userEmail = encryptData(user.email);
+        if (response.status === 200) {
+          showSuccess(message);
 
-          if (rememberMe) {
-            setCookie("token", userToken, 7);
-            setCookie("userName", userName, 7);
-            setCookie("userEmail", userEmail, 7);
-          } else {
-            setSessionStorage("token", userToken);
-            setSessionStorage("userName", userName);
-            setSessionStorage("userEmail", userEmail);
+          if (token && user) {
+            const userToken = encryptData(token);
+            const userName = encryptData(user.name);
+            const userEmail = encryptData(user.email);
+
+            if (rememberMe) {
+              setCookie("token", userToken, 7);
+              setCookie("userName", userName, 7);
+              setCookie("userEmail", userEmail, 7);
+            } else {
+              setSessionStorage("token", userToken);
+              setSessionStorage("userName", userName);
+              setSessionStorage("userEmail", userEmail);
+            }
           }
-
-          navigate("/");
+          navigate("/homepage");
           setLoading(false);
         } else {
           showError("Login failed. Please check your credentials.");
