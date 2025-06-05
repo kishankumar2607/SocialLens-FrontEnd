@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import {
   getCookie,
@@ -11,9 +11,11 @@ import { AuthAPIDeleteAccount } from "../../api/api";
 import { decryptData } from "../../utils/encryptDecryptData";
 import Swal from "sweetalert2";
 import { showError, showSuccess } from "../../utils/helperFunction";
+import Loader from "../../components/Loader";
 
 const SettingsPage = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const user = getCookie("userName")
     ? JSON.parse(getCookie("userName"))
@@ -33,20 +35,24 @@ const SettingsPage = () => {
 
   const deleteApiResponse = async () => {
     try {
+      setLoading(true);
       const response = await apiDelete(AuthAPIDeleteAccount);
 
-      console.log("delete response", response);
+      // console.log("delete response", response);
 
       if (response.status === 200) {
         showSuccess(response?.data?.message);
         deleteAllCookies();
         clearAllSessionStorage();
         navigate("/register");
+        setLoading(false);
       } else {
         showError("Failed to delete the account");
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -183,6 +189,7 @@ const SettingsPage = () => {
           </button>
         </section>
       </div>
+      {loading && <Loader />}
     </div>
   );
 };
