@@ -1,14 +1,51 @@
-import React, { useEffect, useRef } from "react";
-
+import React, { useState, useEffect, useRef } from "react";
 import CTAButton from "./CTAButton";
 import Icon from "../../../components/AppIcon";
+import moment from "moment";
+import { getCookie, getSessionStorage } from "../../../utils/utils";
+import { decryptData } from "../../../utils/encryptDecryptData";
 
 const HeroSection = () => {
   const heroRef = useRef(null);
   const glowRef = useRef(null);
+  const [greetingMessage, setGreetingMessage] = useState("");
+
+  // Read token and user from cookies and session
+  const token = getCookie("token") || getSessionStorage("token") || null;
+  const userFromCookie = getCookie("userName");
+  const userFromSession = getSessionStorage("userName");
+
+  let user = null;
+
+  if (userFromCookie) {
+    try {
+      user = JSON.parse(userFromCookie);
+    } catch (e) {
+      console.error("Error parsing userFromCookie:", e);
+      user = userFromSession;
+    }
+  } else {
+    user = userFromSession;
+  }
+
+  const decryptUser = user ? decryptData(user) : null;
+
+  const hour = moment().hour();
+
+  const displayGreeting = () => {
+    if (hour >= 6 && hour < 12) {
+      return setGreetingMessage("Good Morning");
+    } else if (hour >= 12 && hour < 18) {
+      return setGreetingMessage("Good Afternoon");
+    } else {
+      return setGreetingMessage("Good Evening");
+    }
+  };
 
   // Mouse movement effect for the hero section
   useEffect(() => {
+    displayGreeting();
+
     const handleMouseMove = (e) => {
       if (!heroRef.current || !glowRef.current) return;
 
@@ -72,6 +109,14 @@ const HeroSection = () => {
       {/* Hero content */}
       <div className="relative z-10 max-w-4xl w-full">
         <div className="text-center mb-8">
+          {user && (
+            <h2 className="text-4xl font-bold text-white tracking-tight mb-4">
+              {greetingMessage}{" "}
+              <span className="bg-gradient-to-r from-primary to-neon-purple bg-clip-text text-transparent">
+                {decryptUser}
+              </span>
+            </h2>
+          )}
           <h1 className="flex align-middle justify-center text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-text-secondary">
               Welcome to&nbsp;
