@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { decryptData } from "../utils/encryptDecryptData";
 
 const isClient = typeof window !== "undefined";
 
@@ -15,12 +16,14 @@ function parseJSONSafely(str, fallback = null) {
 // Get headers with token
 export async function getHeaders() {
   if (isClient) {
-    const userDataStr = Cookies.get("userData") || sessionStorage.getItem("userData");
-    const userData = parseJSONSafely(userDataStr);
+    const encrypted = JSON.parse(Cookies.get("token")) || sessionStorage.getItem("token");
+    // console.log("encrypted token cookie →", encrypted);
 
-    if (userData?.token) {
+    if (encrypted) {
+      const decryptedToken = decryptData(encrypted);
+      // console.log("decrypted token cookie →", decryptedToken);
       return {
-        Authorization: `Bearer ${userData.token}`,
+        Authorization: `Bearer ${decryptedToken}`,
       };
     }
   }
@@ -38,6 +41,8 @@ export async function apiReq(
   try {
     const tokenHeader = await getHeaders();
     headers = { ...tokenHeader, ...headers };
+
+    // console.log("Request Headers →", headers);
 
     let response;
 
