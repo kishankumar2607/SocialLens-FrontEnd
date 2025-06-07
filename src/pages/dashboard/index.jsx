@@ -18,18 +18,18 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex h-screen bg-background-dark text-text-primary">
+    <div className="flex h-screen bg-white text-text-primary">
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto p-6">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="text-2xl font-bold">Dashboard</h1>
-              <p className="text-text-secondary">Analytics overview for your social media</p>
+              <h1 className="text-2xl font-bold text-black">Dashboard</h1>
+              <p className="text-black">Analytics overview for your social media</p>
             </div>
             <div className="flex items-center space-x-4">
-              <button className="btn-secondary flex items-center">
+              <button className="btn-secondary text-black flex items-center">
                 <Icon name="Calendar" size={18} className="mr-2" />
                 Last 30 days
               </button>
@@ -92,14 +92,14 @@ const Dashboard = () => {
                 icon="TrendingUp"
               >
                 <div className="mt-4">
-                  <div className="bg-surface-medium p-4 rounded-lg mb-4">
+                  <div className="bg-black p-4 rounded-lg mb-4">
                     <div className="flex items-start mb-3">
-                      <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center mr-3">
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center mr-3">
                         <Icon name="Image" size={20} />
                       </div>
                       <div>
-                        <p className="font-medium">Your Brand</p>
-                        <p className="text-text-tertiary text-xs">Posted 3 days ago on Instagram</p>
+                        <p className="font-medium text-white">Your Brand</p>
+                        <p className="text-text-tertiary text-xs text-black">Posted 3 days ago on Instagram</p>
                       </div>
                     </div>
                     <p className="text-text-secondary mb-3">

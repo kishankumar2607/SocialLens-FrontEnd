@@ -15,21 +15,21 @@ const DataVisualization = ({ type, data, title }) => {
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis 
                 dataKey="name" 
-                tick={{ fill: "#D1D5DB" }} 
+                tick={{ fill: "#000000" }} 
                 axisLine={{ stroke: "#374151" }} 
               />
               <YAxis 
-                tick={{ fill: "#D1D5DB" }} 
+                tick={{ fill: "#000000" }} 
                 axisLine={{ stroke: "#374151" }} 
               />
               <Tooltip 
                 contentStyle={{ 
-                  backgroundColor: "#1F2937", 
-                  borderColor: "#374151",
-                  color: "#FFFFFF" 
+                  backgroundColor: "#000000",
+                  color: "#FFFFFF",
+                  borderRadius: "5px",
                 }} 
               />
-              <Legend wrapperStyle={{ color: "#D1D5DB" }} />
+              <Legend wrapperStyle={{ color: "#000000" }} />
               <Line 
                 type="monotone" 
                 dataKey="followers" 
@@ -48,21 +48,21 @@ const DataVisualization = ({ type, data, title }) => {
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis 
                 dataKey="name" 
-                tick={{ fill: "#D1D5DB" }} 
+                tick={{ fill: "#000000" }} 
                 axisLine={{ stroke: "#374151" }} 
               />
               <YAxis 
-                tick={{ fill: "#D1D5DB" }} 
+                tick={{ fill: "#000000" }} 
                 axisLine={{ stroke: "#374151" }} 
               />
               <Tooltip 
                 contentStyle={{ 
-                  backgroundColor: "#1F2937", 
-                  borderColor: "#374151",
-                  color: "#FFFFFF" 
+                  backgroundColor: "#000000", 
+                  color: "#FFFFFF",
+                  borderRadius: "5px",
                 }} 
               />
-              <Legend wrapperStyle={{ color: "#D1D5DB" }} />
+              <Legend wrapperStyle={{ color: "#000000" }} />
               <Bar 
                 dataKey="rate" 
                 fill="#4F46E5" 
@@ -92,12 +92,12 @@ const DataVisualization = ({ type, data, title }) => {
               </Pie>
               <Tooltip 
                 contentStyle={{ 
-                  backgroundColor: "#1F2937", 
-                  borderColor: "#374151",
-                  color: "#FFFFFF" 
+                  backgroundColor: "#ffffff",
+                  color: "#000000" ,
+                  borderRadius: "5px",
                 }} 
               />
-              <Legend wrapperStyle={{ color: "#D1D5DB" }} />
+              <Legend wrapperStyle={{ color: "#000000" }} />
             </PieChart>
           </ResponsiveContainer>
         );
@@ -109,7 +109,7 @@ const DataVisualization = ({ type, data, title }) => {
 
   return (
     <div className="mt-4">
-      <h4 className="text-sm font-medium text-text-secondary mb-2">{title}</h4>
+      <h4 className="text-sm font-medium text-black mb-2">{title}</h4>
       {renderChart()}
     </div>
   );
