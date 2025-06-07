@@ -17,6 +17,7 @@
   /* Neutral Colors */
   --color-background-dark: #030712; /* gray-950 */
   --color-surface-dark: #111827; /* gray-900 */
+  --color-surface-light: #f7f7f7; /* white */
   --color-surface-medium: #1f2937; /* gray-800 */
   --color-border-dark: #374151; /* gray-700 */
   --color-text-primary: #ffffff; /* white */
@@ -98,6 +99,18 @@
   /* Card Styles */
   .card {
     @apply bg-surface-dark rounded-lg border border-border-dark p-4 transition-all duration-200;
+  }
+
+  .card-white-custom {
+    @apply bg-white text-surface-dark border border-border-dark rounded-xl p-6 shadow-md transition-all duration-300;
+  }
+
+  .card-white-hover {
+    @apply bg-white text-surface-dark border border-border-dark rounded-xl p-6 shadow-md hover:shadow-lg hover:scale-[1.05] transition-all duration-300;
+  }
+
+  .card-white-glass {
+    @apply backdrop-blur-lg bg-white/70 text-surface-dark border border-border-dark rounded-xl p-6 shadow-md transition-all duration-300;
   }
 
   .card-metric {
