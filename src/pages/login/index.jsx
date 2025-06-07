@@ -15,6 +15,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
 
   // Regex validators
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -34,6 +35,10 @@ const LoginPage = () => {
     } else if (!passwordRegex.test(form.password)) {
       newErrors.password =
         "Password must be at least 6 characters and include letters, numbers, and a special character";
+    }
+
+    if (!acceptTerms) {
+      newErrors.acceptTerms = "You must accept the terms and conditions";
     }
 
     return newErrors;
@@ -99,7 +104,7 @@ const LoginPage = () => {
         <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-gradient-to-tr from-neon-blue to-primary opacity-20 blur-2xl animate-fade-glow rounded-full" />
       </div>
       <div className="relative z-10 h-fit w-full max-w-5xl bg-transparent bg-opacity-80 backdrop-blur-lg rounded-xl shadow-xl border border-border-dark flex flex-col lg:flex-row overflow-hidden animate-fade-in">
-        <div className="hidden lg:block lg:w-1/2 h-full">
+        <div className="hidden lg:block lg:w-1/2 h-auto">
           <img
             src={loginIllustration}
             alt="Login Visual"
@@ -108,7 +113,7 @@ const LoginPage = () => {
         </div>
 
         <div className="w-full lg:w-1/2 p-8 md:p-12">
-          <div className="text-center mb-8 lg:pt-8">
+          <div className="text-center mb-8 lg:pt-6">
             <h2 className="text-3xl font-bold mb-2">Welcome Back</h2>
             <p className="text-text-secondary text-base">
               Login to your{" "}
@@ -170,6 +175,36 @@ const LoginPage = () => {
               >
                 Forgot password?
               </Link>
+            </div>
+
+            <div className="text-sm">
+              <label className="flex items-start gap-2">
+                <input
+                  type="checkbox"
+                  checked={acceptTerms}
+                  onChange={(e) => setAcceptTerms(e.target.checked)}
+                  className="accent-primary-light mt-1"
+                />
+                <span>
+                  I accept the{" "}
+                  <Link
+                    to="/privacy-policy"
+                    className="text-primary-light hover:underline"
+                  >
+                    Privacy Policy
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    to="/terms-of-service"
+                    className="text-primary-light hover:underline"
+                  >
+                    Terms & Conditions
+                  </Link>
+                </span>
+              </label>
+              {!acceptTerms && errors.acceptTerms && (
+                <p className="text-error text-sm mt-1">{errors.acceptTerms}</p>
+              )}
             </div>
 
             <button type="submit" className="btn-primary w-full">
