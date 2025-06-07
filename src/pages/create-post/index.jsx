@@ -53,7 +53,7 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="flex h-screen bg-background-dark text-text-primary overflow-hidden">
+    <div className="flex h-screen bg-white text-text-primary overflow-hidden">
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}

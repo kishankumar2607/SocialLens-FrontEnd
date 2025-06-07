@@ -92,7 +92,7 @@ const Dashboard = () => {
                 icon="TrendingUp"
               >
                 <div className="mt-4">
-                  <div className="bg-black p-4 rounded-lg mb-4">
+                  <div className="bg-surface-dark p-4 rounded-lg mb-4">
                     <div className="flex items-start mb-3">
                       <div className="h-10 w-10 rounded-full bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center mr-3">
                         <Icon name="Image" size={20} />
