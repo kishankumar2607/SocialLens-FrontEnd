@@ -26,7 +26,9 @@ const Dashboard = () => {
           <div className="flex justify-between items-center mb-8">
             <div>
               <h1 className="text-2xl font-bold text-black">Dashboard</h1>
-              <p className="text-black">Analytics overview for your social media</p>
+              <p className="text-black">
+                Analytics overview for your social media
+              </p>
             </div>
             <div className="flex items-center space-x-4">
               <button className="btn-secondary text-black flex items-center">
@@ -92,34 +94,54 @@ const Dashboard = () => {
                 icon="TrendingUp"
               >
                 <div className="mt-4">
-                  <div className="bg-surface-dark p-4 rounded-lg mb-4">
+                  <div className="bg-white border-0 border-background-dark px-4 rounded-lg mb-4">
                     <div className="flex items-start mb-3">
                       <div className="h-10 w-10 rounded-full bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center mr-3">
                         <Icon name="Image" size={20} />
                       </div>
                       <div>
-                        <p className="font-medium text-white">Your Brand</p>
-                        <p className="text-text-tertiary text-xs text-black">Posted 3 days ago on Instagram</p>
+                        <p className="font-bold text-black">Your Brand</p>
+                        <p className="text-text-tertiary text-xs text-black">
+                          Posted 3 days ago on Instagram
+                        </p>
                       </div>
                     </div>
-                    <p className="text-text-secondary mb-3">
-                      "Excited to announce our new product line! Check out our website for exclusive early access. #NewLaunch #Innovation"
+                    <p className="text-black mb-3">
+                      "Excited to announce our new product line! Check out our
+                      website for exclusive early access. #NewLaunch
+                      #Innovation"
                     </p>
                     <div className="h-32 bg-surface-dark rounded-md mb-3 flex items-center justify-center">
-                      <Icon name="Image" size={32} className="text-text-tertiary" />
+                      <Icon
+                        name="Image"
+                        size={32}
+                        className="text-text-tertiary"
+                      />
                     </div>
                     <div className="flex justify-between text-sm">
                       <div className="flex items-center">
-                        <Icon name="Heart" size={16} className="mr-1 text-error" />
-                        <span>1,248 likes</span>
+                        <Icon
+                          name="Heart"
+                          size={16}
+                          className="mr-1 text-error"
+                        />
+                        <span className="text-black">1,248 likes</span>
                       </div>
                       <div className="flex items-center">
-                        <Icon name="MessageCircle" size={16} className="mr-1" />
-                        <span>86 comments</span>
+                        <Icon
+                          name="MessageCircle"
+                          size={16}
+                          className="mr-1 text-black"
+                        />
+                        <span className="text-black">86 comments</span>
                       </div>
                       <div className="flex items-center">
-                        <Icon name="Share2" size={16} className="mr-1" />
-                        <span>342 shares</span>
+                        <Icon
+                          name="Share2"
+                          size={16}
+                          className="mr-1 text-black"
+                        />
+                        <span className="text-black">342 shares</span>
                       </div>
                     </div>
                   </div>
