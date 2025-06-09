@@ -1,16 +1,32 @@
+
 import React from "react";
 import Icon from "../../../components/AppIcon";
 import Image from "../../../components/AppImage";
 
-const PostPreview = ({ message, platforms }) => {
-  // Mock user data
+const PostPreview = ({ message, platforms, images, hashtags }) => {
   const user = {
     name: "John Smith",
     handle: "@johnsmith",
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
   };
 
-  if (platforms.length === 0 || message.trim() === "") {
+  // Highlight #tags & @mentions
+  const formatMessage = (text) =>
+    text.split(/(\s+)/).map((word, i) =>
+      word.startsWith("#") || word.startsWith("@") ? (
+        <span key={i} className="text-blue-500">
+          {word}
+        </span>
+      ) : (
+        word
+      )
+    );
+
+  // Truncate to 200 words
+  const truncated = message.split(/\s+/).slice(0, 200).join(" ");
+
+  // No content at all
+  if (!images.length && !message.trim() && !platforms.length) {
     return (
       <div className="h-auto flex flex-col items-center justify-center text-center p-8">
         <div className="h-16 w-16 rounded-full bg-surface-medium flex items-center justify-center mb-4">
@@ -20,8 +36,8 @@ const PostPreview = ({ message, platforms }) => {
           No Preview Available
         </h3>
         <p className="text-text-tertiary text-sm max-w-xs">
-          Enter a message and select at least one platform to see a preview of
-          your post.
+          Enter text, upload an image, add a hashtag, or select a platform to
+          see a preview.
         </p>
       </div>
     );
@@ -64,6 +80,7 @@ const PostPreview = ({ message, platforms }) => {
           {/* Post Content */}
           <div className="p-4">
             <div className="flex items-start">
+              {/* Avatar */}
               <div className="h-10 w-10 rounded-full overflow-hidden mr-3">
                 <Image
                   src={user.avatar}
@@ -71,18 +88,57 @@ const PostPreview = ({ message, platforms }) => {
                   className="h-full w-full object-cover"
                 />
               </div>
+
+              {/* Content Body */}
               <div className="flex-1">
                 <div className="flex items-center">
-                  <span className="font-semibold text-black text-sm">{user.name}</span>
+                  <span className="font-semibold text-black text-sm">
+                    {user.name}
+                  </span>
                   {platform !== "linkedin" && (
                     <span className="text-text-tertiary text-xs ml-2">
                       {user.handle}
                     </span>
                   )}
                 </div>
-                <p className="text-sm mt-2 text-black whitespace-pre-wrap">{message}</p>
 
-                {/* Platform-specific UI elements */}
+                {/* Images Gallery */}
+                {images.length > 0 && (
+                  <div className="grid grid-cols-3 gap-2 my-4">
+                    {images.map((img, i) => (
+                      <img
+                        key={i}
+                        src={img.preview}
+                        alt={`upload-${i}`}
+                        className="w-full h-20 object-cover rounded-md"
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* Hashtag Chips */}
+                {hashtags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {hashtags.map((tag, i) => (
+                      <span
+                        key={i}
+                        className="text-blue-500 bg-blue-100 px-2 py-1 rounded-full text-xs font-medium"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Message Text */}
+                {message.trim() && (
+                  <p className="text-sm text-black whitespace-pre-wrap">
+                    {formatMessage(truncated)}
+                    {message.split(/\s+/).length > 200 && "..."}
+                  </p>
+                )}
+
+                {/* Platform-specific Actions */}
                 <div className="mt-4 flex items-center space-x-4 text-text-tertiary">
                   {platform === "facebook" && (
                     <>
@@ -100,7 +156,6 @@ const PostPreview = ({ message, platforms }) => {
                       </button>
                     </>
                   )}
-
                   {platform === "instagram" && (
                     <>
                       <button className="flex items-center text-xs hover:text-blue-800">
@@ -121,7 +176,6 @@ const PostPreview = ({ message, platforms }) => {
                       </button>
                     </>
                   )}
-
                   {platform === "linkedin" && (
                     <>
                       <button className="flex items-center text-xs hover:text-blue-800">
