@@ -6,7 +6,7 @@ const FormInput = ({ value, onChange, maxLength, error, errorMessage }) => {
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-text-secondary">
+      <label className="block text-sm font-medium text-black">
         Message
       </label>
       <div className="relative">
@@ -14,9 +14,9 @@ const FormInput = ({ value, onChange, maxLength, error, errorMessage }) => {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="What's on your mind?"
-          className={`w-full h-32 bg-surface-medium border ${
+          className={`w-full h-32 border ${
             error ? "border-error" : "border-border-dark"
-          } rounded-md px-3 py-2 text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all duration-200`}
+          } rounded-md px-3 py-2 text-black placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-transparent transition-all duration-200`}
         />
         <div
           className={`absolute bottom-2 right-2 text-xs font-medium ${

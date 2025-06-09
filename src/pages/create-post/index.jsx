@@ -76,8 +76,8 @@ const CreatePost = () => {
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Post Creation Form */}
-              <div className="card bg-surface-dark bg-opacity-70 backdrop-blur-md border border-border-dark border-opacity-20 p-6 rounded-lg">
-                <h2 className="text-lg font-semibold mb-6">Create New Post</h2>
+              <div className="card-white bg-opacity-70 backdrop-blur-md border border-border-dark border-opacity-20 p-6 rounded-lg">
+                <h2 className="text-lg font-bold mb-6 text-black">Create New Post</h2>
 
                 {/* Message Input */}
                 <FormInput
@@ -90,7 +90,7 @@ const CreatePost = () => {
 
                 {/* Platform Selection */}
                 <div className="mt-6">
-                  <label className="block text-sm font-medium text-text-secondary mb-2">
+                  <label className="block text-sm font-medium text-black mb-2">
                     Select Platforms
                   </label>
                   <PlatformSelector
@@ -123,8 +123,8 @@ const CreatePost = () => {
               </div>
 
               {/* Post Preview */}
-              <div className="card bg-surface-dark bg-opacity-70 backdrop-blur-md border border-border-dark border-opacity-20 p-6 rounded-lg">
-                <h2 className="text-lg font-semibold mb-6">Preview</h2>
+              <div className="card-white bg-opacity-70 backdrop-blur-md border border-border-dark border-opacity-20 p-6 rounded-lg">
+                <h2 className="text-lg font-bold text-black mb-6">Preview</h2>
                 <PostPreview message={message} platforms={selectedPlatforms} />
               </div>
             </div>
