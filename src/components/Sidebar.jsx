@@ -249,7 +249,9 @@ const Sidebar = ({
 
         <div className="p-3 border-t border-border-dark flex justify-center">
           <div className="h-8 w-8 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center">
-            <span className="text-white font-medium text-sm">JS</span>
+            <span className="text-white font-medium text-sm">
+              {(decryptUser?.[0] || "U").toUpperCase()}
+            </span>
           </div>
         </div>
       </aside>
@@ -282,10 +284,10 @@ const Sidebar = ({
             <div className="p-4 border-b border-border-dark flex items-center">
               <Link to="/homepage" className="flex items-center space-x-2">
                 <div className="h-8 w-8 rounded-md bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">A</span>
+                  <span className="text-white font-bold text-lg">S</span>
                 </div>
                 <span className="text-white font-display font-bold text-xl">
-                  Analytics
+                  SocialLens
                 </span>
               </Link>
             </div>
@@ -320,13 +322,22 @@ const Sidebar = ({
             <div className="p-4 border-t border-border-dark">
               <div className="flex items-center space-x-3">
                 <div className="h-8 w-8 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center">
-                  <span className="text-white font-medium text-sm">JS</span>
+                  <span className="text-white font-medium text-sm">
+                    {(decryptUser?.[0] || "U").toUpperCase()}
+                  </span>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-white">John Smith</p>
+                  <p className="text-sm font-medium text-white">
+                    {decryptUser?.length > 15
+                      ? decryptUser?.split(" ")[0] || "User"
+                      : decryptUser || "User"}
+                  </p>
                   <p className="text-xs text-text-tertiary">Admin</p>
                 </div>
-                <button className="ml-auto text-text-tertiary hover:text-text-primary p-1 rounded-md hover:bg-surface-medium transition-colors duration-200">
+                <button
+                  onClick={() => handleLogOut()}
+                  className="ml-auto text-text-tertiary hover:text-text-primary p-1 rounded-md hover:bg-surface-medium transition-colors duration-200"
+                >
                   <Icon name="LogOut" size={18} />
                 </button>
               </div>
