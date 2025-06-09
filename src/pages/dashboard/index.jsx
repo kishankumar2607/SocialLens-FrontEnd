@@ -93,7 +93,7 @@ const Dashboard = () => {
                 changeType="positive"
                 icon="TrendingUp"
               >
-                <div className="mt-4">
+                <div className="mt-2">
                   <div className="bg-white border-0 border-background-dark px-4 rounded-lg mb-4">
                     <div className="flex items-start mb-3">
                       <div className="h-10 w-10 rounded-full bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center mr-3">
