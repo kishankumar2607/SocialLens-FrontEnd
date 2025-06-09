@@ -151,31 +151,31 @@ const HeroSection = () => {
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center mb-8">
-              <div className="flex items-center bg-surface-medium bg-opacity-70 px-4 py-2 rounded-full">
+              <div className="flex items-center card-white-hover bg-opacity-70 px-4 py-2 rounded-full">
                 <Icon
                   name="TrendingUp"
                   size={18}
                   className="text-success mr-2"
                 />
-                <span className="text-sm text-text-secondary">
+                <span className="text-sm text-black">
                   Real-time Analytics
                 </span>
               </div>
 
-              <div className="flex items-center bg-surface-medium bg-opacity-70 px-4 py-2 rounded-full">
+              <div className="flex items-center card-white-hover bg-opacity-70 px-4 py-2 rounded-full">
                 <Icon name="Users" size={18} className="text-info mr-2" />
-                <span className="text-sm text-text-secondary">
+                <span className="text-sm text-black">
                   Audience Insights
                 </span>
               </div>
 
-              <div className="flex items-center bg-surface-medium bg-opacity-70 px-4 py-2 rounded-full">
+              <div className="flex items-center card-white-hover bg-opacity-70 px-4 py-2 rounded-full">
                 <Icon
                   name="MessageCircle"
                   size={18}
                   className="text-warning mr-2"
                 />
-                <span className="text-sm text-text-secondary">
+                <span className="text-sm text-black">
                   Engagement Tracking
                 </span>
               </div>
