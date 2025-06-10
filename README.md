@@ -1,102 +1,121 @@
-# React
+# 📊 SocialLens – Social Media Analytics & Management Platform
 
-A modern React-based project utilizing the latest frontend technologies and tools for building responsive web applications.
+**SocialLens** is a futuristic SaaS platform that helps individuals, influencers, and marketing teams analyze, optimize, and grow their social media presence using real-time analytics, intelligent insights, and multi-platform scheduling.
+
+![SocialLens Banner](./public/assets/readmeImage/banner.png)
+![SocialLens Dashboard](./public/assets/readmeImage/dashboard.png)
+
+---
 
 ## 🚀 Features
 
-- **React 18** - React version with improved rendering and concurrent features
-- **Redux Toolkit** - State management with simplified Redux setup
-- **TailwindCSS** - Utility-first CSS framework with extensive customization
-- **React Router v6** - Declarative routing for React applications
-- **Data Visualization** - Integrated D3.js and Recharts for powerful data visualization
-- **Form Management** - React Hook Form for efficient form handling
-- **Animation** - Framer Motion for smooth UI animations
-- **Testing** - Jest and React Testing Library setup
+- 📈 Real-time analytics dashboard with performance metrics
+- 🔍 Competitor analysis and benchmarking
+- 📅 One-click multi-platform content scheduling
+- 🧩 Seamless integration with social platforms (Meta, LinkedIn, X, TikTok, etc.)
+- 📊 Customizable visual reports and performance dashboards
+- 🔐 Secure login with JWT & OTP-based password recovery
+- 🧠 AI-assisted content optimization (Coming Soon)
+- 👥 User roles, team collaboration, and profile settings
+- 📚 Developer-friendly documentation, API reference, changelog
 
-## 📋 Prerequisites
+---
 
-- Node.js (v14.x or higher)
-- npm or yarn
+## 🧠 Tech Stack
 
-## 🛠️ Installation
+| Frontend         | Backend         | Database       | Tools & Styling       |
+|------------------|------------------|----------------|------------------------|
+| React.js         | Node.js (Express) | MongoDB       | Tailwind CSS, SCSS     |
+| React Router     | RESTful APIs      | Mongoose       | React Toastify, Vite   |
+| Axios, Zustand   | JWT Auth          |                | Postman, ESLint, Prettier |
 
-1. Install dependencies:
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-   
-2. Start the development server:
-   ```bash
-   npm start
-   # or
-   yarn start
-   ```
+---
+
+## 🧭 Major Pages / Modules
+
+- ✅ Landing / Home
+- ✅ Auth (Login, Register, Forgot Password, OTP)
+- ✅ Dashboard (Analytics + Insights)
+- ✅ Create Post (Image + Hashtag + Preview)
+- ✅ Settings (Profile, Password, Preferences)
+- ✅ Blogs (List, Detail – Markdown/JSON Driven)
+- ✅ Guides, Docs, API Reference, Changelog
+- ✅ Support, Contact, Terms, Privacy, Careers
+
+---
 
 ## 📁 Project Structure
 
 ```
-react_app/
-├── public/             # Static assets
+sociallens/
+├── public/
 ├── src/
-│   ├── components/     # Reusable UI components
-│   ├── pages/          # Page components
-│   ├── styles/         # Global styles and Tailwind configuration
-│   ├── App.jsx         # Main application component
-│   ├── Routes.jsx      # Application routes
-│   └── index.jsx       # Application entry point
-├── .env                # Environment variables
-├── index.html          # HTML template
-├── package.json        # Project dependencies and scripts
-├── tailwind.config.js  # Tailwind CSS configuration
+│   ├── assets/
+│   ├── components/
+│   ├── data/
+│   ├── pages/
+│   ├── routes/
+│   ├── styles/
+│   ├── utils/
+│   ├── App.jsx
+│   ├── main.jsx
+├── .env
+├── package.json
+├── README.md
 ```
 
-## 🧩 Adding Routes
+---
 
-To add new routes to the application, update the `Routes.jsx` file:
+## ⚙️ Setup Instructions
 
-```jsx
-import { useRoutes } from "react-router-dom";
-import HomePage from "pages/HomePage";
-import AboutPage from "pages/AboutPage";
-
-const ProjectRoutes = () => {
-  let element = useRoutes([
-    { path: "/", element: <HomePage /> },
-    { path: "/about", element: <AboutPage /> },
-    // Add more routes as needed
-  ]);
-
-  return element;
-};
-```
-
-## 🎨 Styling
-
-This project uses Tailwind CSS for styling. The configuration includes:
-
-- Forms plugin for form styling
-- Typography plugin for text styling
-- Aspect ratio plugin for responsive elements
-- Container queries for component-specific responsive design
-- Fluid typography for responsive text
-- Animation utilities
-
-## 📱 Responsive Design
-
-The app is built with responsive design using Tailwind CSS breakpoints.
-
-
-## 📦 Deployment
-
-Build the application for production:
+### 1. Clone the Repository
 
 ```bash
-npm run build
+git clone https://github.com/kishankumar2607/SocialLens-FrontEnd.git
+cd SocialLens-FrontEnd
 ```
 
-## 🙏 Acknowledgments
+### 2. Install Dependencies
 
-- Styled with Tailwind CSS
+```bash
+npm install
+```
 
+### 3. Create Environment Variables
+
+Create a `.env` file in the root and add:
+
+```env
+REACT_APP_SECRET_KEY=your_secret_key
+```
+
+### 4. Start the Dev Server
+
+```bash
+npm start
+```
+
+---
+
+## 🔐 Authentication Flow
+
+- Login/Register with Email & Password
+- Forgot Password → OTP Verification → Reset Password
+- Session managed using JWT (stored in HttpOnly Cookies)
+- Redirect logic in protected routes to ensure secure access
+
+---
+
+## 🌐 Deployment
+
+Supports deployment on:
+- **Vercel / Netlify / AWS / Microsoft Azure** (Recommended for frontend)
+- **Render / Railway / Heroku** (for backend)
+- Environment variables must be set in production
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.  
+© 2025 [Kishan Kumar Das](https://github.com/kishankumar2607)
