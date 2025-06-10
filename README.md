@@ -2,8 +2,7 @@
 
 **SocialLens** is a futuristic SaaS platform that helps individuals, influencers, and marketing teams analyze, optimize, and grow their social media presence using real-time analytics, intelligent insights, and multi-platform scheduling.
 
-![SocialLens Banner](./public/assets/readmeImage/banner.png)
-![SocialLens Dashboard](./public/assets/readmeImage/dashboard.png)
+![SocialLens Banner](./public/assets/readmeImage/main-banner.png)
 
 ---
 
@@ -18,6 +17,9 @@
 - 🧠 AI-assisted content optimization (Coming Soon)
 - 👥 User roles, team collaboration, and profile settings
 - 📚 Developer-friendly documentation, API reference, changelog
+
+![SocialLens Banner](./public/assets/readmeImage/banner.png)
+![SocialLens Dashboard](./public/assets/readmeImage/dashboard.png)
 
 ---
 
