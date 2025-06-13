@@ -1,8 +1,8 @@
-const AUTH_URL = "https://api.sociallens.kishankumardas.com/auth";
-const Base_URL = "https://api.sociallens.kishankumardas.com/api";
+// const AUTH_URL = "https://api.sociallens.kishankumardas.com/auth";
+// const Base_URL = "https://api.sociallens.kishankumardas.com/api";
 
-// const AUTH_URL = "http://localhost:8000/auth";
-// const Base_URL = "http://localhost:8000/api";
+const AUTH_URL = "http://localhost:8000/auth";
+const Base_URL = "http://localhost:8000/api";
 
 //Auth Api
 export const AuthAPIRegister = AUTH_URL + "/register";
