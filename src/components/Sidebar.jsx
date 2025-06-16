@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { decryptData } from "../utils/encryptDecryptData";
 import {
+  apiDelete,
   getCookie,
   deleteAllCookies,
   getSessionStorage,
   clearAllSessionStorage,
 } from "../utils/utils";
+import { AuthAPILogout } from "../api/api";
 import Icon from "./AppIcon";
 import Swal from "sweetalert2";
-import { showSuccess } from "../utils/helperFunction";
+import { showSuccess, showError } from "../utils/helperFunction";
 
 const Sidebar = ({
   variant = "expanded",
@@ -110,14 +112,22 @@ const Sidebar = ({
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, logout!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        // Delete all cookies and session
-        deleteAllCookies();
-        clearAllSessionStorage();
-        // Redirect to login page
-        navigate("/login");
-        showSuccess("Logged out successfully");
+        try {
+          // Call the logout API endpoint
+          const response = await apiDelete(AuthAPILogout);
+          if (response.status === 200) {
+            // Delete all cookies and session
+            deleteAllCookies();
+            clearAllSessionStorage();
+            // Redirect to login page
+            navigate("/login");
+            showSuccess(response.data.message);
+          }
+        } catch {
+          showError("Failed to logout");
+        }
       }
     });
   };

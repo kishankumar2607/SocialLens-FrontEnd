@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { deleteAllCookies, clearAllSessionStorage } from "../utils/utils";
-import { showSuccess } from "../utils/helperFunction";
+import {
+  apiDelete,
+  deleteAllCookies,
+  clearAllSessionStorage,
+} from "../utils/utils";
+import { AuthAPILogout } from "../api/api";
+import { showSuccess, showError } from "../utils/helperFunction";
 import Button from "./Button";
 import Swal from "sweetalert2";
 
@@ -27,14 +32,22 @@ const Header = ({ variant = "default", user = null, token = null }) => {
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, logout!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        // Delete all cookies
-        deleteAllCookies();
-        clearAllSessionStorage();
-        // Redirect to login page
-        navigate("/login");
-        showSuccess("Logged out successfully");
+        try {
+          // Call the logout API endpoint
+          const response = await apiDelete(AuthAPILogout);
+          if (response.status === 200) {
+            // Delete all cookies and session
+            deleteAllCookies();
+            clearAllSessionStorage();
+            // Redirect to login page
+            navigate("/login");
+            showSuccess(response.data.message);
+          }
+        } catch {
+          showError("Failed to logout");
+        }
       }
     });
   };
