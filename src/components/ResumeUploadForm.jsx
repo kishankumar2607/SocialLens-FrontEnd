@@ -72,13 +72,16 @@ const ResumeUploadForm = () => {
   const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const validate = () => {
-    const { name, email, message } = formData;
+    const { name, email, linkedin, message } = formData;
     const newErrors = {};
     if (!name) newErrors.name = "Name is required.";
     if (!email) {
       newErrors.email = "Email is required.";
     } else if (!validateEmail(email)) {
       newErrors.email = "Invalid email format.";
+    }
+    if(!linkedin){
+      newErrors.linkedin = "LinkedIn profile is required.";
     }
     if (!message) {
       newErrors.message = "Message is required.";
@@ -94,7 +97,7 @@ const ResumeUploadForm = () => {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      showError("Please fill all required fields correctly.");
+      // showError("Please fill all required fields correctly.");
       return;
     }
     showSuccess("Your application has been submitted!");
@@ -139,7 +142,7 @@ const ResumeUploadForm = () => {
         </div>
         <div>
           <label className="block text-sm mb-1">
-            LinkedIn Profile (optional)
+            LinkedIn Profile
           </label>
           <input
             name="linkedin"
@@ -149,6 +152,7 @@ const ResumeUploadForm = () => {
             className="input-default w-full"
             placeholder="https://linkedin.com/in/yourprofile"
           />
+          {errors.linkedin && <p className="text-error text-sm">{errors.linkedin}</p>}
         </div>
         <div>
           <label className="block text-sm mb-1">
