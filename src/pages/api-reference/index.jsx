@@ -1,5 +1,6 @@
 import React from "react";
 import { FiDatabase, FiLock, FiGlobe, FiCode } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const ApiReferencePage = () => {
   return (
@@ -97,9 +98,9 @@ const ApiReferencePage = () => {
             Visit our detailed developer docs, or reach out to our support team
             if you need help building with the API.
           </p>
-          <a href="/support" className="btn-primary inline-block">
+          <Link to="/support" className="btn-primary inline-block">
             Go to Support
-          </a>
+          </Link>
         </section>
       </div>
     </div>
