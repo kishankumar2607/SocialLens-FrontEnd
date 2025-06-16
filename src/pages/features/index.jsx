@@ -1,4 +1,5 @@
 import React from "react";
+import { getCookie, getSessionStorage } from "../../utils/utils";
 import {
   FiZap,
   FiBarChart2,
@@ -11,6 +12,12 @@ import {
 import { Link } from "react-router-dom";
 
 const FeaturesPage = () => {
+  const user = getCookie("userName")
+    ? JSON.parse(getCookie("userName"))
+    : getSessionStorage("userName")
+    ? getSessionStorage("userName")
+    : null;
+
   const features = [
     {
       icon: <FiZap className="text-primary text-4xl" />,
@@ -145,9 +152,15 @@ const FeaturesPage = () => {
             Start your journey with SocialLens today and unlock the full
             potential of your social media strategy.
           </p>
-          <Link to="/register" className="btn-primary inline-block">
-            Get Started Now
-          </Link>
+          {user ? (
+            <Link to="/homepage" className="btn-primary inline-block">
+              Get Started Now
+            </Link>
+          ) : (
+            <Link to="/register" className="btn-primary inline-block">
+              Get Started Now
+            </Link>
+          )}
         </section>
       </div>
     </div>
