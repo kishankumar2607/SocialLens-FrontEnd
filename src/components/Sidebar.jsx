@@ -22,7 +22,7 @@ const Sidebar = ({
   const location = useLocation();
   const navigate = useNavigate();
   const [currentVariant, setCurrentVariant] = useState(variant);
-  const [isMobile, setIsMobile] = useState(false);
+  // const [isMobile, setIsMobile] = useState(false);
 
   // Read token and user from cookies
   const user = getCookie("userName")
@@ -66,7 +66,7 @@ const Sidebar = ({
   // Check if we're on mobile
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      // setIsMobile(window.innerWidth < 768);
       if (window.innerWidth < 768) {
         setCurrentVariant("mobile");
       } else {
