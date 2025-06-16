@@ -1,4 +1,5 @@
 import React from "react";
+import { getCookie, getSessionStorage } from "../../utils/utils";
 import PricingCard from "../../components/PricingCard";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -58,6 +59,12 @@ const faqs = [
 ];
 
 const PricingPage = () => {
+  const user = getCookie("userName")
+    ? JSON.parse(getCookie("userName"))
+    : getSessionStorage("userName")
+    ? getSessionStorage("userName")
+    : null;
+
   const handlePlanSelection = (plan) => {
     // Handle plan selection logic here
     console.log(`Selected plan: ${plan.title}`);
@@ -186,9 +193,15 @@ const PricingPage = () => {
             Join thousands of creators and brands using SocialLens. Start your
             free trial today!
           </p>
-          <Link to="/register" className="btn-primary inline-block">
-            Start Free Trial
-          </Link>
+          {user ? (
+            <Link to="/homepage" className="btn-primary inline-block">
+              Start Free Trial
+            </Link>
+          ) : (
+            <Link to="/register" className="btn-primary inline-block">
+              Start Free Trial
+            </Link>
+          )}
         </section>
       </div>
     </div>
