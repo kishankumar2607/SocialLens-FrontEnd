@@ -143,17 +143,6 @@ const SettingsPage = () => {
           <button className="btn-primary mt-4">Save Preferences</button>
         </section>
 
-        {/* Privacy Settings */}
-        <section className="card-white-custom space-y-4">
-          <h2 className="text-xl font-bold mb-4">Privacy Settings</h2>
-          <select className="input-default bg-white text-black w-full">
-            <option>Public Profile</option>
-            <option>Private Profile</option>
-            <option>Friends Only</option>
-          </select>
-          <button className="btn-primary mt-4">Save Privacy</button>
-        </section>
-
         {/* Connected Accounts */}
         <section className="card-white-custom space-y-4">
           <h2 className="text-xl font-bold mb-4">Connected Accounts</h2>
