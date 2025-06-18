@@ -3,6 +3,7 @@ import { FiTarget, FiUsers, FiTrendingUp, FiHeart } from "react-icons/fi";
 import KishanKumarImage from "../../assets/teams/kishan.png";
 import DivyanshuImage from "../../assets/teams/divyanshu.png";
 import HarshilImage from "../../assets/teams/harshil.png";
+import DefaultUserImage from "../../assets/teams/defaultUser.png";
 import { Link } from "react-router-dom";
 
 const teamData = [
@@ -29,6 +30,14 @@ const teamData = [
     designation: "Project Manager",
     description:
       "Divyanshu oversees project delivery, timelines, and team coordination, ensuring smooth execution and high-quality outcomes.",
+  },
+  {
+    id: 4,
+    image: DefaultUserImage,
+    name: "Pinkal Chauhan",
+    designation: "Software Engineer",
+    description:
+      "Pinkal is a software engineer who delivers quality products on time, collaborates with designers, and brings creative ideas.",
   },
 ];
 
