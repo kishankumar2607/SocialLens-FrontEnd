@@ -41,6 +41,27 @@ const teamData = [
   },
 ];
 
+const infoCards = [
+  {
+    icon: <FiTarget className="text-primary text-4xl mx-auto mb-4" />,
+    title: "Our Mission",
+    description:
+      "To help creators and brands harness the power of social media through data-driven insights and innovative tools.",
+  },
+  {
+    icon: <FiTrendingUp className="text-primary text-4xl mx-auto mb-4" />,
+    title: "Our Vision",
+    description:
+      "To become the most trusted social media analytics platform, enabling sustainable growth and meaningful connections.",
+  },
+  {
+    icon: <FiUsers className="text-primary text-4xl mx-auto mb-4" />,
+    title: "Our Values",
+    description:
+      "Innovation, integrity, user-centricity, and continuous improvement guide everything we do at SocialLens.",
+  },
+];
+
 const AboutPage = () => {
   return (
     <div className="relative min-h-screen bg-background-dark text-white overflow-hidden px-6 py-16">
@@ -62,30 +83,16 @@ const AboutPage = () => {
 
         {/* Core Values Section */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div className="bg-surface-dark rounded-xl border border-border-dark p-6 hover:scale-105 transition">
-            <FiTarget className="text-primary text-4xl mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Our Mission</h3>
-            <p className="text-text-secondary text-sm">
-              To help creators and brands harness the power of social media
-              through data-driven insights and innovative tools.
-            </p>
-          </div>
-          <div className="bg-surface-dark rounded-xl border border-border-dark p-6 hover:scale-105 transition">
-            <FiTrendingUp className="text-primary text-4xl mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Our Vision</h3>
-            <p className="text-text-secondary text-sm">
-              To become the most trusted social media analytics platform,
-              enabling sustainable growth and meaningful connections.
-            </p>
-          </div>
-          <div className="bg-surface-dark rounded-xl border border-border-dark p-6 hover:scale-105 transition">
-            <FiUsers className="text-primary text-4xl mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Our Values</h3>
-            <p className="text-text-secondary text-sm">
-              Innovation, integrity, user-centricity, and continuous improvement
-              guide everything we do at SocialLens.
-            </p>
-          </div>
+          {infoCards.map((card, index) => (
+            <div
+              key={index}
+              className="bg-surface-dark rounded-xl border border-border-dark p-6 hover:scale-105 transition"
+            >
+              {card.icon}
+              <h3 className="text-xl font-semibold mb-2">{card.title}</h3>
+              <p className="text-text-secondary text-sm">{card.description}</p>
+            </div>
+          ))}
         </section>
 
         {/* Team Section */}
