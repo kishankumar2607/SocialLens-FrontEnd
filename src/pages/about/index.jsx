@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const teamData = [
   {
     id: 1,
-    image: KishanKumarImage,
+    teamImage: KishanKumarImage,
     name: "Kishan Kumar",
     designation: "CEO & Co-founder",
     description:
@@ -17,7 +17,7 @@ const teamData = [
   },
   {
     id: 2,
-    image: HarshilImage,
+    teamImage: HarshilImage,
     name: "Harshil Dholakiya",
     designation: "Co-founder & CTO",
     description:
@@ -25,7 +25,7 @@ const teamData = [
   },
   {
     id: 3,
-    image: DivyanshuImage,
+    teamImage: DivyanshuImage,
     name: "Divyanshu",
     designation: "Project Manager",
     description:
@@ -33,7 +33,7 @@ const teamData = [
   },
   {
     id: 4,
-    image: DefaultUserImage,
+    teamImage: DefaultUserImage,
     name: "Pinkal Chauhan",
     designation: "Software Engineer",
     description:
@@ -109,8 +109,8 @@ const AboutPage = () => {
                   className="bg-surface-dark rounded-xl border border-border-dark p-6 text-center hover:scale-105 transition"
                 >
                   <img
-                    src={data.image}
-                    alt="team image"
+                    src={data.teamImage}
+                    alt="team"
                     className="w-24 h-24 mx-auto rounded-full mb-4"
                   />
                   <h3 className="text-lg font-semibold">{data.name}</h3>
