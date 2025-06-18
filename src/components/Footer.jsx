@@ -29,7 +29,7 @@ const Footer = ({ variant = "full" }) => {
                   SocialLens
                 </span>
               </Link>
-              <p className="mt-4 text-sm text-text-secondary">
+              <p className="mt-4 text-sm text-text-secondary font-semibold">
                 Powerful analytics platform for analyzing and optimizing your
                 social media, data-driven insights, visualization and real-time
                 data.
