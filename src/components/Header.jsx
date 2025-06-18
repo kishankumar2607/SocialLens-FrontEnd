@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import {
   apiDelete,
   deleteAllCookies,
@@ -8,321 +9,363 @@ import {
 import { AuthAPILogout } from "../api/api";
 import { showSuccess, showError } from "../utils/helperFunction";
 import Button from "./Button";
-import Swal from "sweetalert2";
 
-const Header = ({ variant = "default", user = null, token = null }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
+const useLogout = () => {
   const navigate = useNavigate();
-
-  // console.log("Header props:", {
-  //   variant,
-  //   user,
-  //   token,
-  //   });
-
-  //Logout Method
-  const handleLogout = () => {
-    // console.log("Logout method called");
-    Swal.fire({
-      title: "Are you sure you want to logout?",
+  return async () => {
+    const { isConfirmed } = await Swal.fire({
+      title: "Log out?",
       text: "You will be logged out of your account.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, logout!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          // Call the logout API endpoint
-          const response = await apiDelete(AuthAPILogout);
-          if (response.status === 200) {
-            // Delete all cookies and session
-            deleteAllCookies();
-            clearAllSessionStorage();
-            // Redirect to login page
-            navigate("/login");
-            showSuccess(response.data.message);
-          }
-        } catch {
-          showError("Failed to logout");
-        }
-      }
     });
-  };
+    if (!isConfirmed) return;
 
-  // Logo component
-  const Logo = () => (
-    <Link to="/" className="flex items-center space-x-2">
-      <div className="h-8 w-8 rounded-md bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center">
-        <span className="text-white font-bold text-lg">S</span>
+    try {
+      const res = await apiDelete(AuthAPILogout);
+      if (res.status === 200) {
+        deleteAllCookies();
+        clearAllSessionStorage();
+        showSuccess(res.data.message);
+        navigate("/login");
+      }
+    } catch {
+      showError("Failed to logout");
+    }
+  };
+};
+
+const Logo = () => (
+  <Link to="/" className="flex items-center space-x-2">
+    <div className="h-8 w-8 rounded-md bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center">
+      <span className="text-white font-bold text-lg">S</span>
+    </div>
+    <span className="text-white font-display font-bold text-xl">
+      SocialLens
+    </span>
+  </Link>
+);
+
+const UserProfile = ({ user }) => {
+  const initials = user?.[0] || "U";
+  return (
+    <Link to="/settings" className="flex items-center space-x-3">
+      <div className="h-8 w-8 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center">
+        <span className="text-white font-medium text-sm">{initials}</span>
       </div>
-      <span className="text-white font-display font-bold text-xl">
-        SocialLens
+      <span className="hidden lg:block text-sm font-bold text-white">
+        {user.length > 15 ? user.split(" ")[0] : user}
       </span>
     </Link>
   );
+};
 
-  // User profile component
-  const UserProfile = () => (
-    <div className="flex items-center space-x-4">
-      {/* <Button
-        variant="icon"
-        icon="Bell"
-        aria-label="Notifications"
-        className="relative"
-      >
-        <span className="absolute top-0 right-0 h-2 w-2 bg-error rounded-full"></span>
-      </Button> */}
+const mainLinks = [
+  { to: "/features", label: "Features" },
+  { to: "/pricing", label: "Pricing" },
+  { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact" },
+];
 
-      <div className="flex items-center space-x-3 cursor-pointer">
-        <div className="h-8 w-8 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center">
-          <span className="text-white font-medium text-sm">
-            {(user?.[0] || "U").toUpperCase()}
-          </span>
-        </div>
-        <div className="hidden md:block">
-          <p className="text-sm font-bold text-white">
-            {user.length > 15 ? user?.split(" ")[0] || "User" : user || "User"}
-          </p>
-          {/* <p className="text-xs text-text-tertiary">{user?.role || "Member"}</p> */}
-        </div>
-        {/* <Icon
-          name="ChevronDown"
-          size={16}
-          className="text-text-tertiary hidden md:block"
-        /> */}
-      </div>
-    </div>
-  );
+const resourceLinks = [
+  { to: "/documentation", label: "Documentation" },
+  { to: "/api-reference", label: "API Reference" },
+  { to: "/guides", label: "Guides" },
+  { to: "/blogs", label: "Blog" },
+  { to: "/support", label: "Support" },
+];
 
-  // Mobile menu toggle
-  const MobileMenuToggle = () => (
-    <Button
-      variant="icon"
-      icon={isMobileMenuOpen ? "X" : "Menu"}
-      aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      className="md:hidden"
-    />
-  );
+const authLinks = [
+  { to: "/dashboard", label: "Dashboard" },
+  { to: "/create-post", label: "Create Post" },
+  { to: "/analytics", label: "Analytics" },
+];
 
-  // Skip to content link for accessibility
-  const SkipToContent = () => (
-    <a
-      href="#main-content"
-      className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 bg-primary text-white px-4 py-2 rounded-md"
-    >
-      Skip to content
-    </a>
-  );
-
-  // Default header layout
-  if (variant === "default") {
+const NavList = ({ links, currentPath, onClickItem }) =>
+  links.map(({ to, label }) => {
+    const active = currentPath === to;
     return (
-      <header className="bg-surface-dark border-b border-border-dark sticky top-0 z-30">
-        <SkipToContent />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <Logo />
-            </div>
+      <Link
+        key={to}
+        to={to}
+        onClick={onClickItem}
+        className={`block px-3 py-2 rounded-md font-medium ${
+          active
+            ? "bg-primary/20 text-white"
+            : "text-text-secondary hover:bg-surface-medium hover:text-white"
+        }`}
+      >
+        {label}
+      </Link>
+    );
+  });
 
-            <div className="flex items-center space-x-4">
-              {user && token ? (
-                <>
-                  <UserProfile />
-                  <button
-                    className="btn-primary"
-                    onClick={() => handleLogout()}
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <Link
-                  to="/login"
-                  className="btn-secondary text-sm px-4 py-1.5 rounded-md border border-primary hover:bg-surface-medium"
-                >
-                  Login
-                </Link>
-              )}
-              {user && token ? (
-                <Link
-                  to="/try-for-free"
-                  className="btn-secondary text-sm px-4 py-1.5 rounded-md border border-primary hover:bg-surface-medium"
-                >
-                  Try for free
-                </Link>
-              ) : (
-                <Link to="/try-for-free" className="btn-primary">
-                  Try for free
-                </Link>
-              )}
-              <MobileMenuToggle />
-            </div>
-          </div>
-        </div>
+export default function Header({ token, user }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
+  const [appOpen, setAppOpen] = useState(false);
 
-        {isMobileMenuOpen && (
-          <div className="md:hidden animate-fade-in">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-border-dark">
+  const logout = useLogout();
+  const { pathname } = useLocation();
+  const closeMobile = () => setMobileOpen(false);
+
+  return (
+    <header className="bg-surface-dark border-b border-border-dark sticky top-0 z-30">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        <Logo />
+
+        <div className="flex items-center space-x-4">
+          <nav className="hidden lg:flex items-center space-x-4">
+            {mainLinks.map(({ to, label }) => (
               <Link
-                to="/"
-                className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  location.pathname === "/"
+                key={to}
+                to={to}
+                onClick={closeMobile}
+                className={`px-3 py-2 rounded-md font-medium ${
+                  pathname === to
                     ? "bg-primary/20 text-white"
                     : "text-text-secondary hover:bg-surface-medium hover:text-white"
                 }`}
               >
-                Home
+                {label}
               </Link>
-              {user && token ? (
-                <Link
-                  to="/homepage"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    location.pathname === "/homepage"
-                      ? "bg-primary/20 text-white"
-                      : "text-text-secondary hover:bg-surface-medium hover:text-white"
-                  }`}
-                >
-                  Dashboard
-                </Link>
-              ) : (
-                <Link
-                  to="/login"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    location.pathname === "/login"
-                      ? "bg-primary/20 text-white"
-                      : "text-text-secondary hover:bg-surface-medium hover:text-white"
-                  }`}
-                >
-                  Dashboard
-                </Link>
-              )}
-              {user && token ? (
-                <Link
-                  to="/create-post"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    location.pathname === "/create-post"
-                      ? "bg-primary/20 text-white"
-                      : "text-text-secondary hover:bg-surface-medium hover:text-white"
-                  }`}
-                >
-                  Create Post
-                </Link>
-              ) : (
-                <Link
-                  to="/login"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    location.pathname === "/login"
-                      ? "bg-primary/20 text-white"
-                      : "text-text-secondary hover:bg-surface-medium hover:text-white"
-                  }`}
-                >
-                  Create Post
-                </Link>
-              )}
-            </div>
-          </div>
-        )}
-      </header>
-    );
-  }
+            ))}
 
-  // Compact header for mobile
-  return (
-    <header className="bg-surface-dark border-b border-border-dark sticky top-0 z-30">
-      <SkipToContent />
-      <div className="px-4">
-        <div className="flex items-center justify-between h-14">
-          <div className="flex items-center">
-            <MobileMenuToggle />
-            <Logo />
-          </div>
-        </div>
-      </div>
-
-      {isMobileMenuOpen && (
-        <div className="animate-slide-in">
-          <div className="px-2 pt-2 pb-3 space-y-1 border-t border-border-dark">
-            <Link
-              to="/homepage"
-              className={`block px-3 py-2 rounded-md text-base font-medium ${
-                location.pathname === "/homepage"
-                  ? "bg-primary/20 text-white"
-                  : "text-text-secondary hover:bg-surface-medium hover:text-white"
-              }`}
-            >
-              Home
-            </Link>
-            <Link
-              to="/dashboard"
-              className={`block px-3 py-2 rounded-md text-base font-medium ${
-                location.pathname === "/dashboard"
-                  ? "bg-primary/20 text-white"
-                  : "text-text-secondary hover:bg-surface-medium hover:text-white"
-              }`}
-            >
-              Dashboard
-            </Link>
-            <Link
-              to="/create-post"
-              className={`block px-3 py-2 rounded-md text-base font-medium ${
-                location.pathname === "/create-post"
-                  ? "bg-primary/20 text-white"
-                  : "text-text-secondary hover:bg-surface-medium hover:text-white"
-              }`}
-            >
-              Create Post
-            </Link>
-          </div>
-
-          {user && token ? (
-            <div className="pt-4 pb-3 border-t border-border-dark">
-              <div className="flex items-center px-5">
-                <div className="h-10 w-10 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center">
-                  <span className="text-white font-medium">
-                    {user?.name
-                      ?.split(" ")
-                      .map((n) => n[0])
-                      .join("")
-                      .toUpperCase() || "U"}
-                  </span>
-                </div>
-                <div className="ml-3">
-                  <div className="text-base font-medium text-white">
-                    {user?.name || "User"}
-                  </div>
-                  <div className="text-sm text-text-tertiary">
-                    {user?.role || "Member"}
-                  </div>
-                </div>
-                <Button
-                  variant="icon"
-                  icon="Bell"
-                  aria-label="Notifications"
-                  className="ml-auto relative"
+            {/* Resources dropdown */}
+            <div className="relative group">
+              <button className="px-3 py-2 rounded-md font-medium text-text-secondary hover:bg-surface-medium hover:text-white flex items-center">
+                Resources
+                <svg
+                  className="ml-1 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <span className="absolute top-0 right-0 h-2 w-2 bg-error rounded-full"></span>
-                </Button>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              <div className="absolute right-0 mt-1 hidden group-hover:block bg-surface-dark border border-border-dark rounded-md shadow-lg z-20">
+                <NavList
+                  links={resourceLinks}
+                  currentPath={pathname}
+                  onClickItem={closeMobile}
+                />
               </div>
             </div>
+
+            {/* App dropdown if logged in */}
+            {token && (
+              <div className="relative group">
+                <button className="px-3 py-2 rounded-md font-medium text-text-secondary hover:bg-surface-medium hover:text-white flex items-center">
+                  App
+                  <svg
+                    className="ml-1 h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                <div className="absolute right-0 mt-1 hidden group-hover:block bg-surface-dark border border-border-dark rounded-md shadow-lg z-20">
+                  <NavList
+                    links={authLinks}
+                    currentPath={pathname}
+                    onClickItem={closeMobile}
+                  />
+                </div>
+              </div>
+            )}
+          </nav>
+
+          {/* Auth buttons (always visible) */}
+          {token ? (
+            <>
+              <UserProfile user={user} />
+              <Button
+                className="btn-secondary text-sm px-4 py-1.5 rounded-md border border-primary hover:bg-surface-medium"
+                onClick={logout}
+              >
+                Logout
+              </Button>
+            </>
           ) : (
-            <div className="px-5 py-4 border-t border-border-dark">
+            <>
               <Link
                 to="/login"
-                className="btn-secondary w-full text-center py-2 rounded-md border border-primary hover:bg-surface-medium"
+                className="btn-secondary text-sm px-4 py-1.5 rounded-md border border-primary hover:bg-surface-medium"
               >
                 Login
               </Link>
-            </div>
+              <Link
+                to="/try-for-free"
+                className="btn-primary text-sm px-4 py-1.5"
+              >
+                Try for free
+              </Link>
+            </>
           )}
+
+          {/* Mobile toggle */}
+          <Button
+            variant="icon"
+            icon={mobileOpen ? "X" : "Menu"}
+            aria-label="Toggle menu"
+            onClick={() => setMobileOpen((o) => !o)}
+            className="lg:hidden"
+          />
+        </div>
+      </div>
+
+      {/* MOBILE MENU */}
+      {mobileOpen && (
+        <div className="lg:hidden bg-surface-dark border-t border-border-dark animate-fade-in">
+          <div className="px-4 py-4 space-y-1">
+            {mainLinks.map(({ to, label }) => (
+              <Link
+                key={to}
+                to={to}
+                onClick={closeMobile}
+                className={`block px-3 py-2 rounded-md font-medium ${
+                  pathname === to
+                    ? "bg-primary/20 text-white"
+                    : "text-text-secondary hover:bg-surface-medium hover:text-white"
+                }`}
+              >
+                {label}
+              </Link>
+            ))}
+
+            {/* COLLAPSIBLE Resources */}
+            <button
+              onClick={() => setResourcesOpen((o) => !o)}
+              className="w-full text-left px-3 py-2 rounded-md font-medium text-text-secondary hover:bg-surface-medium hover:text-white flex items-center justify-between"
+            >
+              Resources
+              <svg
+                className={`h-4 w-4 transform ${
+                  resourcesOpen ? "rotate-180" : ""
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+            {resourcesOpen && (
+              <div className="pl-4 mt-1 space-y-1">
+                {resourceLinks.map(({ to, label }) => (
+                  <Link
+                    key={to}
+                    to={to}
+                    onClick={closeMobile}
+                    className={`block px-3 py-2 rounded-md font-medium ${
+                      pathname === to
+                        ? "bg-primary/20 text-white"
+                        : "text-text-secondary hover:bg-surface-medium hover:text-white"
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            {/* Mobile Auth Buttons */}
+            {!token && (
+              <div className="mt-4 space-y-2">
+                <Link
+                  to="/login"
+                  onClick={closeMobile}
+                  className="block w-full text-center btn-secondary text-sm px-4 py-2 rounded-md border border-primary hover:bg-surface-medium"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/try-for-free"
+                  onClick={closeMobile}
+                  className="block w-full text-center btn-primary text-sm px-4 py-2"
+                >
+                  Try for free
+                </Link>
+              </div>
+            )}
+
+            {/* COLLAPSIBLE App */}
+            {token && (
+              <>
+                <button
+                  onClick={() => setAppOpen((o) => !o)}
+                  className="w-full text-left px-3 py-2 rounded-md font-medium text-text-secondary hover:bg-surface-medium hover:text-white flex items-center justify-between"
+                >
+                  App
+                  <svg
+                    className={`h-4 w-4 transform ${
+                      appOpen ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                {appOpen && (
+                  <div className="pl-4 mt-1 space-y-1">
+                    {authLinks.map(({ to, label }) => (
+                      <Link
+                        key={to}
+                        to={to}
+                        onClick={closeMobile}
+                        className={`block px-3 py-2 rounded-md font-medium ${
+                          pathname === to
+                            ? "bg-primary/20 text-white"
+                            : "text-text-secondary hover:bg-surface-medium hover:text-white"
+                        }`}
+                      >
+                        {label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+                <div className="p-1" />
+                <div>
+                  <Button
+                    className="btn-secondary text-sm px-4 py-1.5 rounded-md border border-primary hover:bg-surface-medium"
+                    onClick={logout}
+                  >
+                    Logout
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       )}
     </header>
   );
-};
-
-export default Header;
+}
