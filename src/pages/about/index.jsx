@@ -5,6 +5,33 @@ import DivyanshuImage from "../../assets/teams/divyanshu.png";
 import HarshilImage from "../../assets/teams/harshil.png";
 import { Link } from "react-router-dom";
 
+const teamData = [
+  {
+    id: 1,
+    image: KishanKumarImage,
+    name: "Kishan Kumar",
+    designation: "CEO & Co-founder",
+    description:
+      "Kishan drives the company vision, strategy, and leadership, ensuring our growth and innovation in the social media space.",
+  },
+  {
+    id: 2,
+    image: HarshilImage,
+    name: "Harshil Dholakiya",
+    designation: "Co-founder & CTO",
+    description:
+      "Harshil leads the technology vision, architecture, and development, building scalable solutions that power SocialLens.",
+  },
+  {
+    id: 3,
+    image: DivyanshuImage,
+    name: "Divyanshu",
+    designation: "Project Manager",
+    description:
+      "Divyanshu oversees project delivery, timelines, and team coordination, ensuring smooth execution and high-quality outcomes.",
+  },
+];
+
 const AboutPage = () => {
   return (
     <div className="relative min-h-screen bg-background-dark text-white overflow-hidden px-6 py-16">
@@ -59,50 +86,27 @@ const AboutPage = () => {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {/* Example team member cards */}
-            <div className="bg-surface-dark rounded-xl border border-border-dark p-6 text-center hover:scale-105 transition">
-              <img
-                src={KishanKumarImage}
-                alt="Kishan Kumar"
-                className="w-24 h-24 mx-auto rounded-full mb-4"
-              />
-              <h3 className="text-lg font-semibold">Kishan Kumar</h3>
-              <p className="text-primary-light text-sm mb-2">
-                CEO & Co-founder
-              </p>
-              <p className="text-text-secondary text-sm">
-                Kishan drives the company vision, strategy, and leadership,
-                ensuring our growth and innovation in the social media space.
-              </p>
-            </div>
-
-            <div className="bg-surface-dark rounded-xl border border-border-dark p-6 text-center hover:scale-105 transition">
-              <img
-                src={HarshilImage}
-                alt="Harshil Dholakiya"
-                className="w-24 h-24 mx-auto rounded-full mb-4"
-              />
-              <h3 className="text-lg font-semibold">Harshil Dholakiya</h3>
-              <p className="text-primary-light text-sm mb-2">Co-founder & CTO</p>
-              <p className="text-text-secondary text-sm">
-                Harshil leads the technology vision, architecture, and
-                development, building scalable solutions that power SocialLens.
-              </p>
-            </div>
-
-            <div className="bg-surface-dark rounded-xl border border-border-dark p-6 text-center hover:scale-105 transition">
-              <img
-                src={DivyanshuImage}
-                alt="Divyanshu"
-                className="w-24 h-24 mx-auto rounded-full mb-4"
-              />
-              <h3 className="text-lg font-semibold">Divyanshu</h3>
-              <p className="text-primary-light text-sm mb-2">Project Manager</p>
-              <p className="text-text-secondary text-sm">
-                Divyanshu oversees project delivery, timelines, and team
-                coordination, ensuring smooth execution and high-quality
-                outcomes.
-              </p>
-            </div>
+            {teamData.map((data, index) => {
+              return (
+                <div
+                  key={index}
+                  className="bg-surface-dark rounded-xl border border-border-dark p-6 text-center hover:scale-105 transition"
+                >
+                  <img
+                    src={data.image}
+                    alt="team image"
+                    className="w-24 h-24 mx-auto rounded-full mb-4"
+                  />
+                  <h3 className="text-lg font-semibold">{data.name}</h3>
+                  <p className="text-primary-light text-sm mb-2">
+                    {data.designation}
+                  </p>
+                  <p className="text-text-secondary text-sm">
+                    {data.description}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </section>
 
