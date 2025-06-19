@@ -196,7 +196,7 @@ export default function Header({ token, user }) {
             <>
               <UserProfile user={user} />
               <Button
-                className="btn-secondary text-sm px-4 py-1.5 rounded-md border border-primary hover:bg-surface-medium"
+                className="hidden xs:block btn-secondary text-sm px-4 py-1.5 rounded-md border border-primary hover:bg-surface-medium"
                 onClick={logout}
               >
                 Logout
@@ -212,7 +212,7 @@ export default function Header({ token, user }) {
               </Link>
               <Link
                 to="/try-for-free"
-                className="btn-primary text-sm px-4 py-1.5"
+                className="hidden xs:block btn-primary text-sm px-4 py-1.5"
               >
                 Try for free
               </Link>
@@ -355,7 +355,7 @@ export default function Header({ token, user }) {
                 <div className="p-1" />
                 <div>
                   <Button
-                    className="btn-secondary text-sm px-4 py-1.5 rounded-md border border-primary hover:bg-surface-medium"
+                    className="xs:hidden btn-secondary text-sm px-4 py-1.5 rounded-md border border-primary hover:bg-surface-medium"
                     onClick={logout}
                   >
                     Logout
