@@ -152,7 +152,7 @@ export default function Header({ token, user }) {
                   />
                 </svg>
               </button>
-              <div className="absolute right-0 mt-1 hidden group-hover:block bg-surface-dark border border-border-dark rounded-md shadow-lg z-20">
+              <div className="w-max absolute right-0 hidden group-hover:block bg-surface-dark border border-border-dark rounded-md shadow-lg z-20">
                 <NavList
                   links={resourceLinks}
                   currentPath={pathname}
@@ -180,7 +180,7 @@ export default function Header({ token, user }) {
                     />
                   </svg>
                 </button>
-                <div className="absolute right-0 mt-1 hidden group-hover:block bg-surface-dark border border-border-dark rounded-md shadow-lg z-20">
+                <div className="w-max absolute right-0 hidden group-hover:block bg-surface-dark border border-border-dark rounded-md shadow-lg z-20">
                   <NavList
                     links={authLinks}
                     currentPath={pathname}
