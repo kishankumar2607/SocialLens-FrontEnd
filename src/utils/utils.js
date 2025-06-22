@@ -88,7 +88,9 @@ export async function apiReq(
     if (error.response?.data) {
       throw error.response.data;
     } else if (error.message === "Network Error") {
-      throw { message: "Network Error", msg: "Network Error" };
+      const networkError = new Error("Network Error");
+      networkError.msg = "Network Error";
+      throw networkError;
     } else {
       throw error;
     }

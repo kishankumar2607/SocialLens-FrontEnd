@@ -27,24 +27,24 @@ const Hero = () => {
 
   const decryptUser = user ? decryptData(user) : null;
 
-  const hour = moment().hour();
-
   // console.log("User Data:", user);
   // console.log("decrypt User : ", decryptUser);
   // console.log("Hour: ", hour);
 
-  useEffect(() => {
-    //Function to display greeting message as per the local time
-    const displayGreeting = () => {
-      if (hour >= 6 && hour < 12) {
-        return setGreetingMessage("Good Morning");
-      } else if (hour >= 12 && hour < 18) {
-        return setGreetingMessage("Good Afternoon");
-      } else {
-        return setGreetingMessage("Good Evening");
-      }
-    };
+  //Function to display greeting message as per the local time
+  const displayGreeting = () => {
+    const hour = moment().hour();
 
+    if (hour >= 6 && hour < 12) {
+      return setGreetingMessage("Good Morning");
+    } else if (hour >= 12 && hour < 18) {
+      return setGreetingMessage("Good Afternoon");
+    } else {
+      return setGreetingMessage("Good Evening");
+    }
+  };
+
+  useEffect(() => {
     displayGreeting();
   }, []);
 

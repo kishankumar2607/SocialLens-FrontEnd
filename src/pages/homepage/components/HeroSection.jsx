@@ -29,9 +29,9 @@ const HeroSection = () => {
 
   const decryptUser = user ? decryptData(user) : null;
 
-  const hour = moment().hour();
-
   const displayGreeting = () => {
+    const hour = moment().hour();
+
     if (hour >= 6 && hour < 12) {
       return setGreetingMessage("Good Morning");
     } else if (hour >= 12 && hour < 18) {
