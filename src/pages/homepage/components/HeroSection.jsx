@@ -7,11 +7,10 @@ import { decryptData } from "../../../utils/encryptDecryptData";
 
 const HeroSection = () => {
   const heroRef = useRef(null);
-  const glowRef = useRef(null);
   const [greetingMessage, setGreetingMessage] = useState("");
 
   // Read token and user from cookies and session
-  const token = getCookie("token") || getSessionStorage("token") || null;
+  // const token = getCookie("token") || getSessionStorage("token") || null;
   const userFromCookie = getCookie("userName");
   const userFromSession = getSessionStorage("userName");
 
@@ -45,34 +44,6 @@ const HeroSection = () => {
   // Mouse movement effect for the hero section
   useEffect(() => {
     displayGreeting();
-
-    // const handleMouseMove = (e) => {
-    //   if (!heroRef.current || !glowRef.current) return;
-
-    //   const { left, top, width, height } =
-    //     heroRef.current.getBoundingClientRect();
-    //   const x = (e.clientX - left) / width;
-    //   const y = (e.clientY - top) / height;
-
-    //   // Update the position of the glow effect
-    //   glowRef.current.style.background = `radial-gradient(
-    //     circle at ${x * 100}% ${y * 100}%,
-    //     rgba(79, 70, 229, 0.15) 0%,
-    //     rgba(79, 70, 229, 0.05) 25%,
-    //     rgba(79, 70, 229, 0) 50%
-    //   )`;
-    // };
-
-    // const heroElement = heroRef.current;
-    // if (heroElement) {
-    //   heroElement.addEventListener("mousemove", handleMouseMove);
-    // }
-
-    // return () => {
-    //   if (heroElement) {
-    //     heroElement.removeEventListener("mousemove", handleMouseMove);
-    //   }
-    // };
   }, []);
 
   return (
@@ -80,32 +51,6 @@ const HeroSection = () => {
       ref={heroRef}
       className="relative bg-white min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-16 overflow-hidden"
     >
-      {/* Animated background glow effect */}
-      {/* <div
-        ref={glowRef}
-        className="absolute inset-0 pointer-events-none"
-        aria-hidden="true"
-      ></div> */}
-
-      {/* Decorative elements */}
-      {/* <div
-        className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary bg-opacity-10 rounded-full filter blur-3xl animate-pulse-slow"
-        aria-hidden="true"
-      ></div>
-      <div
-        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white bg-opacity-10 rounded-full filter blur-3xl animate-pulse-slow"
-        aria-hidden="true"
-      ></div> */}
-
-      {/* Grid pattern overlay */}
-      {/* <div
-        className="absolute inset-0 bg-grid-pattern opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}
-        aria-hidden="true"
-      ></div> */}
-
       {/* Hero content */}
       <div className="relative z-10 max-w-4xl w-full">
         <div className="text-center mb-8">
@@ -118,9 +63,7 @@ const HeroSection = () => {
             </h2>
           )}
           <h1 className="flex align-middle justify-center text-4xl md:text-6xl font-bold text-black mb-4 tracking-tight">
-            <span className="bg-clip-text text-black">
-              Welcome to&nbsp;
-            </span>
+            <span className="bg-clip-text text-black">Welcome to&nbsp;</span>
             <span className="block bg-clip-text text-transparent bg-gradient-to-r from-primary to-neon-purple">
               SocialLens
             </span>
@@ -157,16 +100,12 @@ const HeroSection = () => {
                   size={18}
                   className="text-success mr-2"
                 />
-                <span className="text-sm text-black">
-                  Real-time Analytics
-                </span>
+                <span className="text-sm text-black">Real-time Analytics</span>
               </div>
 
               <div className="flex items-center card-white-hover bg-opacity-70 px-4 py-2 rounded-full">
                 <Icon name="Users" size={18} className="text-info mr-2" />
-                <span className="text-sm text-black">
-                  Audience Insights
-                </span>
+                <span className="text-sm text-black">Audience Insights</span>
               </div>
 
               <div className="flex items-center card-white-hover bg-opacity-70 px-4 py-2 rounded-full">
@@ -175,9 +114,7 @@ const HeroSection = () => {
                   size={18}
                   className="text-warning mr-2"
                 />
-                <span className="text-sm text-black">
-                  Engagement Tracking
-                </span>
+                <span className="text-sm text-black">Engagement Tracking</span>
               </div>
             </div>
 
@@ -204,7 +141,9 @@ const HeroSection = () => {
             <div className="flex flex-col items-center p-6 text-center">
               <Icon name="Users" size={32} className="text-primary mb-4" />
               <h3 className="text-2xl font-bold text-black mb-1">10M+</h3>
-              <p className="text-text-tertiary text-base font-semibold">Active Users</p>
+              <p className="text-text-tertiary text-base font-semibold">
+                Active Users
+              </p>
             </div>
           </div>
 
@@ -212,7 +151,9 @@ const HeroSection = () => {
             <div className="flex flex-col items-center p-6 text-center">
               <Icon name="BarChart" size={32} className="text-success mb-4" />
               <h3 className="text-2xl font-bold text-black mb-1">85%</h3>
-              <p className="text-text-tertiary text-base font-semibold">Engagement Increase</p>
+              <p className="text-text-tertiary text-base font-semibold">
+                Engagement Increase
+              </p>
             </div>
           </div>
 
@@ -220,7 +161,9 @@ const HeroSection = () => {
             <div className="flex flex-col items-center p-6 text-center">
               <Icon name="Award" size={32} className="text-warning mb-4" />
               <h3 className="text-2xl font-bold text-black mb-1">5,000+</h3>
-              <p className="text-text-tertiary text-base font-semibold">Brands Trust Us</p>
+              <p className="text-text-tertiary text-base font-semibold">
+                Brands Trust Us
+              </p>
             </div>
           </div>
         </div>
