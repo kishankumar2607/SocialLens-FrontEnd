@@ -1,5 +1,5 @@
 import React from "react";
-import { FiCheckCircle, FiAlertCircle, FiStar } from "react-icons/fi";
+import { FiCheckCircle, FiStar } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const changelog = [
