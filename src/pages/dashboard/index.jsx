@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { BarChart } from "recharts";
 import Icon from "../../components/AppIcon";
 import AnalyticsCard from "./components/AnalyticsCard";
 import DataVisualization from "./components/DataVisualization";
