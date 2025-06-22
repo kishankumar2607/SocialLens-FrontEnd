@@ -33,18 +33,18 @@ const Hero = () => {
   // console.log("decrypt User : ", decryptUser);
   // console.log("Hour: ", hour);
 
-  //Function to display greeting message as per the local time
-  const displayGreeting = () => {
-    if (hour >= 6 && hour < 12) {
-      return setGreetingMessage("Good Morning");
-    } else if (hour >= 12 && hour < 18) {
-      return setGreetingMessage("Good Afternoon");
-    } else {
-      return setGreetingMessage("Good Evening");
-    }
-  };
-
   useEffect(() => {
+    //Function to display greeting message as per the local time
+    const displayGreeting = () => {
+      if (hour >= 6 && hour < 12) {
+        return setGreetingMessage("Good Morning");
+      } else if (hour >= 12 && hour < 18) {
+        return setGreetingMessage("Good Afternoon");
+      } else {
+        return setGreetingMessage("Good Evening");
+      }
+    };
+
     displayGreeting();
   }, []);
 
