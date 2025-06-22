@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AwardIcon, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { AuthAPILogin } from "../../api/api";
 import { apiPost, setCookie, setSessionStorage } from "../../utils/utils";
 import loginIllustration from "../../assets/images/loginImage.jpg";
