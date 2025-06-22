@@ -11,7 +11,6 @@ import TextareaInput from "../../components/TextareaInput";
 import { apiPost } from "../../utils/utils";
 import { SupportAPI } from "../../api/api";
 import { showError, showSuccess } from "../../utils/helperFunction";
-import Swal from "sweetalert2";
 import Loader from "../../components/Loader";
 
 const faqs = [
