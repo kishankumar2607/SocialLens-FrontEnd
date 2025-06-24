@@ -22,14 +22,14 @@ const Dashboard = () => {
       <main className="flex-1 overflow-y-auto p-6">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex flex-wrap justify-between items-center mb-8">
             <div>
               <h1 className="text-2xl font-bold text-black">Dashboard</h1>
               <p className="text-black">
                 Analytics overview for your social media
               </p>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center mt-3 md:mt-0 space-x-4">
               <button className="btn-secondary text-black flex items-center">
                 <Icon name="Calendar" size={18} className="mr-2" />
                 Last 30 days
@@ -117,7 +117,7 @@ const Dashboard = () => {
                         className="text-text-tertiary"
                       />
                     </div>
-                    <div className="flex justify-between text-sm">
+                    <div className="flex flex-wrap justify-between items-center gap-x-4 gap-y-2 text-sm w-full">
                       <div className="flex items-center">
                         <Icon
                           name="Heart"
