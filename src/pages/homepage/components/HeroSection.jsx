@@ -63,9 +63,11 @@ const HeroSection = () => {
             </h2>
           )}
           <h1 className="flex align-middle justify-center text-4xl md:text-6xl font-bold text-black mb-4 tracking-tight">
-            <span className="bg-clip-text text-black">Welcome to&nbsp;</span>
-            <span className="block bg-clip-text text-transparent bg-gradient-to-r from-primary to-neon-purple">
-              SocialLens
+            <span className="bg-clip-text text-black">
+              Welcome to{" "}
+              <span className="block bg-clip-text text-transparent bg-gradient-to-r from-primary to-neon-purple">
+                SocialLens
+              </span>
             </span>
           </h1>
 
