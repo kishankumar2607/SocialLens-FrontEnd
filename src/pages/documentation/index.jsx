@@ -18,7 +18,7 @@ const DocumentationPage = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-background-dark text-white px-4 lg:px-40 py-16">
+    <div className="relative min-h-screen bg-background-dark text-white px-4 lg:px-40 py-16 overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-10 left-1/4 w-96 h-96 bg-gradient-to-br from-primary to-neon-purple opacity-10 blur-3xl rounded-full pointer-events-none" />
       <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-gradient-to-tr from-neon-blue to-primary opacity-10 blur-2xl rounded-full pointer-events-none" />
@@ -132,7 +132,7 @@ const DocumentationPage = () => {
             <p className="text-text-secondary">
               Download our complete documentation PDF or reach out to our support team for additional help.
             </p>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               <a
                 href="/downloads/sociallens-docs.pdf"
                 className="btn-primary flex items-center gap-2"
