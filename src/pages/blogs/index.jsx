@@ -11,7 +11,7 @@ const BlogListPage = () => {
       .replace(/-+/g, "-");
 
   return (
-    <div className="relative min-h-screen bg-background-dark text-white px-4 lg:px-40 py-16">
+    <div className="relative min-h-screen bg-background-dark text-white px-4 lg:px-40 py-16 overflow-hidden">
       {/* Background Glow */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-gradient-to-br from-primary to-neon-purple opacity-30 blur-[150px] rounded-full animate-pulse-slow" />
