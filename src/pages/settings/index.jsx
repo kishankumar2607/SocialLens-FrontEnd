@@ -1,21 +1,37 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  apiGet,
+  apiPut,
   getCookie,
   getSessionStorage,
   apiDelete,
   deleteAllCookies,
   clearAllSessionStorage,
 } from "../../utils/utils";
-import { AuthAPIDeleteAccount } from "../../api/api";
+import { AuthAPIDeleteAccount, AccountsAPI } from "../../api/api";
 import { decryptData } from "../../utils/encryptDecryptData";
 import Swal from "sweetalert2";
 import { showError, showSuccess } from "../../utils/helperFunction";
 import Loader from "../../components/Loader";
+import {
+  FaInstagramSquare,
+  FaLinkedin,
+  FaFacebookSquare,
+  FaPlug,
+  FaUnlink,
+  FaEdit,
+} from "react-icons/fa";
+import { FaSquareXTwitter } from "react-icons/fa6";
+
+const platforms = ["instagram", "twitter", "facebook", "linkedin"];
 
 const SettingsPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [accounts, setAccounts] = useState(null);
+  const [urlInputs, setUrlInputs] = useState({});
+  const [editMode, setEditMode] = useState({});
 
   const user = getCookie("userName")
     ? JSON.parse(getCookie("userName"))
@@ -31,7 +47,102 @@ const SettingsPage = () => {
 
   const decryptedData = decryptData(user);
   const decryptedEmail = decryptData(userEmail);
-  // console.log(decryptedEmail);
+  // console.log(decryptedData);
+
+  useEffect(() => {
+    fetchAccountDetails();
+  }, []);
+
+  const fetchAccountDetails = async () => {
+    try {
+      setLoading(true);
+      const response = await apiGet(AccountsAPI);
+      // console.log("Account Details Response:", response.data.accounts);
+      if (response.status === 200) {
+        const data = response.data.accounts || {};
+        setAccounts(data);
+        setUrlInputs(data);
+        setEditMode({});
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching account details:", error);
+      setLoading(false);
+    }
+  };
+
+  const handleAddOrUpdateAccount = async (platform, isUpdate = false) => {
+    const url = urlInputs[platform]?.url || "";
+    if (!url) return showError("Please enter a valid URL before saving.");
+
+    try {
+      setLoading(true);
+      const payload = {
+        accounts: {
+          [platform]: {
+            connected: true,
+            url,
+          },
+        },
+      };
+      const response = await apiPut(AccountsAPI, payload);
+      showSuccess(
+        response.message || `${platform} ${isUpdate ? "updated" : "connected"}!`
+      );
+      fetchAccountDetails();
+    } catch (err) {
+      const errorMsg =
+        err?.error?.includes("not a valid URL") ||
+        err?.message?.includes("not a valid URL")
+          ? `The URL "${url}" is not valid for ${platform}. Please enter a full profile link (e.g. https://www.${platform}.com/yourusername)`
+          : err?.message || `Failed to connect ${platform}`;
+      Swal.fire({
+        title: "Update Failed",
+        text: errorMsg,
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDisconnect = (platform) => {
+    Swal.fire({
+      title: `Disconnect ${platform}?`,
+      text: "This will remove the connected URL.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, disconnect!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          setLoading(true);
+          const response = await apiDelete(`${AccountsAPI}/${platform}`);
+          showSuccess(response.message || `${platform} disconnected!`);
+          fetchAccountDetails();
+        } catch (err) {
+          showError(err?.message || `Failed to disconnect ${platform}`);
+        } finally {
+          setLoading(false);
+        }
+      }
+    });
+  };
+
+  const handleUrlChange = (platform, value) => {
+    setUrlInputs((prev) => ({
+      ...prev,
+      [platform]: { ...prev[platform], url: value },
+    }));
+
+    setEditMode((prev) => ({
+      ...prev,
+      [platform]: accounts?.[platform]?.url !== value,
+    }));
+  };
 
   const deleteApiResponse = async () => {
     try {
@@ -70,6 +181,13 @@ const SettingsPage = () => {
         deleteApiResponse();
       }
     });
+  };
+
+  const platformIcons = {
+    instagram: <FaInstagramSquare className="text-pink-500 size-8" />,
+    twitter: <FaSquareXTwitter className="text-black size-8" />,
+    facebook: <FaFacebookSquare className="text-blue-600 size-8" />,
+    linkedin: <FaLinkedin className="text-blue-700 size-8" />,
   };
 
   return (
@@ -129,9 +247,7 @@ const SettingsPage = () => {
 
         {/* Notification Preferences */}
         <section className="card-white-custom space-y-4">
-          <h2 className="text-xl font-bold mb-4">
-            Notification Preferences
-          </h2>
+          <h2 className="text-xl font-bold mb-4">Notification Preferences</h2>
           <label className="flex items-center gap-2">
             <input type="checkbox" />
             Email Notifications
@@ -144,19 +260,74 @@ const SettingsPage = () => {
         </section>
 
         {/* Connected Accounts */}
-        <section className="card-white-custom space-y-4">
-          <h2 className="text-xl font-bold mb-4">Connected Accounts</h2>
-          <div className="flex justify-between">
-            <span>Instagram</span>
-            <button className="btn-secondary text-black text-sm">Disconnect</button>
-          </div>
-          <div className="flex justify-between">
-            <span>Twitter</span>
-            <button className="btn-secondary text-black text-sm">Disconnect</button>
-          </div>
-          <div className="flex justify-between">
-            <span>LinkedIn</span>
-            <button className="btn-secondary text-black text-sm">Disconnect</button>
+        <section className="card-white-custom space-y-6">
+          <h2 className="text-xl font-bold mb-6">Connected Accounts</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {platforms.map((platform) => {
+              const isConnected = accounts?.[platform]?.connected;
+              const urlValue = urlInputs?.[platform]?.url || "";
+              return (
+                <div
+                  key={platform}
+                  className={`rounded-lg border p-5 shadow-sm ${
+                    isConnected
+                      ? "border-green-400 bg-green-50"
+                      : "border-gray-300"
+                  }`}
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    {platformIcons[platform]}
+                    <h3 className="text-black font-semibold text-lg capitalize">
+                      {platform}
+                    </h3>
+                    <span
+                      className={`ml-auto text-sm ${
+                        isConnected ? "text-green-600" : "text-red-500"
+                      }`}
+                    >
+                      {isConnected ? "Connected" : "Not Connected"}
+                    </span>
+                  </div>
+
+                  <input
+                    type="text"
+                    value={urlValue}
+                    onChange={(e) => handleUrlChange(platform, e.target.value)}
+                    className="input-default bg-white text-black w-full mb-4"
+                    placeholder={`Enter ${platform} URL`}
+                  />
+
+                  <div className="flex justify-end gap-2">
+                    {isConnected && editMode[platform] && (
+                      <button
+                        className="btn-secondary text-sm bg-yellow-100 hover:bg-yellow-200 text-yellow-700"
+                        onClick={() => handleAddOrUpdateAccount(platform, true)}
+                      >
+                        <FaEdit className="inline-block mr-1" />
+                        Update
+                      </button>
+                    )}
+                    {isConnected ? (
+                      <button
+                        className="btn-secondary text-sm bg-red-100 hover:bg-red-200 text-red-700"
+                        onClick={() => handleDisconnect(platform)}
+                      >
+                        <FaUnlink className="inline-block mr-1" />
+                        Disconnect
+                      </button>
+                    ) : (
+                      <button
+                        className="btn-primary text-sm bg-blue-600 hover:bg-blue-700"
+                        onClick={() => handleAddOrUpdateAccount(platform)}
+                      >
+                        <FaPlug className="inline-block mr-1" />
+                        Connect
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
