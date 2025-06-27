@@ -18,3 +18,6 @@ export const ContactAPI = Base_URL + "/contact-form";
 
 //Support Api
 export const SupportAPI = Base_URL + "/support-form";
+
+//Accounts Api
+export const AccountsAPI = Base_URL + "/accounts";
