@@ -12,6 +12,7 @@ export const AuthAPIForgotPassword = AUTH_URL + "/forgot-password";
 export const AuthAPIVerifyOtp = AUTH_URL + "/verify-otp";
 export const AuthAPIResetPassword = AUTH_URL + "/reset-password";
 export const AuthAPIDeleteAccount = AUTH_URL + "/delete-account";
+export const AuthAPIProfile = AUTH_URL + "/profile";
 
 //Contact Api
 export const ContactAPI = Base_URL + "/contact-form";
