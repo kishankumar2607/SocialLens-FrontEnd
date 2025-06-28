@@ -5,13 +5,21 @@ import {
   apiPut,
   getCookie,
   getSessionStorage,
+  setCookie,
+  setSessionStorage,
   apiDelete,
   deleteAllCookies,
   clearAllSessionStorage,
 } from "../../utils/utils";
-import { AuthAPIDeleteAccount, AccountsAPI } from "../../api/api";
-import { decryptData } from "../../utils/encryptDecryptData";
+import {
+  AuthAPIProfile,
+  AuthAPIDeleteAccount,
+  AccountsAPI,
+} from "../../api/api";
+import { encryptData, decryptData } from "../../utils/encryptDecryptData";
 import Swal from "sweetalert2";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import { showError, showSuccess } from "../../utils/helperFunction";
 import Loader from "../../components/Loader";
 import {
@@ -26,40 +34,86 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 
 const platforms = ["instagram", "twitter", "facebook", "linkedin"];
 
+const user = getCookie("userName")
+  ? JSON.parse(getCookie("userName"))
+  : getSessionStorage("userName")
+  ? getSessionStorage("userName")
+  : null;
+
+const userEmail = getCookie("userEmail")
+  ? JSON.parse(getCookie("userEmail"))
+  : getSessionStorage("userEmail")
+  ? getSessionStorage("userEmail")
+  : null;
+
+const decryptedData = decryptData(user);
+const decryptedEmail = decryptData(userEmail);
+// console.log(decryptedData);
+
 const SettingsPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [name, setName] = useState(decryptedData);
+  const [phone, setPhone] = useState({ countryCode: "+1", number: "" });
+  const [phoneValue, setPhoneValue] = useState("");
   const [accounts, setAccounts] = useState(null);
   const [urlInputs, setUrlInputs] = useState({});
   const [editMode, setEditMode] = useState({});
-
-  const user = getCookie("userName")
-    ? JSON.parse(getCookie("userName"))
-    : getSessionStorage("userName")
-    ? getSessionStorage("userName")
-    : null;
-
-  const userEmail = getCookie("userEmail")
-    ? JSON.parse(getCookie("userEmail"))
-    : getSessionStorage("userEmail")
-    ? getSessionStorage("userEmail")
-    : null;
-
-  const decryptedData = decryptData(user);
-  const decryptedEmail = decryptData(userEmail);
-  // console.log(decryptedData);
 
   useEffect(() => {
     fetchAccountDetails();
   }, []);
 
+  const saveUserDetails = async () => {
+    if (!name && !phoneValue) {
+      return showError("Please enter your name and phone number.");
+    } else if (!name) {
+      return showError("Please enter your name.");
+    } else if (!phoneValue) {
+      return showError("Please enter your phone number.");
+    }
+
+    try {
+      setLoading(true);
+      await apiPut(AuthAPIProfile, {
+        name,
+        phoneNumber: encryptData(phone.number),
+        phoneCountryCode: phone.countryCode,
+      });
+
+      // Update cookies and session storage
+      const userName = encryptData(name);
+      if (getCookie("userName")) {
+        setCookie("userName", userName, 7);
+      } else {
+        setSessionStorage("userName", userName);
+      }
+
+      showSuccess("Details saved successfully!");
+      fetchAccountDetails();
+      setLoading(false);
+    } catch (err) {
+      showError(err?.message || "Failed to update details.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const fetchAccountDetails = async () => {
     try {
       setLoading(true);
       const response = await apiGet(AccountsAPI);
-      // console.log("Account Details Response:", response.data.accounts);
+      // console.log("Account Details Response:", response.data);
       if (response.status === 200) {
         const data = response.data.accounts || {};
+        const phoneNumber = response.data.phoneNumber || "";
+        const phoneCountryCode = response.data.phoneCountryCode || "+1";
+        const decryptedPhoneNumber = decryptData(phoneNumber);
+        setPhone({
+          countryCode: phoneCountryCode,
+          number: decryptedPhoneNumber.replace(/\D/g, ""),
+        });
+        setPhoneValue(decryptedPhoneNumber);
         setAccounts(data);
         setUrlInputs(data);
         setEditMode({});
@@ -211,17 +265,54 @@ const SettingsPage = () => {
           <h2 className="text-xl font-semibold mb-4">User Details</h2>
           <input
             type="text"
-            value={decryptedData}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder="Full Name"
             className="input-default bg-white text-black w-full"
           />
+
+          <PhoneInput
+            country={"ca"}
+            value={phoneValue}
+            onChange={(value, country) => {
+              let cleanNumber = value.replace(/\D/g, "");
+              if (cleanNumber.startsWith(country.dialCode)) {
+                cleanNumber = cleanNumber.slice(country.dialCode.length);
+              }
+              setPhone({
+                countryCode: `+${country.dialCode}`,
+                number: cleanNumber,
+              });
+              setPhoneValue(value);
+            }}
+            international
+            withCountryCallingCode
+            // containerClass="input-default bg-white text-black w-full"
+            buttonStyle={{
+              backgroundColor: "white",
+              color: "black",
+              border: "1px solid #000000",
+              }}
+            inputStyle={{
+              width: "100%",
+              backgroundColor: "white",
+              color: "black",
+              border: "1px solid #000000",
+            }}
+            dropdownClass="bg-white text-black"
+          />
+
           <input
             type="email"
             value={decryptedEmail}
             placeholder="Email Address"
-            className="input-default bg-white text-black w-full"
+            disabled
+            className="input-default bg-gray-200 text-black w-full cursor-not-allowed"
           />
-          <button className="btn-primary mt-4">Save Details</button>
+
+          <button className="btn-primary mt-4" onClick={saveUserDetails}>
+            Save Details
+          </button>
         </section>
 
         {/* Change Password */}
