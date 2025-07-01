@@ -13,6 +13,7 @@ import {
 } from "../../utils/utils";
 import {
   AuthAPIProfile,
+  AuthAPIUpdatePassword,
   AuthAPIDeleteAccount,
   AccountsAPI,
 } from "../../api/api";
@@ -56,6 +57,8 @@ const SettingsPage = () => {
   const [name, setName] = useState(decryptedData);
   const [phone, setPhone] = useState({ countryCode: "+1", number: "" });
   const [phoneValue, setPhoneValue] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [accounts, setAccounts] = useState(null);
   const [urlInputs, setUrlInputs] = useState({});
   const [editMode, setEditMode] = useState({});
@@ -63,6 +66,10 @@ const SettingsPage = () => {
   useEffect(() => {
     fetchAccountDetails();
   }, []);
+
+  const handlePasswordChange = () => {
+    console.log("Password change functionality not implemented yet.");
+  };
 
   const saveUserDetails = async () => {
     if (!name && !phoneValue) {
@@ -292,7 +299,7 @@ const SettingsPage = () => {
               backgroundColor: "white",
               color: "black",
               border: "1px solid #000000",
-              }}
+            }}
             inputStyle={{
               width: "100%",
               backgroundColor: "white",
@@ -320,20 +327,31 @@ const SettingsPage = () => {
           <h2 className="text-xl font-bold mb-4">Change Password</h2>
           <input
             type="password"
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
             placeholder="Current Password"
             className="input-default bg-white text-black w-full"
           />
           <input
             type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
             placeholder="New Password"
             className="input-default bg-white text-black w-full"
           />
           <input
             type="password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
             placeholder="Confirm New Password"
             className="input-default bg-white text-black w-full"
           />
-          <button className="btn-primary mt-4">Update Password</button>
+          <button
+            className="btn-primary mt-4"
+            onClick={() => handlePasswordChange()}
+          >
+            Update Password
+          </button>
         </section>
 
         {/* Notification Preferences */}
