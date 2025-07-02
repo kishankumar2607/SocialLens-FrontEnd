@@ -76,7 +76,7 @@ const RegisterPage = () => {
           confirmPassword: "",
         });
       } catch (error) {
-        console.error("Registration failed:", error);
+        // console.error("Registration failed:", error);
         showError(error?.message || "Registration failed. Please try again.");
         setLoading(false);
       }
