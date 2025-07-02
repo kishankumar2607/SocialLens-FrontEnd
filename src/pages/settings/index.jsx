@@ -58,6 +58,11 @@ const SettingsPage = () => {
   const [name, setName] = useState(decryptedData);
   const [phone, setPhone] = useState({ countryCode: "+1", number: "" });
   const [phoneValue, setPhoneValue] = useState("");
+  const [originalDetails, setOriginalDetails] = useState({
+    name: "",
+    phoneCountryCode: "+1",
+    phoneNumber: "",
+  });
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -170,6 +175,11 @@ const SettingsPage = () => {
         setAccounts(data);
         setUrlInputs(data);
         setEditMode({});
+        setOriginalDetails({
+          name,
+          phoneCountryCode: phoneCountryCode,
+          phoneNumber: decryptedPhoneNumber.replace(/\D/g, ""),
+        });
         setEmailNotifications(emailNotifications);
       }
       setLoading(false);
@@ -177,6 +187,14 @@ const SettingsPage = () => {
       console.error("Error fetching account details:", error);
       setLoading(false);
     }
+  };
+
+  const hasChanges = () => {
+    return (
+      name !== originalDetails.name ||
+      phone.countryCode !== originalDetails.phoneCountryCode ||
+      phone.number !== originalDetails.phoneNumber
+    );
   };
 
   const handleAddOrUpdateAccount = async (platform, isUpdate = false) => {
@@ -380,7 +398,13 @@ const SettingsPage = () => {
             className="input-default bg-gray-200 text-black w-full cursor-not-allowed"
           />
 
-          <button className="btn-primary mt-4" onClick={saveUserDetails}>
+          <button
+            className={`btn-primary mt-4 ${
+              !hasChanges() ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={saveUserDetails}
+            disabled={!hasChanges()}
+          >
             Save Details
           </button>
         </section>
