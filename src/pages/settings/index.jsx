@@ -16,6 +16,7 @@ import {
   AuthAPIUpdatePassword,
   AuthAPIDeleteAccount,
   AccountsAPI,
+  AuthAPINotifications,
 } from "../../api/api";
 import { encryptData, decryptData } from "../../utils/encryptDecryptData";
 import Swal from "sweetalert2";
@@ -32,43 +33,87 @@ import {
   FaEdit,
 } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
+import { Eye, EyeOff } from "lucide-react";
 
 const platforms = ["instagram", "twitter", "facebook", "linkedin"];
 
-const user = getCookie("userName")
-  ? JSON.parse(getCookie("userName"))
-  : getSessionStorage("userName")
-  ? getSessionStorage("userName")
-  : null;
-
-const userEmail = getCookie("userEmail")
-  ? JSON.parse(getCookie("userEmail"))
-  : getSessionStorage("userEmail")
-  ? getSessionStorage("userEmail")
-  : null;
-
-const decryptedData = decryptData(user);
-const decryptedEmail = decryptData(userEmail);
-// console.log(decryptedData);
-
 const SettingsPage = () => {
   const navigate = useNavigate();
+  const user = getCookie("userName")
+    ? JSON.parse(getCookie("userName"))
+    : getSessionStorage("userName")
+    ? getSessionStorage("userName")
+    : null;
+
+  const userEmail = getCookie("userEmail")
+    ? JSON.parse(getCookie("userEmail"))
+    : getSessionStorage("userEmail")
+    ? getSessionStorage("userEmail")
+    : null;
+
+  const decryptedData = decryptData(user);
+  const decryptedEmail = decryptData(userEmail);
+  // console.log(decryptedData);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState(decryptedData);
   const [phone, setPhone] = useState({ countryCode: "+1", number: "" });
   const [phoneValue, setPhoneValue] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [accounts, setAccounts] = useState(null);
   const [urlInputs, setUrlInputs] = useState({});
   const [editMode, setEditMode] = useState({});
+  // const [pushNotifications, setPushNotifications] = useState(false);
+  const [emailNotifications, setEmailNotifications] = useState(false);
+
+  const passwordRegex =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^_-])[A-Za-z\d@$!%*#?&^_-]{6,}$/;
 
   useEffect(() => {
     fetchAccountDetails();
   }, []);
 
-  const handlePasswordChange = () => {
-    console.log("Password change functionality not implemented yet.");
+  const handlePasswordChange = async () => {
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      return showError("Please fill in all password fields.");
+    }
+
+    if (newPassword !== confirmPassword) {
+      return showError("New password and confirm password do not match.");
+    }
+
+    if (newPassword.length < 6 || !passwordRegex.test(newPassword)) {
+      return showError(
+        "Password must be at least 6 characters and include letters, numbers, and a special character"
+      );
+    }
+
+    try {
+      setLoading(true);
+      const payload = {
+        oldPassword,
+        newPassword,
+      };
+
+      // console.log("Password Update Payload:", payload);
+
+      const response = await apiPut(AuthAPIUpdatePassword, payload);
+      // console.log("Password Update Response:", response);
+      showSuccess(response?.message || "Password updated successfully!");
+
+      // Reset password fields
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (error) {
+      showError(error?.message || "Failed to update password.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const saveUserDetails = async () => {
@@ -115,6 +160,7 @@ const SettingsPage = () => {
         const data = response.data.accounts || {};
         const phoneNumber = response.data.phoneNumber || "";
         const phoneCountryCode = response.data.phoneCountryCode || "+1";
+        const emailNotifications = response.data.emailNotification || false;
         const decryptedPhoneNumber = decryptData(phoneNumber);
         setPhone({
           countryCode: phoneCountryCode,
@@ -124,6 +170,7 @@ const SettingsPage = () => {
         setAccounts(data);
         setUrlInputs(data);
         setEditMode({});
+        setEmailNotifications(emailNotifications);
       }
       setLoading(false);
     } catch (error) {
@@ -203,6 +250,22 @@ const SettingsPage = () => {
       ...prev,
       [platform]: accounts?.[platform]?.url !== value,
     }));
+  };
+
+  const savePreferences = async () => {
+    try {
+      setLoading(true);
+      const payload = {
+        emailNotification: emailNotifications,
+      };
+      const response = await apiPut(AuthAPINotifications, payload);
+      showSuccess(response?.message || "Preferences saved successfully!");
+      fetchAccountDetails();
+    } catch (err) {
+      showError(err?.message || "Failed to save preferences!");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const deleteApiResponse = async () => {
@@ -325,27 +388,57 @@ const SettingsPage = () => {
         {/* Change Password */}
         <section className="card-white-custom space-y-4">
           <h2 className="text-xl font-bold mb-4">Change Password</h2>
-          <input
-            type="password"
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
-            placeholder="Current Password"
-            className="input-default bg-white text-black w-full"
-          />
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            placeholder="New Password"
-            className="input-default bg-white text-black w-full"
-          />
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            placeholder="Confirm New Password"
-            className="input-default bg-white text-black w-full"
-          />
+          <div className="relative">
+            <input
+              type={showOldPassword ? "text" : "password"}
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+              placeholder="Current Password"
+              className="input-default bg-white text-black w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setShowOldPassword(!showOldPassword)}
+              className="absolute top-[12px] right-3 text-text-tertiary"
+            >
+              {showOldPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
+
+          <div className="relative">
+            <input
+              type={showNewPassword ? "text" : "password"}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="New Password"
+              className="input-default bg-white text-black w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setShowNewPassword(!showNewPassword)}
+              className="absolute top-[12px] right-3 text-text-tertiary"
+            >
+              {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
+
+          <div className="relative">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm New Password"
+              className="input-default bg-white text-black w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute top-[12px] right-3 text-text-tertiary"
+            >
+              {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
+
           <button
             className="btn-primary mt-4"
             onClick={() => handlePasswordChange()}
@@ -357,15 +450,28 @@ const SettingsPage = () => {
         {/* Notification Preferences */}
         <section className="card-white-custom space-y-4">
           <h2 className="text-xl font-bold mb-4">Notification Preferences</h2>
+
           <label className="flex items-center gap-2">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              checked={emailNotifications}
+              onChange={(e) => setEmailNotifications(e.target.checked)}
+            />
             Email Notifications
           </label>
-          <label className="flex items-center gap-2">
-            <input type="checkbox" />
+
+          {/* <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={pushNotifications}
+              onChange={(e) => setPushNotifications(e.target.checked)}
+            />
             Push Notifications
-          </label>
-          <button className="btn-primary mt-4">Save Preferences</button>
+          </label> */}
+
+          <button className="btn-primary mt-4" onClick={savePreferences}>
+            Save Preferences
+          </button>
         </section>
 
         {/* Connected Accounts */}
