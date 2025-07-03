@@ -78,6 +78,39 @@ const SettingsPage = () => {
   const passwordRegex =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^_-])[A-Za-z\d@$!%*#?&^_-]{6,}$/;
 
+  const fetchAccountDetails = async () => {
+    try {
+      setLoading(true);
+      const response = await apiGet(AccountsAPI);
+      // console.log("Account Details Response:", response.data);
+      if (response.status === 200) {
+        const data = response.data.accounts || {};
+        const phoneNumber = response.data.phoneNumber || "";
+        const phoneCountryCode = response.data.phoneCountryCode || "+1";
+        const emailNotifications = response.data.emailNotification || false;
+        const decryptedPhoneNumber = decryptData(phoneNumber);
+        setPhone({
+          countryCode: phoneCountryCode,
+          number: decryptedPhoneNumber.replace(/\D/g, ""),
+        });
+        setPhoneValue(decryptedPhoneNumber);
+        setAccounts(data);
+        // setUrlInputs(data);
+        // setEditMode({});
+        setOriginalDetails({
+          name,
+          phoneCountryCode: phoneCountryCode,
+          phoneNumber: decryptedPhoneNumber.replace(/\D/g, ""),
+        });
+        setEmailNotifications(emailNotifications);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching account details:", error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchAccountDetails();
   }, []);
@@ -152,39 +185,6 @@ const SettingsPage = () => {
     } catch (err) {
       showError(err?.message || "Failed to update details.");
     } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchAccountDetails = async () => {
-    try {
-      setLoading(true);
-      const response = await apiGet(AccountsAPI);
-      // console.log("Account Details Response:", response.data);
-      if (response.status === 200) {
-        const data = response.data.accounts || {};
-        const phoneNumber = response.data.phoneNumber || "";
-        const phoneCountryCode = response.data.phoneCountryCode || "+1";
-        const emailNotifications = response.data.emailNotification || false;
-        const decryptedPhoneNumber = decryptData(phoneNumber);
-        setPhone({
-          countryCode: phoneCountryCode,
-          number: decryptedPhoneNumber.replace(/\D/g, ""),
-        });
-        setPhoneValue(decryptedPhoneNumber);
-        setAccounts(data);
-        // setUrlInputs(data);
-        // setEditMode({});
-        setOriginalDetails({
-          name,
-          phoneCountryCode: phoneCountryCode,
-          phoneNumber: decryptedPhoneNumber.replace(/\D/g, ""),
-        });
-        setEmailNotifications(emailNotifications);
-      }
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching account details:", error);
       setLoading(false);
     }
   };
@@ -611,7 +611,10 @@ const SettingsPage = () => {
                 </>
               ) : (
                 <button
-                  onClick={() => (window.location.href = "https://api.sociallens.kishankumardas.com/auth/linkedin")}
+                  onClick={() =>
+                    (window.location.href =
+                      "https://api.sociallens.kishankumardas.com/auth/linkedin")
+                  }
                   className="btn-primary text-sm bg-blue-600 hover:bg-blue-700 inline-flex items-center gap-2"
                 >
                   <FaPlug />
