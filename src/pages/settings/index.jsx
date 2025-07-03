@@ -78,7 +78,7 @@ const SettingsPage = () => {
   const passwordRegex =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^_-])[A-Za-z\d@$!%*#?&^_-]{6,}$/;
 
-  const fetchAccountDetails = async () => {
+  const fetchAccountDetails = useCallback(async () => {
     try {
       setLoading(true);
       const response = await apiGet(AccountsAPI);
@@ -109,11 +109,11 @@ const SettingsPage = () => {
       console.error("Error fetching account details:", error);
       setLoading(false);
     }
-  };
+  }, [name]);
 
   useEffect(() => {
     fetchAccountDetails();
-  }, []);
+  }, [fetchAccountDetails]);
 
   const handlePasswordChange = async () => {
     if (!oldPassword || !newPassword || !confirmPassword) {
