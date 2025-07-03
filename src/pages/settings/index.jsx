@@ -25,17 +25,17 @@ import "react-phone-input-2/lib/style.css";
 import { showError, showSuccess } from "../../utils/helperFunction";
 import Loader from "../../components/Loader";
 import {
-  FaInstagramSquare,
+  // FaInstagramSquare,
   FaLinkedin,
-  FaFacebookSquare,
+  // FaFacebookSquare,
   FaPlug,
   FaUnlink,
-  FaEdit,
+  // FaEdit,
 } from "react-icons/fa";
-import { FaSquareXTwitter } from "react-icons/fa6";
+// import { FaSquareXTwitter } from "react-icons/fa6";
 import { Eye, EyeOff } from "lucide-react";
 
-const platforms = ["instagram", "twitter", "facebook", "linkedin"];
+// const platforms = ["instagram", "twitter", "facebook", "linkedin"];
 
 const SettingsPage = () => {
   const navigate = useNavigate();
@@ -70,8 +70,8 @@ const SettingsPage = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [accounts, setAccounts] = useState(null);
-  const [urlInputs, setUrlInputs] = useState({});
-  const [editMode, setEditMode] = useState({});
+  // const [urlInputs, setUrlInputs] = useState({});
+  // const [editMode, setEditMode] = useState({});
   // const [pushNotifications, setPushNotifications] = useState(false);
   const [emailNotifications, setEmailNotifications] = useState(false);
 
@@ -173,8 +173,8 @@ const SettingsPage = () => {
         });
         setPhoneValue(decryptedPhoneNumber);
         setAccounts(data);
-        setUrlInputs(data);
-        setEditMode({});
+        // setUrlInputs(data);
+        // setEditMode({});
         setOriginalDetails({
           name,
           phoneCountryCode: phoneCountryCode,
@@ -197,41 +197,41 @@ const SettingsPage = () => {
     );
   };
 
-  const handleAddOrUpdateAccount = async (platform, isUpdate = false) => {
-    const url = urlInputs[platform]?.url || "";
-    if (!url) return showError("Please enter a valid URL before saving.");
+  // const handleAddOrUpdateAccount = async (platform, isUpdate = false) => {
+  //   const url = urlInputs[platform]?.url || "";
+  //   if (!url) return showError("Please enter a valid URL before saving.");
 
-    try {
-      setLoading(true);
-      const payload = {
-        accounts: {
-          [platform]: {
-            connected: true,
-            url,
-          },
-        },
-      };
-      const response = await apiPut(AccountsAPI, payload);
-      showSuccess(
-        response.message || `${platform} ${isUpdate ? "updated" : "connected"}!`
-      );
-      fetchAccountDetails();
-    } catch (err) {
-      const errorMsg =
-        err?.error?.includes("not a valid URL") ||
-        err?.message?.includes("not a valid URL")
-          ? `The URL "${url}" is not valid for ${platform}. Please enter a full profile link (e.g. https://www.${platform}.com/yourusername)`
-          : err?.message || `Failed to connect ${platform}`;
-      Swal.fire({
-        title: "Update Failed",
-        text: errorMsg,
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  //   try {
+  //     setLoading(true);
+  //     const payload = {
+  //       accounts: {
+  //         [platform]: {
+  //           connected: true,
+  //           url,
+  //         },
+  //       },
+  //     };
+  //     const response = await apiPut(AccountsAPI, payload);
+  //     showSuccess(
+  //       response.message || `${platform} ${isUpdate ? "updated" : "connected"}!`
+  //     );
+  //     fetchAccountDetails();
+  //   } catch (err) {
+  //     const errorMsg =
+  //       err?.error?.includes("not a valid URL") ||
+  //       err?.message?.includes("not a valid URL")
+  //         ? `The URL "${url}" is not valid for ${platform}. Please enter a full profile link (e.g. https://www.${platform}.com/yourusername)`
+  //         : err?.message || `Failed to connect ${platform}`;
+  //     Swal.fire({
+  //       title: "Update Failed",
+  //       text: errorMsg,
+  //       icon: "error",
+  //       confirmButtonText: "OK",
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleDisconnect = (platform) => {
     Swal.fire({
@@ -258,17 +258,17 @@ const SettingsPage = () => {
     });
   };
 
-  const handleUrlChange = (platform, value) => {
-    setUrlInputs((prev) => ({
-      ...prev,
-      [platform]: { ...prev[platform], url: value },
-    }));
+  // const handleUrlChange = (platform, value) => {
+  //   setUrlInputs((prev) => ({
+  //     ...prev,
+  //     [platform]: { ...prev[platform], url: value },
+  //   }));
 
-    setEditMode((prev) => ({
-      ...prev,
-      [platform]: accounts?.[platform]?.url !== value,
-    }));
-  };
+  //   setEditMode((prev) => ({
+  //     ...prev,
+  //     [platform]: accounts?.[platform]?.url !== value,
+  //   }));
+  // };
 
   const savePreferences = async () => {
     try {
@@ -325,12 +325,12 @@ const SettingsPage = () => {
     });
   };
 
-  const platformIcons = {
-    instagram: <FaInstagramSquare className="text-pink-500 size-8" />,
-    twitter: <FaSquareXTwitter className="text-black size-8" />,
-    facebook: <FaFacebookSquare className="text-blue-600 size-8" />,
-    linkedin: <FaLinkedin className="text-blue-700 size-8" />,
-  };
+  // const platformIcons = {
+  //   instagram: <FaInstagramSquare className="text-pink-500 size-8" />,
+  //   twitter: <FaSquareXTwitter className="text-black size-8" />,
+  //   facebook: <FaFacebookSquare className="text-blue-600 size-8" />,
+  //   linkedin: <FaLinkedin className="text-blue-700 size-8" />,
+  // };
 
   return (
     <div className="min-h-screen bg-white text-white px-6 py-12">
