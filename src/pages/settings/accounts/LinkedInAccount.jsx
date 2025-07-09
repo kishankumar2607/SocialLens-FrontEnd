@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { apiGet, apiDelete } from "../../../utils/utils";
+import { apiGet } from "../../../utils/utils";
 import {
   LinkedInAccountDetailsAPI,
   LinkedInAuthDelete,
@@ -7,6 +7,7 @@ import {
 import Swal from "sweetalert2";
 import { FaLinkedin, FaUnlink, FaPlug } from "react-icons/fa";
 import { showError, showSuccess } from "../../../utils/helperFunction";
+import axios from "axios";
 
 const LinkedInAccount = ({ setLoading }) => {
   const [accounts, setAccounts] = useState({});
@@ -52,12 +53,10 @@ const LinkedInAccount = ({ setLoading }) => {
     if (!result.isConfirmed) return;
 
     try {
-      const response = await apiDelete(
-        LinkedInAuthDelete,
-        {},
-        {},
-        { withCredentials: true }
-      );
+      const response = await axios.delete(LinkedInAuthDelete, {
+        withCredentials: true,
+      });
+
       if (response.status === 200) {
         showSuccess("LinkedIn account disconnected successfully.");
         fetchAccount();
@@ -103,16 +102,6 @@ const LinkedInAccount = ({ setLoading }) => {
               {linkedIn.name}
             </span>
           </div>
-          {linkedIn.url && (
-            <a
-              href={linkedIn.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline mb-4 block"
-            >
-              View your LinkedIn profile
-            </a>
-          )}
           <button
             onClick={handleDisconnect}
             className="btn-secondary text-sm bg-red-100 hover:bg-red-200 text-red-700"
@@ -121,12 +110,19 @@ const LinkedInAccount = ({ setLoading }) => {
           </button>
         </>
       ) : (
-        <a
-          href="http://localhost:8000/auth/linkedin"
-          className="btn-primary text-sm bg-blue-600 hover:bg-blue-700"
-        >
-          <FaPlug className="inline-block mr-1" /> Connect LinkedIn
-        </a>
+        <div>
+          <div className="flex items-center gap-2 mb-3 mt-3">
+            <span className="text-blue-700 font-semibold text-lg capitalize">
+              Connect your LinkedIn account.
+            </span>
+          </div>
+          <a
+            href="http://localhost:8000/auth/linkedin"
+            className="btn-primary text-sm bg-blue-600 hover:bg-blue-700"
+          >
+            <FaPlug className="inline-block mr-1" /> Connect
+          </a>
+        </div>
       )}
     </section>
   );
