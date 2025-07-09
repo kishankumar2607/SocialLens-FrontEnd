@@ -1,8 +1,8 @@
-const AUTH_URL = "https://api.sociallens.kishankumardas.com/auth";
-const BASE_URL = "https://api.sociallens.kishankumardas.com/api";
+// const AUTH_URL = "https://api.sociallens.kishankumardas.com/auth";
+// const BASE_URL = "https://api.sociallens.kishankumardas.com/api";
 
-// const AUTH_URL = "http://localhost:8000/auth";
-// const BASE_URL = "http://localhost:8000/api";
+const AUTH_URL = "http://localhost:8000/auth";
+const BASE_URL = "http://localhost:8000/api";
 
 //Auth Api
 export const AuthAPIRegister = AUTH_URL + "/register";
@@ -24,8 +24,8 @@ export const SupportAPI = BASE_URL + "/support-form";
 
 //Accounts Api
 export const AccountsAPI = BASE_URL + "/accounts";
+export const LinkedInAccountDetailsAPI = BASE_URL + "/accounts/linkedin";
 
 //LinkedIn Api
-export const LinkedInAPIProfile = AUTH_URL + "/linkedin/profile";
-export const LinkedInAPIPosts = AUTH_URL + "/linkedin/posts";
-export const LinkedInAPIFollowers = AUTH_URL + "/linkedin/followers";
+export const LinkedInAPI = AUTH_URL + "/linkedin";
+export const LinkedInAuthDelete = AUTH_URL + "/linkedin/unlink";
