@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { AuthAPILogin } from "../../api/api";
-import { apiPost, setCookie, setSessionStorage } from "../../utils/utils";
+import { setCookie, setSessionStorage } from "../../utils/utils";
 import loginIllustration from "../../assets/images/loginImage.jpg";
 import { showError, showSuccess } from "../../utils/helperFunction";
 import { encryptData } from "../../utils/encryptDecryptData";
 import Loader from "../../components/Loader";
+import axios from "axios";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({
+    email: "Kishank2607@gmail.com",
+    password: "Kishan@2607",
+  });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -57,7 +61,12 @@ const LoginPage = () => {
           email: form.email,
           password: form.password,
         };
-        const response = await apiPost(AuthAPILogin, payload);
+        const response = await axios.post(AuthAPILogin, payload, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        });
         // console.log("Response:", response);
 
         const { message, token, user } = response?.data || {};
