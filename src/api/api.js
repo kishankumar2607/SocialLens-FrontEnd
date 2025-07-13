@@ -28,4 +28,7 @@ export const LinkedInAccountDetailsAPI = BASE_URL + "/accounts/linkedin";
 
 //LinkedIn Api
 export const LinkedInAPI = AUTH_URL + "/linkedin";
+export const LinkedInAPIProfileUrl = (userId) =>
+  `${AUTH_URL}/linkedin/profileUrl/${encodeURIComponent(userId)}`;
+
 export const LinkedInAuthDelete = AUTH_URL + "/linkedin/unlink";
