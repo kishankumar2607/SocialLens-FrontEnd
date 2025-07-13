@@ -12,7 +12,7 @@ const TwitterAccount = ({ setLoading }) => {
         isConnected ? "border-green-400 bg-green-50" : "border-gray-300"
       }`}
     >
-      <div className="flex items-center gap-3 mb-3">
+      <div className="flex flex-wrap items-center gap-3 mb-3">
         <FaSquareXTwitter className="text-black size-8" />
         <h3 className="text-black font-semibold text-lg capitalize">twitter</h3>
         <span
