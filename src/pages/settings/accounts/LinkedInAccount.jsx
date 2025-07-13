@@ -78,7 +78,7 @@ const LinkedInAccount = ({ setLoading }) => {
         isConnected ? "border-green-400 bg-green-50" : "border-gray-300"
       }`}
     >
-      <div className="flex items-center gap-1">
+      <div className="flex flex-wrap items-center gap-1">
         <FaLinkedin className="text-blue-700 size-8" />
         <h2 className="text-black font-semibold text-lg capitalize">
           LinkedIn
