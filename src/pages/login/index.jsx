@@ -69,8 +69,9 @@ const LoginPage = () => {
         });
         // console.log("Response:", response);
 
-        const { message, token, user } = response?.data || {};
+        const { message, id, token, user } = response?.data || {};
 
+        console.log("ID:", id);
         // console.log("Token:", token);
         // console.log("User:", user);
 
@@ -78,15 +79,18 @@ const LoginPage = () => {
           showSuccess(message);
 
           if (token && user) {
+            const userId = encryptData(id);
             const userToken = encryptData(token);
             const userName = encryptData(user.name);
             const userEmail = encryptData(user.email);
 
             if (rememberMe) {
+              setCookie("userId", userId, 7);
               setCookie("token", userToken, 7);
               setCookie("userName", userName, 7);
               setCookie("userEmail", userEmail, 7);
             } else {
+              setSessionStorage("userId", userId);
               setSessionStorage("token", userToken);
               setSessionStorage("userName", userName);
               setSessionStorage("userEmail", userEmail);
