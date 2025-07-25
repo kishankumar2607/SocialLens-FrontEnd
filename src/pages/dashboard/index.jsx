@@ -28,6 +28,16 @@ const Dashboard = () => {
               <p className="text-black">
                 Analytics overview for your social media
               </p>
+              <div className="text-black mt-3 flex items-center">
+                <h3 className="font-bold">Manage your accounts : &nbsp;</h3>
+                <select className="bg-white text-black font-bold border border-gray-300 rounded-md p-2">
+                  <option value="all">All Accounts</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="twitter">Twitter</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="linkedin">LinkedIn</option>
+                </select>
+              </div>
             </div>
             <div className="flex items-center mt-3 md:mt-0 space-x-4">
               <button className="btn-secondary text-black flex items-center">
