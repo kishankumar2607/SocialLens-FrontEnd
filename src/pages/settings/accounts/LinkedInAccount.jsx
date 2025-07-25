@@ -35,6 +35,7 @@ const LinkedInAccount = ({ setLoading }) => {
     }
   }, [setLoading]);
 
+
   useEffect(() => {
     fetchAccount();
   }, [fetchAccount]);
