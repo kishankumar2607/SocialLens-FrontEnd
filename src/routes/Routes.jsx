@@ -232,22 +232,6 @@ const Routes = () => {
 						</MainLayout>
 					}
 				/>
-				<Route
-					path="/privacy"
-					element={
-						<MainLayout>
-							<PrivacyPolicy />
-						</MainLayout>
-					}
-				/>
-				<Route
-					path="/terms"
-					element={
-						<MainLayout>
-							<TermsOfService />
-						</MainLayout>
-					}
-				/>
 
 				{/* SecondLayout Routes */}
 				<Route
