@@ -47,6 +47,11 @@ const Sidebar = ({
       path: "/dashboard",
     },
     {
+      name: "Generate Post",
+      icon: "PenTool",
+      path: "/generate-post",
+    },
+    {
       name: "Create Post",
       icon: "PlusCircle",
       path: "/create-post",
@@ -294,7 +299,9 @@ const Sidebar = ({
             <div className="p-4 border-b border-border-dark flex items-center">
               <Link to="/" className="flex items-center space-x-2">
                 <div className="h-8 w-8 rounded-md bg-gradient-to-r from-primary to-neon-purple flex items-center justify-center">
-                  <span className="font-sans text-white font-bold text-lg">S</span>
+                  <span className="font-sans text-white font-bold text-lg">
+                    S
+                  </span>
                 </div>
                 <span className="text-white font-display font-bold text-xl">
                   SocialLens
