@@ -33,6 +33,7 @@ import ResetPasswordPage from "../pages/reset-password";
 import SettingsPage from "../pages/settings";
 import AnalyticsPage from "../pages/analytics";
 import TryForFree from "../pages/try-for-free";
+import GeneratePost from "../pages/generate-post";
 
 const Routes = () => {
   return (
@@ -247,6 +248,14 @@ const Routes = () => {
           element={
             <SecondLayout>
               <Dashboard />
+            </SecondLayout>
+          }
+        />
+        <Route
+          path="/generate-post"
+          element={
+            <SecondLayout>
+              <GeneratePost />
             </SecondLayout>
           }
         />
