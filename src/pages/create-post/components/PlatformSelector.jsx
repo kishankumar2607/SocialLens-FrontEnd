@@ -4,18 +4,6 @@ import Icon from "../../../components/AppIcon";
 const PlatformSelector = ({ selectedPlatforms, onToggle, error, errorMessage }) => {
   const platforms = [
     {
-      id: "facebook",
-      name: "Facebook",
-      icon: "Facebook",
-      color: "#1877F2",
-    },
-    {
-      id: "instagram",
-      name: "Instagram",
-      icon: "Instagram",
-      color: "#E4405F",
-    },
-    {
       id: "linkedin",
       name: "LinkedIn",
       icon: "Linkedin",
@@ -34,7 +22,8 @@ const PlatformSelector = ({ selectedPlatforms, onToggle, error, errorMessage }) 
               onClick={() => onToggle(platform.id)}
               className={`flex items-center px-4 py-2 rounded-md transition-all duration-200 ${
                 isSelected
-                  ? "bg-primary bg-opacity-20 border border-primary" :"bg-surface-medium border border-border-dark hover:border-primary-light"
+                  ? "bg-primary bg-opacity-20 border border-primary"
+                  : "bg-surface-medium border border-border-dark hover:border-primary-light"
               }`}
             >
               <Icon
@@ -48,11 +37,11 @@ const PlatformSelector = ({ selectedPlatforms, onToggle, error, errorMessage }) 
           );
         })}
       </div>
-      {error && (
+      {/* {error && (
         <p className="text-error text-sm mt-1 flex items-center">
           {errorMessage}
         </p>
-      )}
+      )} */}
     </div>
   );
 };
