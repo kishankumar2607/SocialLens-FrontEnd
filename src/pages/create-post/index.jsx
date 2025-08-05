@@ -12,6 +12,7 @@ const CreatePost = () => {
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const [images, setImages] = useState([]);
   const [hashtags, setHashtags] = useState([]);
+  const [hashtagInput, setHashtagInput] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [formErrors, setFormErrors] = useState({
     message: false,
@@ -20,16 +21,17 @@ const CreatePost = () => {
   });
 
   const handleHashtagChange = (e) => {
-    const raw = e.target.value.trim().split(/\s+/).filter(Boolean);
-    setHashtags(raw.map((t) => (t.startsWith("#") ? t : `#${t}`)));
+    const value = e.target.value;
+    setHashtagInput(value);
+
+    const raw = value.trim().split(/\s+/).filter(Boolean);
+    setHashtags(raw.map((tag) => (tag.startsWith("#") ? tag : `#${tag}`)));
   };
 
   const handleMessageChange = (value) => {
-    if (value.length <= 280) {
-      setMessage(value);
-      if (formErrors.message && value.trim().length > 0) {
-        setFormErrors((prev) => ({ ...prev, message: false }));
-      }
+    setMessage(value);
+    if (formErrors.message && value.trim().length > 0) {
+      setFormErrors((prev) => ({ ...prev, message: false }));
     }
   };
 
@@ -54,17 +56,23 @@ const CreatePost = () => {
   const validateForm = () => {
     const errors = {
       message: message.trim().length === 0,
-      platforms: selectedPlatforms.length === 0,
       images: images.length === 0 && selectedPlatforms.length === 0,
     };
     setFormErrors(errors);
-    return !errors.message && !errors.platforms && !errors.images;
+    return !errors.message && !errors.images;
   };
 
   const handleCreatePost = () => {
     if (validateForm()) {
       setShowToast(true);
       setTimeout(() => setShowToast(false), 3000);
+
+      // Reset form state
+      setMessage("");
+      setSelectedPlatforms([]);
+      setImages([]);
+      setHashtags([]);
+      setHashtagInput("");
     }
   };
 
@@ -117,25 +125,23 @@ const CreatePost = () => {
                 </label>
                 <input
                   type="text"
-                  value={hashtags.join(" ")}
+                  value={hashtagInput}
                   onChange={handleHashtagChange}
                   placeholder="#react #social"
-                  className="w-full border border-border-dark rounded-md px-3 py-2 placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-light transition-all"
+                  className="w-full text-black border border-border-dark rounded-md px-3 py-2 placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-light transition-all"
                 />
               </div>
 
               <FormInput
                 value={message}
                 onChange={handleMessageChange}
-                maxLength={280}
                 error={formErrors.message}
                 errorMessage="Please enter a message"
               />
 
-
               <div className="mt-6">
                 <label className="block text-sm font-medium text-black mb-2">
-                  Select Platforms
+                  Selected Platform
                 </label>
                 <PlatformSelector
                   selectedPlatforms={selectedPlatforms}
