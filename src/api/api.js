@@ -32,3 +32,5 @@ export const LinkedInAuthDelete = AUTH_URL + "/linkedin/unlink";
 
 //Generate Post using AI
 export const GeneratePostAPI = BASE_URL + "/generate-post";
+export const SaveGeneratedPostAPI = BASE_URL + "/save-generated-posts";
+export const GetGeneratedPostDetailsAPI = (id) => `${BASE_URL}/get-generated-posts/${id}`;
