@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { FaLinkedin, FaUnlink, FaPlug } from "react-icons/fa";
 import { showError, showSuccess } from "../../../utils/helperFunction";
 import axios from "axios";
+import defaultIcon from "../../../assets/teams/defaultUser.png";
 
 const LinkedInAccount = ({ setLoading }) => {
   const [accounts, setAccounts] = useState({});
@@ -34,7 +35,6 @@ const LinkedInAccount = ({ setLoading }) => {
       setLoading(false);
     }
   }, [setLoading]);
-
 
   useEffect(() => {
     fetchAccount();
@@ -96,12 +96,16 @@ const LinkedInAccount = ({ setLoading }) => {
       {linkedIn.connected ? (
         <>
           <div className="flex items-center gap-2 mb-3 mt-3">
-            <span className="font-bold text-lg capitalize text-black">
-              Name:
-            </span>
-            <span className="text-blue-700 font-semibold text-lg capitalize">
-              {linkedIn.name}
-            </span>
+            <img
+              src={linkedIn.profileURL || defaultIcon}
+              alt="LinkedIn Avatar"
+              className="w-10 h-10 rounded-full"
+            />
+            <div>
+              <span className="text-blue-700 font-semibold text-lg capitalize">
+                {linkedIn.name}
+              </span>
+            </div>
           </div>
           <button
             onClick={handleDisconnect}
