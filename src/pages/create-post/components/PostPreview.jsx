@@ -41,7 +41,7 @@ const PostPreview = ({ message, images, hashtags }) => {
     avatar: accounts.avatar || DefaultIcon,
     handle:
       accounts.handle ||
-      `@${accounts.name.trim().toLowerCase().replace(/\s+/g, "")}`,
+      `@${(accounts.name || "").trim().toLowerCase().replace(/\s+/g, "")}`,
   };
 
   const formatMessage = (text) =>
