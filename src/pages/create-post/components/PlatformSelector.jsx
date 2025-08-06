@@ -7,7 +7,7 @@ const PlatformSelector = ({ selectedPlatforms, onToggle, error, errorMessage }) 
       id: "linkedin",
       name: "LinkedIn",
       icon: "Linkedin",
-      color: "#0A66C2",
+      color: "#ffffff",
     },
   ];
 
@@ -37,11 +37,11 @@ const PlatformSelector = ({ selectedPlatforms, onToggle, error, errorMessage }) 
           );
         })}
       </div>
-      {/* {error && (
+      {error && (
         <p className="text-error text-sm mt-1 flex items-center">
           {errorMessage}
         </p>
-      )} */}
+      )}
     </div>
   );
 };
