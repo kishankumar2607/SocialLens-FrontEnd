@@ -41,7 +41,7 @@ const CreatePost = () => {
     }
 
     const token = user ? decryptData(user) : null;
-    console.log("Retrieved token:", token);
+    // console.log("Retrieved token:", token);
     return token;
   };
 
@@ -85,7 +85,7 @@ const CreatePost = () => {
   const validateForm = () => {
     const errors = {
       message: message.trim().length === 0,
-      images: images.length === 0 && selectedPlatforms.length === 0,
+      images: images.length === 0,
       platforms: selectedPlatforms.length === 0,
     };
     setFormErrors(errors);
@@ -120,10 +120,12 @@ const CreatePost = () => {
         },
       });
 
+      // console.log("Response status:", response);
+
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error?.message || "Post failed");
+        throw new Error(data.error?.message || "LinkedIn Account not connected");
       }
 
       showSuccess("Post created successfully!");
