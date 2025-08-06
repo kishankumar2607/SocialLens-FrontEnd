@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   GeneratePostAPI,
   SaveGeneratedPostAPI,
-  GetGeneratedPostDetailsAPI,
+  GetUserGeneratedPostsAPI,
 } from "../../api/api";
 import { apiPost, apiGet } from "../../utils/utils";
 import { getCookie, getSessionStorage } from "../../utils/utils";
@@ -10,6 +10,7 @@ import { decryptData } from "../../utils/encryptDecryptData";
 import Button from "../../components/Button";
 import Loader from "../../components/Loader";
 import { Copy } from "lucide-react";
+import { showError } from "../../utils/helperFunction";
 
 const GeneratePost = () => {
   const [prompt, setPrompt] = useState("");
@@ -38,28 +39,33 @@ const GeneratePost = () => {
 
   const userId = user ? decryptData(user) : null;
 
-  useEffect(() => {
-    if (userId) {
-      fetchSavedPosts();
-    }
-  }, [userId]);
-
-  const fetchSavedPosts = async (id) => {
+  const fetchSavedPosts = useCallback(async () => {
     try {
-      const response = await apiGet(GetGeneratedPostDetailsAPI(id));
+      const response = await apiGet(`${GetUserGeneratedPostsAPI}/${userId}`);
       // console.log("Fetched saved posts:", response.data);
       setSavedPosts(response.data || []);
     } catch (err) {
       console.error("Error fetching saved posts:", err);
-      alert("Failed to fetch saved posts. Please try again later.");
+      showError("Failed to fetch saved posts. Please try again later.");
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    if (userId) {
+      fetchSavedPosts();
+    }
+  }, [userId, fetchSavedPosts]);
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
       setError("Prompt cannot be empty.");
       return;
     }
+    if (!userId) {
+      setError("You must be logged in to generate posts.");
+      return;
+    }
+
     setError("");
     setLoading(true);
     setResult(null);
@@ -77,7 +83,7 @@ const GeneratePost = () => {
         imageUrl: response.data.imageUrl,
       });
 
-      fetchSavedPosts();
+      await fetchSavedPosts();
     } catch (err) {
       console.error("Error:", err);
       alert("Failed to generate content. Please try again later.");
