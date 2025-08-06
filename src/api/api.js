@@ -29,6 +29,7 @@ export const LinkedInAccountDetailsAPI = BASE_URL + "/accounts/linkedin";
 //LinkedIn Api
 export const LinkedInAPI = AUTH_URL + "/linkedin";
 export const LinkedInAuthDelete = AUTH_URL + "/linkedin/unlink";
+export const LinkedInPostsAPI = AUTH_URL + "/linkedin/posts";
 
 //Generate Post using AI
 export const GeneratePostAPI = BASE_URL + "/generate-post";
