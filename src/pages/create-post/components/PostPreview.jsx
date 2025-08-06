@@ -38,7 +38,7 @@ const PostPreview = ({ message, images, hashtags }) => {
 
   const user = {
     name: accounts.name,
-    avatar: accounts.avatar || DefaultIcon,
+    avatar: accounts.profileURL || DefaultIcon,
     handle:
       accounts.handle ||
       `@${(accounts.name || "").trim().toLowerCase().replace(/\s+/g, "")}`,
@@ -92,7 +92,6 @@ const PostPreview = ({ message, images, hashtags }) => {
               className="h-full w-full object-cover"
             />
           </div>
-          {/* Name */}
           <div className="flex flex-col items-start">
             <span className="font-semibold text-black text-sm">
               {user.name}
@@ -102,7 +101,6 @@ const PostPreview = ({ message, images, hashtags }) => {
         </div>
 
         <div>
-          {/* Images */}
           {images.length > 0 && (
             <div className="grid grid-cols-3 gap-2 my-4">
               {images.map((img, i) => (
@@ -116,7 +114,6 @@ const PostPreview = ({ message, images, hashtags }) => {
             </div>
           )}
 
-          {/* Hashtags */}
           {hashtags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {hashtags.map((tag, i) => (
@@ -130,7 +127,6 @@ const PostPreview = ({ message, images, hashtags }) => {
             </div>
           )}
 
-          {/* ✅ Message with 500-word limit */}
           {message.trim() && (
             <p className="text-sm text-black whitespace-pre-wrap">
               {formatMessage(message)}
