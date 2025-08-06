@@ -61,22 +61,24 @@ const LoginPage = () => {
           email: form.email,
           password: form.password,
         };
+
         const response = await axios.post(AuthAPILogin, payload, {
           headers: {
             "Content-Type": "application/json",
           },
           withCredentials: true,
         });
+
         // console.log("Response:", response);
 
         const { message, id, token, user } = response?.data || {};
 
-        console.log("ID:", id);
+        // console.log("ID:", id);
         // console.log("Token:", token);
         // console.log("User:", user);
 
         if (response.status === 200) {
-          showSuccess(message);
+          showSuccess(message || "Login successful");
 
           if (token && user) {
             const userId = encryptData(id);
@@ -85,10 +87,22 @@ const LoginPage = () => {
             const userEmail = encryptData(user.email);
 
             if (rememberMe) {
-              setCookie("userId", userId, 7);
-              setCookie("token", userToken, 7);
-              setCookie("userName", userName, 7);
-              setCookie("userEmail", userEmail, 7);
+              setCookie("userId", userId, 7, {
+                secure: true,
+                sameSite: "strict",
+              });
+              setCookie("token", userToken, 7, {
+                secure: true,
+                sameSite: "strict",
+              });
+              setCookie("userName", userName, 7, {
+                secure: true,
+                sameSite: "strict",
+              });
+              setCookie("userEmail", userEmail, 7, {
+                secure: true,
+                sameSite: "strict",
+              });
             } else {
               setSessionStorage("userId", userId);
               setSessionStorage("token", userToken);
@@ -98,13 +112,19 @@ const LoginPage = () => {
           }
           navigate("/homepage");
           setLoading(false);
-        } else {
-          showError("Login failed. Please check your credentials.");
-          setLoading(false);
         }
       } catch (error) {
-        console.error("Login error:", error);
-        showError(error?.message || "Login failed. Please try again.");
+        if (error.response) {
+          showError(
+            error.response.data.message ||
+              "Invalid credentials. Please try again."
+          );
+        } else if (error.request) {
+          showError("Network error. Please check your connection.");
+        } else {
+          showError("An unexpected error occurred. Please try again.");
+        }
+      } finally {
         setLoading(false);
       }
     }
