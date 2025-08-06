@@ -1,5 +1,8 @@
-// src/pages/CreatePost/CreatePost.jsx
 import React, { useState } from "react";
+import { LinkedInPostsAPI } from "../../api/api";
+import { getCookie, getSessionStorage } from "../../utils/utils";
+import { decryptData } from "../../utils/encryptDecryptData";
+import { showError, showSuccess } from "../../utils/helperFunction";
 import Icon from "../../components/AppIcon";
 import FormInput from "./components/FormInput";
 import PlatformSelector from "./components/PlatformSelector";
@@ -13,12 +16,34 @@ const CreatePost = () => {
   const [images, setImages] = useState([]);
   const [hashtags, setHashtags] = useState([]);
   const [hashtagInput, setHashtagInput] = useState("");
-  const [showToast, setShowToast] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState({
     message: false,
     platforms: false,
     images: false,
   });
+
+  const getAuthToken = () => {
+    const userFromCookie = getCookie("token");
+    const userFromSession = getSessionStorage("token");
+
+    let user = null;
+
+    if (userFromCookie) {
+      try {
+        user = JSON.parse(userFromCookie);
+      } catch (e) {
+        console.error("Error parsing userFromCookie:", e);
+        user = userFromSession;
+      }
+    } else {
+      user = userFromSession;
+    }
+
+    const token = user ? decryptData(user) : null;
+    console.log("Retrieved token:", token);
+    return token;
+  };
 
   const handleHashtagChange = (e) => {
     const value = e.target.value;
@@ -29,6 +54,10 @@ const CreatePost = () => {
   };
 
   const handleMessageChange = (value) => {
+    if (value.length > 3000) {
+      showError("Message cannot exceed 3000 characters");
+      return;
+    }
     setMessage(value);
     if (formErrors.message && value.trim().length > 0) {
       setFormErrors((prev) => ({ ...prev, message: false }));
@@ -57,22 +86,56 @@ const CreatePost = () => {
     const errors = {
       message: message.trim().length === 0,
       images: images.length === 0 && selectedPlatforms.length === 0,
+      platforms: selectedPlatforms.length === 0,
     };
     setFormErrors(errors);
     return !errors.message && !errors.images;
   };
 
-  const handleCreatePost = () => {
-    if (validateForm()) {
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
+  const handleCreatePost = async () => {
+    if (!validateForm()) return;
 
-      // Reset form state
-      setMessage("");
-      setSelectedPlatforms([]);
-      setImages([]);
-      setHashtags([]);
-      setHashtagInput("");
+    const token = getAuthToken();
+    if (!token) {
+      showError("Please sign in to post");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("text", `${message} ${hashtags.join(" ")}`);
+
+    if (images[0]) {
+      formData.append("image", images[0]);
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(LinkedInPostsAPI, {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || "Post failed");
+      }
+
+      showSuccess("Post created successfully!");
+      handleReset();
+    } catch (error) {
+      showError(
+        error.message.includes("token")
+          ? "Session expired. Please log in again"
+          : error.message || "Failed to create post"
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -80,7 +143,8 @@ const CreatePost = () => {
     setMessage("");
     setSelectedPlatforms([]);
     setImages([]);
-    setHashtags([]);
+    setHashtags("");
+    setHashtagInput("");
     setFormErrors({ message: false, platforms: false, images: false });
   };
 
@@ -89,8 +153,8 @@ const CreatePost = () => {
       {/* Header + Form & Preview Columns */}
       <div className="flex-1 flex flex-col overflow-auto">
         {/* Header */}
-        <header className="lg:sticky lg:top-0 z-10 bg-surface-dark border-b border-border-dark p-4 flex items-center justify-between">
-          <h1 className="text-xl font-bold">Create Post</h1>
+        <header className="lg:sticky lg:top-0 z-10 bg-surface-light border-b border-border-dark p-4 flex items-center justify-between">
+          <h1 className="text-xl font-bold text-black">Create Post</h1>
           <div className="flex items-center space-x-4">
             <button className="text-text-secondary hover:text-text-primary p-2 rounded-full hover:bg-surface-medium transition-colors">
               <Icon name="Bell" size={20} />
@@ -115,7 +179,7 @@ const CreatePost = () => {
                   images={images}
                   onUpload={handleImageUpload}
                   error={formErrors.images}
-                  errorMessage="Please upload an image or select a platform"
+                  errorMessage="Please upload files (images, PDFs, or Word docs)"
                 />
               </div>
 
@@ -137,17 +201,18 @@ const CreatePost = () => {
                 onChange={handleMessageChange}
                 error={formErrors.message}
                 errorMessage="Please enter a message"
+                maxLength={3000}
               />
 
               <div className="mt-6">
                 <label className="block text-sm font-medium text-black mb-2">
-                  Selected Platform
+                  Select Platform
                 </label>
                 <PlatformSelector
                   selectedPlatforms={selectedPlatforms}
                   onToggle={handlePlatformToggle}
                   error={formErrors.platforms}
-                  errorMessage="Please select at least one platform"
+                  errorMessage="Please select platform"
                 />
               </div>
 
@@ -157,12 +222,14 @@ const CreatePost = () => {
                   onClick={handleReset}
                   icon="RefreshCw"
                   label="Reset"
+                  disabled={isSubmitting}
                 />
                 <ActionButton
                   variant="primary"
                   onClick={handleCreatePost}
                   icon="Send"
-                  label="Create Post"
+                  label={isSubmitting ? "Posting..." : "Create Post"}
+                  disabled={isSubmitting}
                 />
               </div>
             </div>
@@ -182,22 +249,6 @@ const CreatePost = () => {
           </div>
         </main>
       </div>
-
-      {/* Success Toast */}
-      {showToast && (
-        <div className="fixed bottom-4 right-4 animate-fade-in">
-          <div className="bg-success text-white px-4 py-3 rounded-lg shadow-lg flex items-center">
-            <Icon name="CheckCircle" size={20} className="mr-2" />
-            <span>Post created successfully!</span>
-            <button
-              onClick={() => setShowToast(false)}
-              className="ml-4 text-white hover:text-text-secondary"
-            >
-              <Icon name="X" size={16} />
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
