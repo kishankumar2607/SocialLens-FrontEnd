@@ -18,6 +18,8 @@ const PostPreview = ({ message, images, hashtags }) => {
       );
       const data = response.data.accountDetails || {};
 
+      // console.log("LinkedIn Account Data:", data);
+
       if (response.status === 200) {
         setAccounts(data);
       } else {
