@@ -3,7 +3,7 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaUnlink, FaPlug } from "react-icons/fa";
 
 const TwitterAccount = ({ setLoading }) => {
-  const isConnected = true;
+  const isConnected = false;
   const userName = "Kishan Kumar Das";
 
   return (
