@@ -142,7 +142,7 @@ const HeroSection = () => {
           <div className="card-white-hover bg-surface-light bg-opacity-70 backdrop-blur-sm">
             <div className="flex flex-col items-center p-6 text-center">
               <Icon name="Users" size={32} className="text-primary mb-4" />
-              <h3 className="text-2xl font-bold text-black mb-1">10M+</h3>
+              <h3 className="text-2xl font-bold text-black mb-1">1K+</h3>
               <p className="text-text-tertiary text-base font-semibold">
                 Active Users
               </p>
@@ -162,7 +162,7 @@ const HeroSection = () => {
           <div className="card-white-hover bg-surface-light bg-opacity-70 backdrop-blur-sm">
             <div className="flex flex-col items-center p-6 text-center">
               <Icon name="Award" size={32} className="text-warning mb-4" />
-              <h3 className="text-2xl font-bold text-black mb-1">5,000+</h3>
+              <h3 className="text-2xl font-bold text-black mb-1">5+</h3>
               <p className="text-text-tertiary text-base font-semibold">
                 Brands Trust Us
               </p>
