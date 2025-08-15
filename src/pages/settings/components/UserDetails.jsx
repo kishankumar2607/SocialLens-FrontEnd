@@ -18,78 +18,106 @@ const UserDetails = ({ setLoading }) => {
   const [phone, setPhone] = useState({ countryCode: "", number: "" });
   const [phoneValue, setPhoneValue] = useState("");
   const [decryptedEmail, setDecryptedEmail] = useState("");
-  const [original, setOriginal] = useState({});
+  const [original, setOriginal] = useState({
+    name: "",
+    phoneCountryCode: "+1",
+    phoneNumber: "",
+  });
+
+  // helpers to load cookie/session fallbacks
+  const getStoredName = () => {
+    const raw =
+      (getCookie("userName") && JSON.parse(getCookie("userName"))) ||
+      getSessionStorage("userName") ||
+      null;
+    return decryptData(raw) || "";
+  };
+
+  const getStoredEmail = () => {
+    const raw =
+      (getCookie("userEmail") && JSON.parse(getCookie("userEmail"))) ||
+      getSessionStorage("userEmail") ||
+      null;
+    return decryptData(raw) || "";
+  };
 
   const fetchDetails = useCallback(async () => {
     try {
       setLoading(true);
       const res = await apiGet(AccountsAPI);
-      const data = res.data || {};
-      //   console.log(data);
+      const data = res?.data || {};
+
       if (res.status === 200) {
+        const apiName = data.name?.toString?.() || ""; // <- take name from API
+        const nameFromApiOrStored = apiName || getStoredName();
+        setName(nameFromApiOrStored);
+
         const decryptedPhone = decryptData(data.phoneNumber || "");
-        const phoneNumber = decryptedPhone
+        const phoneNumberDigits = decryptedPhone
           ? decryptedPhone.replace(/\D/g, "")
           : "";
-        setPhone({
-          countryCode: data.phoneCountryCode || "+1",
-          number: phoneNumber,
-        });
-        setPhoneValue(`${data.phoneCountryCode || "+1"}${phoneNumber}`);
+        const cc = data.phoneCountryCode || "+1";
+
+        setPhone({ countryCode: cc, number: phoneNumberDigits });
+        setPhoneValue(`${cc}${phoneNumberDigits}`);
+
+        // IMPORTANT: set original from API response, not from state `name`
         setOriginal({
-          name,
-          phoneCountryCode: data.phoneCountryCode || "+1",
-          phoneNumber,
+          name: nameFromApiOrStored,
+          phoneCountryCode: cc,
+          phoneNumber: phoneNumberDigits,
         });
       }
     } catch (err) {
+      // optional: showError("Failed to fetch user details.");
       console.log(err);
     } finally {
       setLoading(false);
     }
-  }, [name, setLoading]);
+  }, [setLoading]);
 
   useEffect(() => {
-    const user = getCookie("userName")
-      ? JSON.parse(getCookie("userName"))
-      : getSessionStorage("userName")
-      ? getSessionStorage("userName")
-      : null;
-
-    const userEmail = getCookie("userEmail")
-      ? JSON.parse(getCookie("userEmail"))
-      : getSessionStorage("userEmail")
-      ? getSessionStorage("userEmail")
-      : null;
-    setName(decryptData(user));
-    setDecryptedEmail(decryptData(userEmail));
+    setDecryptedEmail(getStoredEmail());
     fetchDetails();
   }, [fetchDetails]);
 
-  //   console.log("Data in phone:", phone);
-
   const hasChanges = () =>
-    name !== original.name ||
+    name.trim() !== (original.name || "").trim() ||
     phone.countryCode !== original.phoneCountryCode ||
     phone.number !== original.phoneNumber;
 
   const save = async () => {
-    if (!name || !phoneValue) {
+    if (!name.trim() || !phoneValue) {
       return showError("Please fill all fields.");
     }
+
     try {
       setLoading(true);
+
       await apiPut(AuthAPIProfile, {
-        name,
+        name: name.trim(),
         phoneNumber: encryptData(phone.number),
         phoneCountryCode: phone.countryCode,
       });
-      const userName = encryptData(name);
-      getCookie("userName")
-        ? setCookie("userName", userName, 7)
-        : setSessionStorage("userName", userName);
+
+      // Persist the new name to cookie/session
+      const userNameEncrypted = encryptData(name.trim());
+      if (getCookie("userName")) {
+        setCookie("userName", userNameEncrypted, 7);
+      } else {
+        setSessionStorage("userName", userNameEncrypted);
+      }
+
+      // Update originals locally so the Save button disables correctly
+      setOriginal({
+        name: name.trim(),
+        phoneCountryCode: phone.countryCode,
+        phoneNumber: phone.number,
+      });
+
       showSuccess("Details saved!");
-      fetchDetails();
+      // Optional: refetch if the backend can mutate/normalize data
+      // await fetchDetails();
     } catch (err) {
       showError(err?.message || "Failed to save.");
     } finally {
@@ -100,6 +128,7 @@ const UserDetails = ({ setLoading }) => {
   return (
     <section className="card-white-custom space-y-4">
       <h2 className="text-xl font-semibold mb-4">User Details</h2>
+
       <input
         type="text"
         value={name}
@@ -107,15 +136,18 @@ const UserDetails = ({ setLoading }) => {
         placeholder="Full Name"
         className="input-default bg-white text-black w-full"
       />
+
       <PhoneInput
         country={"ca"}
         value={phoneValue}
         onChange={(value, country) => {
-          let clean = value.replace(/\D/g, "");
-          if (clean.startsWith(country.dialCode))
-            clean = clean.slice(country.dialCode.length);
-          setPhone({ countryCode: `+${country.dialCode}`, number: clean });
-          setPhoneValue(value);
+          // value may include + and spaces; keep digits only for storage
+          let clean = (value || "").replace(/\D/g, "");
+          const dial = country?.dialCode || "1";
+          if (clean.startsWith(dial)) clean = clean.slice(dial.length);
+          const cc = `+${dial}`;
+          setPhone({ countryCode: cc, number: clean });
+          setPhoneValue(`${cc}${clean}`);
         }}
         international
         withCountryCallingCode
@@ -127,12 +159,14 @@ const UserDetails = ({ setLoading }) => {
         }}
         buttonStyle={{ background: "white", border: "1px solid #000" }}
       />
+
       <input
         type="email"
         value={decryptedEmail}
         disabled
         className="input-default bg-gray-200 text-black w-full cursor-not-allowed"
       />
+
       <button
         className={`btn-primary mt-4 ${
           !hasChanges() ? "opacity-50 cursor-not-allowed" : ""
