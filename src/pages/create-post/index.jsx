@@ -155,7 +155,7 @@ const CreatePost = () => {
       {/* Header + Form & Preview Columns */}
       <div className="flex-1 flex flex-col overflow-auto">
         {/* Header */}
-        <header className="lg:sticky lg:top-0 z-10 bg-surface-light border-b border-border-dark p-4 flex items-center justify-between">
+        <header className="bg-surface-light border-b border-border-dark p-4 flex items-center justify-between">
           <h1 className="text-xl font-bold text-black">Create Post</h1>
           <div className="flex items-center space-x-4">
             <button className="text-text-secondary hover:text-text-primary p-2 rounded-full hover:bg-surface-medium transition-colors">
