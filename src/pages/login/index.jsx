@@ -12,8 +12,8 @@ import axios from "axios";
 const LoginPage = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    email: "Kishank2607@gmail.com",
-    password: "Kishan@2607",
+    email: "",
+    password: "",
   });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
