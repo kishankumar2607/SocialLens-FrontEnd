@@ -3,10 +3,8 @@ import { apiGet } from "../utils/utils";
 import { LinkedInAccountDetailsAPI } from "../api/api";
 import { linkedInMock } from "../utils/mockLinkedInData";
 
-// Optional env toggle: VITE_USE_MOCK_LINKEDIN=true
-const useEnvMock =
-  typeof import.meta !== "undefined" &&
-  import.meta?.env?.VITE_USE_MOCK_LINKEDIN === "true";
+// Use process.env fallback to avoid `import.meta` warning
+const useEnvMock = process.env.VITE_USE_MOCK_LINKEDIN === "true";
 
 const handleFromUrl = (url) => {
   try {
