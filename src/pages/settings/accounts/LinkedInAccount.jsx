@@ -122,7 +122,7 @@ const LinkedInAccount = ({ setLoading }) => {
             </span>
           </div>
           <a
-            href="http://localhost:8000/auth/linkedin"
+            href="https://api.sociallens.kishankumardas.com/auth/linkedin"
             className="btn-primary text-sm bg-blue-600 hover:bg-blue-700"
           >
             <FaPlug className="inline-block mr-1" /> Connect
