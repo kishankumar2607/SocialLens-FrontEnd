@@ -3,6 +3,7 @@ import { FiTarget, FiUsers, FiTrendingUp, FiHeart } from "react-icons/fi";
 import KishanKumarImage from "../../assets/teams/kishan.png";
 import DivyanshuImage from "../../assets/teams/divyanshu.png";
 import HarshilImage from "../../assets/teams/harshil.png";
+import PinkalImage from "../../assets/teams/pinkal.png";
 import DefaultUserImage from "../../assets/teams/defaultUser.png";
 import { Link } from "react-router-dom";
 
@@ -33,7 +34,7 @@ const teamData = [
   },
   {
     id: 4,
-    teamImage: DefaultUserImage,
+    teamImage: PinkalImage,
     name: "Pinkal Chauhan",
     designation: "Software Engineer",
     description:
@@ -109,7 +110,7 @@ const AboutPage = () => {
                   className="bg-surface-dark rounded-xl border border-border-dark p-6 text-center hover:scale-105 transition"
                 >
                   <img
-                    src={data.teamImage}
+                    src={data.teamImage || DefaultUserImage}
                     alt="team"
                     className="w-24 h-24 mx-auto rounded-full mb-4"
                   />

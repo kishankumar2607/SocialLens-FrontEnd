@@ -39,11 +39,21 @@ const GeneratePost = () => {
 
   const userId = user ? decryptData(user) : null;
 
+  const getImageSrc = (url) => {
+    if (!url) return "";
+    if (/^https?:\/\//i.test(url)) return url; // Cloudinary or any absolute URL
+    // Legacy support (old saved posts that stored "/images/.."):
+    const apiBase = process?.env?.BASE_API_URL || "";
+    return apiBase ? `${apiBase}${url}` : url;
+  };
+
   const fetchSavedPosts = useCallback(async () => {
     try {
       const response = await apiGet(`${GetUserGeneratedPostsAPI}/${userId}`);
       // console.log("Fetched saved posts:", response.data);
-      setSavedPosts(response.data || []);
+      const payload = response.data;
+      const items = Array.isArray(payload) ? payload : payload?.items || [];
+      setSavedPosts(items);
     } catch (err) {
       console.error("Error fetching saved posts:", err);
       showError("Failed to fetch saved posts. Please try again later.");
@@ -94,25 +104,48 @@ const GeneratePost = () => {
 
   const handleCopy = () => {
     if (result?.text) {
-      navigator.clipboard.writeText(
-        result.text + "\n\n" + result.hashtags.map((tag) => `#${tag}`).join(" ")
-      );
+      const hashLine = (result.hashtags || [])
+        .map((tag) => (tag.startsWith("#") ? tag : `#${tag}`))
+        .join(" ");
+      navigator.clipboard.writeText(`${result.text}\n\n${hashLine}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
   };
 
   //Hangle fetched image download
+  // const handleImageDownload = async (imageUrl) => {
+  //   if (!imageUrl) return;
+
+  //   const fullUrl = `http://localhost:8000${imageUrl}`;
+  //   try {
+  //     const response = await fetch(fullUrl);
+  //     const blob = await response.blob();
+  //     const link = document.createElement("a");
+  //     link.href = window.URL.createObjectURL(blob);
+  //     link.download = imageUrl.split("/").pop();
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
+  //   } catch (err) {
+  //     console.error("Image download failed:", err);
+  //     alert("Failed to download image.");
+  //   }
+  // };
+
+  // Download using absolute URL (Cloudinary or legacy)
   const handleImageDownload = async (imageUrl) => {
     if (!imageUrl) return;
-
-    const fullUrl = `http://localhost:8000${imageUrl}`;
+    const fullUrl = getImageSrc(imageUrl);
     try {
-      const response = await fetch(fullUrl);
+      const response = await fetch(fullUrl, { mode: "cors" });
       const blob = await response.blob();
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
-      link.download = imageUrl.split("/").pop();
+      link.download = (imageUrl.split("/").pop() || "image").replace(
+        /\?.*$/,
+        ""
+      );
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -175,7 +208,7 @@ const GeneratePost = () => {
                 <div className="mb-4">
                   {result.hashtags.map((tag, index) => (
                     <span key={index} className="mr-2 text-primary">
-                      #{tag}
+                      {tag.startsWith("#") ? tag : `#${tag}`}
                     </span>
                   ))}
                 </div>
@@ -188,11 +221,28 @@ const GeneratePost = () => {
               </span>
             )}
 
-            {result.imageUrl && (
+            {/* {result.imageUrl && (
               <div className="mt-6">
                 <h3 className="font-semibold mb-1">Generated Image:</h3>
                 <img
                   src={`http://localhost:8000${result.imageUrl}`}
+                  alt="Generated visual"
+                  className="rounded mt-2 w-full max-w-md"
+                />
+                <Button
+                  className="inline-block mt-3 text-sm px-3 py-1 border border-primary text-primary rounded hover:bg-primary hover:text-white transition"
+                  onClick={() => handleImageDownload(result.imageUrl)}
+                >
+                  Download Image
+                </Button>
+              </div>
+            )} */}
+
+            {result.imageUrl && (
+              <div className="mt-6">
+                <h3 className="font-semibold mb-1">Generated Image:</h3>
+                <img
+                  src={getImageSrc(result.imageUrl)}
                   alt="Generated visual"
                   className="rounded mt-2 w-full max-w-md"
                 />
@@ -229,14 +279,21 @@ const GeneratePost = () => {
                       <div className="mt-2">
                         {post.hashtags.map((tag, index) => (
                           <span key={index} className="mr-2 text-primary">
-                            #{tag}
+                            {tag.startsWith("#") ? tag : `#${tag}`}
                           </span>
                         ))}
                       </div>
                     )}
-                    {post.imageUrl && (
+                    {/* {post.imageUrl && (
                       <img
                         src={`http://localhost:8000${post.imageUrl}`}
+                        alt="Old Post"
+                        className="mt-3 rounded w-full max-w-sm"
+                      />
+                    )} */}
+                    {post.imageUrl && (
+                      <img
+                        src={getImageSrc(post.imageUrl)} // ✅ absolute or legacy-safe
                         alt="Old Post"
                         className="mt-3 rounded w-full max-w-sm"
                       />
